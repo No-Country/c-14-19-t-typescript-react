@@ -1,6 +1,6 @@
 const configServer = {
   server: {
-    port: process.env.PORT || 5000,
+    port: <number><unknown>process.env.PORT || 3000,
     mode: process.env.MODE,
     jwt_staff_secret: process.env.JWT_STAFF_SECRET,
     jwt_hb_secret: process.env.JWT_HB_SECRET,

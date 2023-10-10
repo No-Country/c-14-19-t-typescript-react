@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon ./src/index.ts"
+    "start:dev": "nodemon ./src/index.ts",
+    "start": "node ./dist/src/index.js",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -20,9 +22,11 @@
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.33.0",
+    "typescript": "^5.2.2",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.4.10",
     "@types/bcryptjs": "^2.4.4",
     "@types/cors": "^2.8.14",
     "@types/dotenv": "^8.2.0",
