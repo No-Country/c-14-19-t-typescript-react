@@ -1,7 +1,6 @@
 import { sequelize } from "../../../config/sequelize";
 import { BuildOptions, DataTypes, Model } from "sequelize";
 import { userModelInterface } from "../interface/userModel.interface";
-import AddressModel from "./address.model";
 
 type UserTypeModel = typeof Model & {
   new (values?: object, options?: BuildOptions): userModelInterface;
@@ -50,14 +49,5 @@ const UserModel = sequelize.define("users", {
     allowNull: false,
   },
 }) as UserTypeModel;
-
-UserModel.hasOne(AddressModel, {
-  foreignKey: "id_user",
-  onDelete: "CASCADE",
-});
-AddressModel.belongsTo(UserModel, {
-  foreignKey: "id_user",
-  onDelete: "CASCADE",
-});
 
 export default UserModel;
