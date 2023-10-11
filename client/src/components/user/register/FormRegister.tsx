@@ -1,9 +1,10 @@
 "use client";
 import { nunito } from "@/fonts/fonts";
 import React from "react";
-import { UserRegisterTypes, ValidationErrors } from "@/interfaces/users.interface";
+import { UserRegisterTypes, UserTypesBackend, ValidationErrors } from "@/interfaces/users.interface";
 import { Formik, Form, Field } from "formik";
 import SpanError from "@/components/errors/SpanError";
+import calculateUserAge from "@/utils/calculateUserAge";
 
 const INITIAL_VALUES = {
   name: "",
@@ -17,17 +18,31 @@ const REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const FormRegister = (): React.ReactElement => {
   const handleSubmit = (values: UserRegisterTypes) => {
-    console.log(values);
+    const { name, lastname, email, birthday, cellphone, dni } = values;
+    
+    const finalResponse: UserTypesBackend = {
+      name,
+      lastname,
+      email,
+      birthday,
+      cellphone: parseInt(cellphone),
+      dni: parseInt(dni)
+    };
+
+    console.log(finalResponse)
   };
 
   const validateFields = (values: UserRegisterTypes) => {
     const { name, lastname, email, birthday, cellphone, dni } = values;
     const errors: ValidationErrors = {};
+    
+    const isUserOlder = calculateUserAge(birthday);
 
     if (name.length < 3) errors.name = "The name has to be longer than 3 characters";
     if (lastname.length < 3) errors.lastname = "The lastname has to be longer than 3 characters";
     if (!REGEXP.test(email)) errors.email = "Invalid email";
     if (!birthday) errors.birthday = "Your birthday is required for our security";
+    if (isUserOlder === false) errors.birthday = "You should be 18 years old";
     if (cellphone.length < 10) errors.cellphone = "Non-existent phone";
     if (dni.length < 8) errors.dni = "Invalid DNI";
 

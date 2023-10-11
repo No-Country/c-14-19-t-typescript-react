@@ -15,3 +15,12 @@ export interface ValidationErrors {
     dni?: string
     cellphone?: string;
 }
+
+export interface UserTypesBackend {
+    name: string;
+    lastname: string;
+    email: string;
+    birthday: string;
+    dni: number
+    cellphone: number;
+}
