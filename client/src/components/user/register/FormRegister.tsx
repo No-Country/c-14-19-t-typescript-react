@@ -1,41 +1,41 @@
 "use client";
-import { nunito } from "@/fonts/fonts";
 import React from "react";
 import { UserRegisterTypes, UserTypesBackend, ValidationErrors } from "@/interfaces/users.interface";
 import { Formik, Form, Field } from "formik";
 import SpanError from "@/components/errors/SpanError";
 import calculateUserAge from "@/utils/calculateUserAge";
+import LabelsForm from "@/components/labels/LabelsForm";
 
 const INITIAL_VALUES = {
   name: "",
   lastname: "",
   email: "",
   birthday: "",
-  cellphone: '',
-  dni: '',
-}
+  cellphone: "",
+  dni: "",
+};
 const REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const FormRegister = (): React.ReactElement => {
   const handleSubmit = (values: UserRegisterTypes) => {
     const { name, lastname, email, birthday, cellphone, dni } = values;
-    
+
     const finalResponse: UserTypesBackend = {
       name,
       lastname,
       email,
       birthday,
       cellphone: parseInt(cellphone),
-      dni: parseInt(dni)
+      dni: parseInt(dni),
     };
 
-    console.log(finalResponse)
+    console.log(finalResponse);
   };
 
   const validateFields = (values: UserRegisterTypes) => {
     const { name, lastname, email, birthday, cellphone, dni } = values;
     const errors: ValidationErrors = {};
-    
+
     const isUserOlder = calculateUserAge(birthday);
 
     if (name.length < 3) errors.name = "The name has to be longer than 3 characters";
@@ -57,69 +57,65 @@ const FormRegister = (): React.ReactElement => {
         validate={validateFields}
       >
         <Form className="flex flex-col p-5">
-          <label htmlFor="name" className={`mt-5 font-bold ${nunito.className}`}>
-            Name
-          </label>
-          <Field
-            className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200"
-            name="name"
-            type="text"
-          />
-          <SpanError prop="name"/>
+          <div className="flex flex-col tablet:flex-row tablet:gap-10 tablet:justify-center desktop:gap-20">
+            <div className="flex flex-col">
+              <LabelsForm htmlFor="name"/>
+              <Field
+                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                name="name"
+                type="text"
+              />
+              <SpanError prop="name" />
 
-          <label htmlFor="lastname" className={`mt-5 font-bold ${nunito.className}`}>
-            Lastname
-          </label>
-          <Field
-            className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200"
-            name="lastname"
-            type="text"
-          />
-          <SpanError prop="lastname"/>
+              <LabelsForm htmlFor="lastname"/>
+              <Field
+                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                name="lastname"
+                type="text"
+              />
+              <SpanError prop="lastname" />
 
-          <label htmlFor="email" className={`mt-5 font-bold ${nunito.className}`}>
-            Email
-          </label>
-          <Field
-            className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200"
-            name="email"
-            type="email"
-          />
-          <SpanError prop="email"/>
+              <LabelsForm htmlFor="email"/>
+              <Field
+                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                name="email"
+                type="email"
+              />
+              <SpanError prop="email" />
+            </div>
 
-          <label htmlFor="birthday" className={`mt-5 font-bold ${nunito.className}`}
-          >
-            Birthday
-          </label>
-          <Field
-            className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200"
-            name="birthday"
-            type="date"
-          />
-          <SpanError prop="birthday"/>
+            <div className="flex flex-col">
+              <LabelsForm htmlFor="birthday"/>
+              <Field
+                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                name="birthday"
+                type="date"
+              />
+              <SpanError prop="birthday" />
 
-          <label htmlFor="cellphone" className={`mt-5 font-bold ${nunito.className}`}>
-            Cellphone
-          </label>
-          <Field
-            className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200"
-            name="cellphone"
-            type="text"
-          />
-          <SpanError prop="cellphone"/>
+              <LabelsForm htmlFor="cellphone"/>
+              <Field
+                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                name="cellphone"
+                type="text"
+              />
+              <SpanError prop="cellphone" />
 
-          <label htmlFor="dni" className={`mt-5 font-bold ${nunito.className}`}>
-            DNI
-          </label>
-          <Field
-            className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200"
-            name="dni"
-            type="text"
-          />
-          <SpanError prop="dni"/>
+              <LabelsForm htmlFor="dni"/>
+              <Field
+                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                name="dni"
+                type="text"
+              />
+              <SpanError prop="dni" />
+            </div>
+          </div>
 
           <div className="w-full flex justify-center">
-            <button type="submit" className="mt-5 p-1 bg-indigo-500 rounded w-[50%]">
+            <button
+              type="submit"
+              className="mt-5 font-bold p-1 bg-indigo-500 rounded w-[50%] hover:bg-indigo-600 transition-all ease-in duration-200 tablet:p-2 tablet:mt-10 tablet:text-xl desktop:w-[300px] desktop:p-3"
+            >
               Send
             </button>
           </div>
@@ -129,4 +125,4 @@ const FormRegister = (): React.ReactElement => {
   );
 };
 
-export default FormRegister;  
+export default FormRegister;
