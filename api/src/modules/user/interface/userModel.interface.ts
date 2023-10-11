@@ -1,5 +1,4 @@
 import { Model } from "sequelize";
-import { addressModelInterface } from "./addressModel.interface";
 
 export interface userModelInterface extends Model<userModelInterface> {
   id: string;
@@ -11,5 +10,4 @@ export interface userModelInterface extends Model<userModelInterface> {
   cellphone: number;
   reference_code: string;
   role: string;
-  address?: addressModelInterface;
 }
