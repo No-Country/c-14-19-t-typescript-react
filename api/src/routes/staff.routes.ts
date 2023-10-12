@@ -4,10 +4,13 @@ import {
   createCustomerValidator,
   createStaffValidator,
   loginValidator,
+  updateValidation,
 } from "../middleware/ValidatorManager";
 import { registerStaffController } from "../modules/staff/controller/registerStaff.controller";
-import { LoginStaffController } from "../modules/staff/controller/LoginStaff.controller";
+import { LoginStaffController } from "../modules/staff/controller/loginStaff.controller";
+
 import requireStaff from "../middleware/requireStaff";
+import { updateCustomerController } from "../modules/staff/controller/updateCustomer.controller";
 const router = Router();
 
 router.post(
@@ -15,6 +18,12 @@ router.post(
   requireStaff,
   createCustomerValidator,
   registerCustomerController
+);
+router.patch(
+  "/customer/:id",
+  requireStaff,
+  updateValidation,
+  updateCustomerController
 );
 
 router.post(

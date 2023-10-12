@@ -23,7 +23,7 @@ export const createCustomerValidator = [
     return true;
   }),
   body("cellphone").custom((value) => {
-    if (value.toString().length > 15 || value.toString().length < 10) {
+    if (value.toString().length > 12 || value.toString().length < 10) {
       throw new Error("invalid cellphone length");
     }
     return true;
@@ -45,7 +45,7 @@ export const createStaffValidator = [
     return true;
   }),
   body("cellphone").custom((value) => {
-    if (value.toString().length > 15 || value.toString().length < 10) {
+    if (value.toString().length > 12 || value.toString().length < 10) {
       throw new Error("invalid cellphone length");
     }
     return true;
@@ -56,8 +56,25 @@ export const createStaffValidator = [
   validatorManager,
 ];
 
+/**  LOGIN   **/
+
 export const loginValidator = [
   body("username").trim().escape().isString().isLength({ min: 6, max: 25 }),
   body("password").trim().escape().isString().isLength({ min: 6, max: 25 }),
+  validatorManager,
+];
+
+/**  UPDATE CUSTOMER  **/
+
+export const updateValidation = [
+  body("mail").isEmail().optional(),
+  body("cellphone")
+    .custom((value) => {
+      if (value.toString().length > 12 || value.toString().length < 10) {
+        throw new Error("invalid cellphone length");
+      }
+      return true;
+    })
+    .optional(),
   validatorManager,
 ];
