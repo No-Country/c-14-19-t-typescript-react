@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 const Home = (): React.ReactElement => {
   return (
     <div>
-      <Navbar></Navbar>
+      <Navbar />
     </div>
   )
 }
