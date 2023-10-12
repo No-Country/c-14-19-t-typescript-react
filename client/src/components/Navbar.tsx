@@ -5,7 +5,7 @@ import { nunito } from '@/fonts/fonts'
 
 const Navbar = (): React.ReactElement => {
   return (
-    <nav className={`flex ${nunito.className} items-center p-3 tablet:h-24 tablet:pr-5 desktop:max-h-32 tablet:pr-10 justify-between border-2 border-orange-500 `}>
+    <nav className={`flex ${nunito.className} items-center p-3 tablet:h-24 tablet:pr-5 desktop:max-h-32 justify-between border-2 border-orange-500 `}>
       <div className='p-1 tablet:text-2xl text-orange-700 font-extrabold'>
         <p>LOGO</p>
       </div>
