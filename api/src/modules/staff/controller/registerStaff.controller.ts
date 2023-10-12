@@ -1,18 +1,18 @@
 import { NextFunction, Response } from "express";
-import RegisterCustomerUC from "../usecase/RegisterCustomerUC";
+import RegisterStaffUC from "../usecase/RegisterStaffUC";
 import requestExt from "../interface/requestExt";
 
-export const registerCustomerController = async (
+export const registerStaffController = async (
   req: requestExt,
   res: Response,
   next: NextFunction
 ) => {
-  const usecase = new RegisterCustomerUC();
+  const usecase = new RegisterStaffUC();
   const body = req.body;
   const department = req.department;
   try {
-    const data = await usecase.run(department, body);
-    res.status(201).json(data);
+    const data = await usecase.run(body, department);
+    return res.status(201).json(data);
   } catch (error) {
     next(error);
   }

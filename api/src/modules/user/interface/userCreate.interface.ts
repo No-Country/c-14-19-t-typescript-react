@@ -7,5 +7,5 @@ export default interface userCreateInterface {
   dni: number;
   mail: string;
   cellphone: number;
-  role: ROLE;
+  role?: ROLE;
 }

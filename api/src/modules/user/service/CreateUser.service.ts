@@ -1,6 +1,5 @@
 import userCreateInterface from "../interface/userCreate.interface";
 import { userModelInterface } from "../interface/userModel.interface";
-import { v4 as uuid } from "uuid";
 import ReferenceCodeGenerator from "../utils/ReferenceCodeGenerator";
 import UserModel from "../model/user.model";
 import BadRequestException from "../../../exception/BadRequestException";
@@ -8,6 +7,7 @@ import ROLE from "../enum/ROLE";
 
 export default class CreateUserService {
   async run(
+    id_user: string,
     data: userCreateInterface,
     role: ROLE
   ): Promise<userModelInterface> {
@@ -16,13 +16,17 @@ export default class CreateUserService {
     await this.checkDni(data.dni);
     await this.checkCellphone(data.cellphone);
 
-    const id = uuid();
     const reference_code = ReferenceCodeGenerator.Generate(
       data.name,
       data.lastname
     );
 
-    return await UserModel.create({ ...data, id, reference_code, role });
+    return await UserModel.create({
+      ...data,
+      id: id_user,
+      reference_code,
+      role,
+    });
   }
 
   private async checkMail(mail: string): Promise<void> {

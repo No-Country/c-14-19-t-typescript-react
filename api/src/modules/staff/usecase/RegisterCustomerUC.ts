@@ -1,6 +1,7 @@
 import ROLE from "../../user/enum/ROLE";
 import userCreateInterface from "../../user/interface/userCreate.interface";
 import CreateUserService from "../../user/service/CreateUser.service";
+import { v4 as uuid } from "uuid";
 import DEPARTMENT from "../enum/DEPARTMENT";
 
 export default class RegisterCustomerUC {
@@ -14,7 +15,12 @@ export default class RegisterCustomerUC {
     department: DEPARTMENT,
     data: userCreateInterface
   ): Promise<{ msg: string }> {
-    await this.createUserService.run(data, ROLE.CUSTOMER);
+    //check authorization
+    //
+
+    const id: string = uuid();
+    await this.createUserService.run(id, data, ROLE.CUSTOMER);
+
     return { msg: "Registro exitoso" };
   }
 }
