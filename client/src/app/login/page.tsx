@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const Login = (): React.ReactElement => {
   return (
-    <div className="">
+    <div className="bg-slate-100">
       <Navbar />
       <div className="flex flex-col w-full h-[90vh] justify-center items-center">
         <h1 className="mt-5 text-3xl font-semibold whitespace-nowrap text-center desktop:text-4xl overflow-y-hidden">
