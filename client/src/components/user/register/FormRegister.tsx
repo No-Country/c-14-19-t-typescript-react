@@ -48,13 +48,13 @@ const FormRegister = (): React.ReactElement => {
 
     const isUserOlder = calculateUserAge(birthday);
 
-    if (name.length < 3) errors.name = "The name has to be longer than 3 characters";
-    if (lastname.length < 3) errors.lastname = "The lastname has to be longer than 3 characters";
+    if (name.length < 3) errors.name = "The name must be longer than 3 characters";
+    if (lastname.length < 3) errors.lastname = "The lastname must be longer than 3 characters";
     if (!REGEXP.test(email)) errors.email = "Invalid email";
-    if (password.length < 3) errors.password = "The password has to be longer than 3 characters";
+    if (password.length < 3 || password.length > 25) errors.password = "The password must be between 3 - 25 characters";
     if (!birthday) errors.birthday = "Your birthday is required for our security";
     if (isUserOlder === false) errors.birthday = "You should be 18 years old";
-    if (cellphone.length < 10) errors.cellphone = "Non-existent phone";
+    if (cellphone.length < 10 || cellphone.length > 12) errors.cellphone = "Non-existent phone";
     if (dni.length < 8) errors.dni = "Invalid DNI";
 
     return errors;
