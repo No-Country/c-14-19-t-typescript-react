@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import "./globals.css";
 import React from "react";
+import { nunito } from "@/fonts/fonts";
 
 export const metadata: Metadata = {
   title: "EasyBank",
@@ -23,7 +24,7 @@ const RootLayout = ({
 }): React.ReactElement => {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={ nunito.className }>{children}</body>
     </html>
   );
 };
