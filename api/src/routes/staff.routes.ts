@@ -11,6 +11,7 @@ import { LoginStaffController } from "../modules/staff/controller/loginStaff.con
 
 import requireStaff from "../middleware/requireStaff";
 import { updateCustomerController } from "../modules/staff/controller/updateCustomer.controller";
+import { deleteCustomerController } from "../modules/staff/controller/deleteCustomer.controller";
 const router = Router();
 
 router.post(
@@ -25,6 +26,7 @@ router.patch(
   updateValidation,
   updateCustomerController
 );
+router.delete("/customer/:id", requireStaff, deleteCustomerController);
 
 router.post(
   "/auth/register",
