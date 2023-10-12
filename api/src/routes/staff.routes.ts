@@ -7,15 +7,22 @@ import {
 } from "../middleware/ValidatorManager";
 import { registerStaffController } from "../modules/staff/controller/registerStaff.controller";
 import { LoginStaffController } from "../modules/staff/controller/LoginStaff.controller";
+import requireStaff from "../middleware/requireStaff";
 const router = Router();
 
 router.post(
   "/customer/register",
+  requireStaff,
   createCustomerValidator,
   registerCustomerController
 );
 
-router.post("/auth/register", createStaffValidator, registerStaffController);
+router.post(
+  "/auth/register",
+  requireStaff,
+  createStaffValidator,
+  registerStaffController
+);
 
 router.post("/auth/login", loginValidator, LoginStaffController);
 

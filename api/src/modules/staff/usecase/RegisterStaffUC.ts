@@ -8,6 +8,7 @@ import StaffModel from "../model/staff.model";
 import BadRequestException from "../../../exception/BadRequestException";
 import ROLE from "../../user/enum/ROLE";
 import DeleteUserService from "../../user/service/DeleteUser.service";
+import ValidateDepartment from "../../../utils/ValidateDepartment";
 
 export default class RegisterStaffUC {
   private readonly createUserService: CreateUserService;
@@ -22,7 +23,7 @@ export default class RegisterStaffUC {
     department: DEPARTMENT
   ): Promise<{ msg: string }> {
     //check authorization
-    //
+    ValidateDepartment.validate(department, [DEPARTMENT.HHRR]);
 
     //check username
     await this.checkUsername(data.username);
