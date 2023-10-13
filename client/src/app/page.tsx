@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import Navbar from '@/components/Navbar'
 import React from 'react'
 
 export const metadata: Metadata = {
@@ -7,7 +8,9 @@ export const metadata: Metadata = {
 
 const Home = (): React.ReactElement => {
   return (
-    <div>Home</div>
+    <div>
+      <Navbar />
+    </div>
   )
 }
 
