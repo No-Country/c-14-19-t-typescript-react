@@ -7,29 +7,33 @@ type StaffTypeModel = typeof Model & {
   new (values?: object, options?: BuildOptions): staffModelInterface;
 };
 
-const StaffModel = sequelize.define("staffs", {
-  id: {
-    type: DataTypes.STRING,
-    primaryKey: true,
+const StaffModel = sequelize.define(
+  "staffs",
+  {
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
+    username: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    department: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    id_user: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
-  username: {
-    type: DataTypes.STRING,
-    unique: true,
-    allowNull: false,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  department: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  id_user: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-}) as StaffTypeModel;
+  { defaultScope: { attributes: { exclude: ["createdAt", "updatedAt"] } } }
+) as StaffTypeModel;
 
 UserModel.hasOne(StaffModel, { foreignKey: "id_user", onDelete: "CASCADE" });
 StaffModel.belongsTo(UserModel, { foreignKey: "id_user", onDelete: "CASCADE" });
