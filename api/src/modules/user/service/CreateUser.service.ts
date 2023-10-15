@@ -20,7 +20,6 @@ export default class CreateUserService {
       data.name,
       data.lastname
     );
-
     return await UserModel.create({
       ...data,
       id: id_user,

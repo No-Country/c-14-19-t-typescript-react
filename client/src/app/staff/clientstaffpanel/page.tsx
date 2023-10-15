@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { nunito } from '@/fonts/fonts'
 
-const page = () => {
+const page = (): React.ReactElement => {
     return (
         <div className={`${nunito.className} h-screen flex flex-col items-center border-4 border-blue-300 bg-green-50`}>
             <div className='h-2/5 tablet:h-2/4 tablet:text-4xl desktop:text-6xl text-3xl flex items-center'>

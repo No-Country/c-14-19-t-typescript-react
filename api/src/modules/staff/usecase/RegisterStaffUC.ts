@@ -7,12 +7,10 @@ import { hash } from "bcryptjs";
 import StaffModel from "../model/staff.model";
 import BadRequestException from "../../../exception/BadRequestException";
 import ROLE from "../../user/enum/ROLE";
-import DeleteUserService from "../../user/service/DeleteUser.service";
 import ValidateDepartment from "../../../utils/ValidateDepartment";
 
 export default class RegisterStaffUC {
   private readonly createUserService: CreateUserService;
-  private readonly deleteUserService: DeleteUserService;
 
   constructor() {
     this.createUserService = new CreateUserService();
@@ -31,32 +29,27 @@ export default class RegisterStaffUC {
     const id_user = uuid();
     const id_staff = uuid();
 
-    try {
-      await this.createUserService.run(
-        id_user,
-        {
-          name: data.name,
-          lastname: data.lastname,
-          birthday: data.birthday,
-          cellphone: data.cellphone,
-          dni: data.dni,
-          mail: data.mail,
-        },
-        ROLE.STAFF
-      );
+    await this.createUserService.run(
+      id_user,
+      {
+        name: data.name,
+        lastname: data.lastname,
+        birthday: data.birthday,
+        cellphone: data.cellphone,
+        dni: data.dni,
+        mail: data.mail,
+      },
+      ROLE.STAFF
+    );
 
-      await this.createStaff(id_staff, {
-        username: data.username,
-        password: data.password,
-        department: data.department,
-        id_user,
-      });
+    await this.createStaff(id_staff, {
+      username: data.username,
+      password: data.password,
+      department: data.department,
+      id_user,
+    });
 
-      return { msg: "Registro exitoso" };
-    } catch (error) {
-      await StaffModel.destroy({ where: { id: id_staff } });
-      await this.deleteUserService.run(id_user);
-    }
+    return { msg: "Registro exitoso" };
   }
 
   private async createStaff(
