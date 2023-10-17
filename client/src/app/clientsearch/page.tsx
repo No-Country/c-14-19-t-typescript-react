@@ -4,6 +4,8 @@ import { Formik, Form, Field } from 'formik'
 import LabelsForm from '@/components/labels/LabelsForm'
 import SubmitButton from '@/components/buttons/SubmitButton'
 import SpanError from '@/components/errors/SpanError'
+import { useRouter } from 'next/navigation'
+
 
 
 type dniError = {
@@ -20,7 +22,10 @@ const INITIAL_VALUES = {
 }
 
 const page = (): React.ReactElement => {
+    const router = useRouter()
     const handleSubmit = (values: dniField) => {
+        
+        
         const { dni } = values
 
         const request: dniParse = {
@@ -28,6 +33,8 @@ const page = (): React.ReactElement => {
         }
 
         console.log(request);
+
+        router.push('/staff/client-action-panel')
 
     }
 
