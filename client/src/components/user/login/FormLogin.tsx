@@ -38,7 +38,7 @@ const FormLogin = (): React.ReactElement => {
     const errors: LoginErrors = {};
 
     if (!REGEXP.test(email)) errors.email = "Invalid email";
-    if (password.length < 3) errors.password = "The password has to be longer than 3 characters";
+    if (password.length < 3) errors.password = "The password must be longer than 3 characters";
 
     return errors;
   };
