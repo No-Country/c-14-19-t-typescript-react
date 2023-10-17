@@ -10,8 +10,8 @@ const page = (): React.ReactElement => {
             </div>
 
             <div className='flex flex-col tablet:flex-row tablet:gap-14 gap-7 font-light text-center'>
-                <Link className='border rounded-md desktop:text-4xl desktop:p-5  border-black text-3xl p-2 bg-green-400' href='/register'>Registar cliente</Link>
-                <Link className='border rounded-md desktop:text-4xl desktop:p-5 border-black text-3xl p-2 bg-green-400' href='/clientsearch'>Buscar cliente</Link>
+                <Link className='border rounded-md desktop:text-4xl desktop:p-5  border-black text-3xl p-2 bg-indigo-500' href='/staff/customer/register-customer'>Registar cliente</Link>
+                <Link className='border rounded-md desktop:text-4xl desktop:p-5 border-black text-3xl p-2 bg-indigo-500' href='/staff/searchcustomer'>Buscar cliente</Link>
             </div>
         </div>
     )

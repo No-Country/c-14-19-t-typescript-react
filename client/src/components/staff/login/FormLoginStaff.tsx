@@ -1,11 +1,12 @@
 "use client";
+import React, { useState } from "react";
 import SubmitButton from "@/components/buttons/SubmitButton";
 import LabelsForm from "@/components/labels/LabelsForm";
+import SpanError from "@/components/errors/SpanError";
 import { Formik, Form, Field } from "formik";
-import React from "react";
 import { StaffLogin, StaffLoginErrors } from "../interfaces/staff.interface";
 import { useRouter } from "next/navigation";
-import SpanError from "@/components/errors/SpanError";
+import { loginStaff } from "@/utils/formsRequests";
 
 const INITIAL_VALUES = {
   username: "",
@@ -14,7 +15,10 @@ const INITIAL_VALUES = {
 
 const FormLoginStaff = (): React.ReactElement => {
   const router = useRouter();
-  const handleSubmit = (values: StaffLogin) => {
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [submitButtonValue, setSubmitButtonValue] = useState<string>('Login');
+
+  const handleSubmit = async (values: StaffLogin) => {
     const { username, password } = values;
 
     const request: StaffLogin = {
@@ -22,12 +26,20 @@ const FormLoginStaff = (): React.ReactElement => {
       password
     }
 
-    console.log(request);
-
-    // ? SetTimeout para simular una peticion asincrona hasta que este el backend
-    setTimeout(() => {
-      router.push('/home-staff')
-    }, 1000);
+    const response = await loginStaff(request);
+    if (response?.status === 200) {  
+      // Verificar departamento
+      const memberDepartment = response.data.staff.department;    
+      if (memberDepartment === 'hhrr') return router.push('/hhrr/home');
+      else if (memberDepartment === 'attention') return router.push('/staff/staffpanel');
+    }
+    if (response?.status === 404) {
+      setSubmitButtonValue('Login')
+      setErrorMessage(response.data);
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
+    }
   };
 
   const validateFieds = (values: StaffLogin): StaffLoginErrors => {
@@ -43,7 +55,10 @@ const FormLoginStaff = (): React.ReactElement => {
     <div className="w-[80%] mt-5 tablet:w-[70%] desktop:w-[50%]">
       <Formik
         initialValues={INITIAL_VALUES}
-        onSubmit={handleSubmit}
+        onSubmit={(values) => {
+          handleSubmit(values)
+          setSubmitButtonValue('Loging in...')
+        }}
         validate={validateFieds}
       >
         <Form className="flex flex-col">
@@ -64,10 +79,11 @@ const FormLoginStaff = (): React.ReactElement => {
           <SpanError prop="password"/>
 
           <div className="flex justify-center">
-          <SubmitButton value="Login"/>
+          <SubmitButton value={submitButtonValue}/>
           </div>
         </Form>
       </Formik>
+      {errorMessage && <span className="flex justify-center mt-5 text-red-500 font-bold tablet:text-2xl">{errorMessage}</span>}
     </div>
   );
 };

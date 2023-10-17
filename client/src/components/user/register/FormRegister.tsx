@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { UserRegisterTypes, UserTypesBackend, ValidationErrors } from "@/components/user/interfaces/users.interface";
 import { Formik, Form, Field } from "formik";
 import SpanError from "@/components/errors/SpanError";
@@ -7,6 +7,8 @@ import calculateUserAge from "@/utils/calculateUserAge";
 import LabelsForm from "@/components/labels/LabelsForm";
 import SubmitButton from "@/components/buttons/SubmitButton";
 import { useRouter } from "next/navigation";
+import { createNewClient } from "@/utils/formsRequests";
+import MessageAuthorization from "@/components/authorization/MessageAuthorization";
 
 const INITIAL_VALUES = {
   name: "",
@@ -21,11 +23,13 @@ const REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const FormRegister = (): React.ReactElement => {
   const router = useRouter();
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const handleSubmit = (values: UserRegisterTypes) => {
+  const handleSubmit = async (values: UserRegisterTypes) => {
     const { name, lastname, email, password, birthday, cellphone, dni } = values;
 
-    const request: UserTypesBackend = {
+    const newClient: UserTypesBackend = {
       name,
       lastname,
       email,
@@ -34,12 +38,15 @@ const FormRegister = (): React.ReactElement => {
       cellphone: parseInt(cellphone),
       dni: parseInt(dni),
     };
-    console.log(request);
-
-    // ? SetTimeout para simular una peticion asincrona hasta que este el backend
-    setTimeout(() => {
-      router.push('/homeclient')
-    }, 1000);
+    const response = await createNewClient(newClient);
+    
+    if (response.status === 401) {
+      setIsAuthorized(false);
+      const error = await response.json();
+      setErrorMessage(error.msg);
+    }
+    if (response.status === 201) setIsAuthorized(true);
+    if (isAuthorized) router.push('/home-client')
   };
 
   const validateFields = (values: UserRegisterTypes) => {
@@ -135,9 +142,9 @@ const FormRegister = (): React.ReactElement => {
             </div>
           </div>
 
-          
         </Form>
       </Formik>
+      {isAuthorized ? '' : <MessageAuthorization message={errorMessage}/>}
     </div>
   );
 };
