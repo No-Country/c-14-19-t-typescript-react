@@ -1,6 +1,6 @@
 import React from 'react'
 
-const HomeHHRPage = () => {
+const HomeHHRPage = (): React.ReactElement => {
   return (
     <div>HomeHHRPage</div>
   )

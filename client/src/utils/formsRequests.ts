@@ -1,12 +1,14 @@
-import { StaffLogin } from "@/components/staff/interfaces/staff.interface";
+import { BackendTypesStaff, StaffLogin, StaffRegister } from "@/components/staff/interfaces/staff.interface";
 import { UserTypesBackend } from "@/components/user/interfaces/users.interface";
+import { removeSessionStorage } from "./removeSessionStorage";
 
-export const createNewClient = async (newClient: UserTypesBackend) => {
+export const createNewCustomer = async (newClient: UserTypesBackend, token: string) => {
   const response = await fetch("https://easybank.fly.dev/staff/customer/register", {
       method: "POST",
       body: JSON.stringify(newClient),
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
     }
   );
@@ -25,11 +27,29 @@ export const loginStaff = async (staffUser: StaffLogin) => {
     const data = await response.json();
     
     if (response.status === 200) {
-      // Guardar token de autenticacion en localStorage
+      // Guardar token de autenticacion, departamento y nombre en localStorage
       sessionStorage.setItem('jwtSession', data.jwtSession);
-      sessionStorage.setItem('jwt', data.jwt);
+      sessionStorage.setItem('department', data.staff.department);
+      sessionStorage.setItem('username', data.staff.username);
+      sessionStorage.setItem('authenticated', 'true');
+      
+      // Remover token despues de 3 hs
+      removeSessionStorage();
       return { data, status: 200 };
     }
   
     if (response.status === 404) return { data: data.msg, status: 404 }
   };
+
+export const registerStaff = async (newStaff: BackendTypesStaff) => {
+  const token = sessionStorage.getItem('jwtSession')
+  const response = await fetch('https://easybank.fly.dev/staff/auth/register', {
+    method: 'POST',
+    body: JSON.stringify(newStaff),
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  const data = await response.json();
+  return data;
+}

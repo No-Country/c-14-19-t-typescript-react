@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'EasyBank - Home'
 }
 
-const Home = (): React.ReactElement => {
+const App = (): React.ReactElement => {
   return (
     <div>
       <Navbar />
@@ -14,4 +14,4 @@ const Home = (): React.ReactElement => {
   )
 }
 
-export default Home
+export default App

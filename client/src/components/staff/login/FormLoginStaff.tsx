@@ -27,11 +27,15 @@ const FormLoginStaff = (): React.ReactElement => {
     }
 
     const response = await loginStaff(request);
+    
     if (response?.status === 200) {  
       // Verificar departamento
-      const memberDepartment = response.data.staff.department;    
+      const memberDepartment = sessionStorage.getItem('department');       
+      console.log(memberDepartment);
+           
+      if (!memberDepartment) return router.push('/login-staff')
       if (memberDepartment === 'hhrr') return router.push('/hhrr/home');
-      else if (memberDepartment === 'attention') return router.push('/staff/staffpanel');
+      if (memberDepartment === 'attention') return router.push('/staff/staffpanel');
     }
     if (response?.status === 404) {
       setSubmitButtonValue('Login')

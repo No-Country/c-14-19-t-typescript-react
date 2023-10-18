@@ -1,20 +1,21 @@
 "use client";
 import React, { useState } from "react";
 import { UserRegisterTypes, UserTypesBackend, ValidationErrors } from "@/components/user/interfaces/users.interface";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, FormikHelpers } from "formik";
 import SpanError from "@/components/errors/SpanError";
 import calculateUserAge from "@/utils/calculateUserAge";
 import LabelsForm from "@/components/labels/LabelsForm";
 import SubmitButton from "@/components/buttons/SubmitButton";
 import { useRouter } from "next/navigation";
-import { createNewClient } from "@/utils/formsRequests";
+import { createNewCustomer } from "@/utils/formsRequests";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
+import { getSession } from "@/utils/getJwtSession";
+import getParsedDate from "@/utils/parsedDate";
 
 const INITIAL_VALUES = {
   name: "",
   lastname: "",
-  email: "",
-  password: "",
+  mail: "",
   birthday: "",
   cellphone: "",
   dni: "",
@@ -24,41 +25,50 @@ const REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const FormRegister = (): React.ReactElement => {
   const router = useRouter();
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const handleSubmit = async (values: UserRegisterTypes) => {
-    const { name, lastname, email, password, birthday, cellphone, dni } = values;
+  const handleSubmit = async (values: UserRegisterTypes, { resetForm }: FormikHelpers<UserRegisterTypes>) => {
+    const { name, lastname, mail, birthday, cellphone, dni } = values;
 
-    const newClient: UserTypesBackend = {
+    const newCustomer: UserTypesBackend = {
       name,
       lastname,
-      email,
-      password,
-      birthday,
-      cellphone: parseInt(cellphone),
       dni: parseInt(dni),
+      birthday: getParsedDate(birthday),
+      mail,
+      cellphone: parseInt(cellphone),
     };
-    const response = await createNewClient(newClient);
-    
+
+    // Obtener token y mandarlo a la peticion junto con los datos del nuevo cliente
+    const token = await getSession(sessionStorage.getItem("jwtSession"));
+    const response = await createNewCustomer(newCustomer, token.jwt);
+
+    // En caso de 401, no autorizar y mandar mensaje de error
     if (response.status === 401) {
       setIsAuthorized(false);
       const error = await response.json();
       setErrorMessage(error.msg);
     }
-    if (response.status === 201) setIsAuthorized(true);
-    if (isAuthorized) router.push('/home-client')
+
+    // En caso de 201, usuario creado y resetear formulario
+    if (response.status === 201) {
+      setIsClicked(false);
+      resetForm();
+      setIsAuthorized(true);
+      alert('Usuario registrado satisfactoriamente!') //! Alert temporal
+    }
   };
 
   const validateFields = (values: UserRegisterTypes) => {
-    const { name, lastname, email, password, birthday, cellphone, dni } = values;
+    const { name, lastname, mail, birthday, cellphone, dni } = values;
     const errors: ValidationErrors = {};
 
     const isUserOlder = calculateUserAge(birthday);
 
     if (name.length < 3) errors.name = "The name must be longer than 3 characters";
     if (lastname.length < 3) errors.lastname = "The lastname must be longer than 3 characters";
-    if (!REGEXP.test(email)) errors.email = "Invalid email";
-    if (password.length < 3 || password.length > 25) errors.password = "The password must be between 3 - 25 characters";
+    if (!REGEXP.test(mail)) errors.mail = "Invalid email";
     if (!birthday) errors.birthday = "Your birthday is required for our security";
     if (isUserOlder === false) errors.birthday = "You should be 18 years old";
     if (cellphone.length < 10 || cellphone.length > 12) errors.cellphone = "Non-existent phone";
@@ -68,16 +78,19 @@ const FormRegister = (): React.ReactElement => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <Formik
         initialValues={INITIAL_VALUES}
-        onSubmit={handleSubmit}
+        onSubmit={(values, resetForm) => {
+          setIsClicked(true);
+          handleSubmit(values, resetForm);
+        }}
         validate={validateFields}
       >
-        <Form className="flex flex-col p-5">
+        <Form className="flex flex-col p-5 h-full">
           <div className="flex flex-col tablet:flex-row tablet:gap-10 tablet:justify-center desktop:gap-20">
-            <div className="flex flex-col">
-              <LabelsForm htmlFor="name"/>
+            <div className="flex flex-col gap-1">
+              <LabelsForm htmlFor="name" />
               <Field
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="name"
@@ -85,7 +98,7 @@ const FormRegister = (): React.ReactElement => {
               />
               <SpanError prop="name" />
 
-              <LabelsForm htmlFor="lastname"/>
+              <LabelsForm htmlFor="lastname" />
               <Field
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="lastname"
@@ -93,25 +106,17 @@ const FormRegister = (): React.ReactElement => {
               />
               <SpanError prop="lastname" />
 
-              <LabelsForm htmlFor="email"/>
+              <LabelsForm htmlFor="email" />
               <Field
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
-                name="email"
+                name="mail"
                 type="email"
               />
-              <SpanError prop="email" />
-
-              <LabelsForm htmlFor="password"/>
-              <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
-                name="password"
-                type="password"
-              />
-              <SpanError prop="password"/>
+              <SpanError prop="mail" />
             </div>
 
-            <div className="flex flex-col">
-              <LabelsForm htmlFor="birthday"/>
+            <div className="flex flex-col gap-1">
+              <LabelsForm htmlFor="birthday" />
               <Field
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="birthday"
@@ -119,7 +124,7 @@ const FormRegister = (): React.ReactElement => {
               />
               <SpanError prop="birthday" />
 
-              <LabelsForm htmlFor="cellphone"/>
+              <LabelsForm htmlFor="cellphone" />
               <Field
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="cellphone"
@@ -127,24 +132,22 @@ const FormRegister = (): React.ReactElement => {
               />
               <SpanError prop="cellphone" />
 
-              <LabelsForm htmlFor="dni"/>
+              <LabelsForm htmlFor="dni" />
               <Field
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="dni"
                 type="text"
               />
               <SpanError prop="dni" />
-              
-              <div className="w-full flex justify-center desktop:relative desktop:top-[25px]">
-                <SubmitButton value="Register"/>
-              </div>
-            
             </div>
           </div>
 
+          <div className="w-full flex flex-col justify-center items-center desktop:relative desktop:top-[25px]">
+            <SubmitButton value={!isClicked ? "Register" : "Checking in..."} />
+          </div>
         </Form>
       </Formik>
-      {isAuthorized ? '' : <MessageAuthorization message={errorMessage}/>}
+      {isAuthorized ? "" : <MessageAuthorization message={errorMessage} />}
     </div>
   );
 };

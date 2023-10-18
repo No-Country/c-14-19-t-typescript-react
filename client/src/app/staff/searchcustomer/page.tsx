@@ -49,7 +49,7 @@ const page = (): React.ReactElement => {
 
     return (
         <div className='h-screen flex flex-col items-center justify-center gap-5'>
-            <h2 className=' text-2xl font-bold tablet:text-4xl desktop:text-6xl overflow-y-hidden'>Introduce en DNI del cliente</h2>
+            <h2 className=' text-2xl font-bold tablet:text-4xl desktop:text-4xl overflow-y-hidden'>Introduce en DNI del cliente</h2>
             <Formik
                 initialValues={INITIAL_VALUES}
                 validate={validateFields}
