@@ -13,6 +13,7 @@ import requireStaff from "../middleware/requireStaff";
 import { updateCustomerController } from "../modules/staff/controller/updateCustomer.controller";
 import { deleteCustomerController } from "../modules/staff/controller/deleteCustomer.controller";
 import { getCustomerByIdController } from "../modules/staff/controller/getCustomerByDni.controller";
+import requireStaffSession from "../middleware/requireStaffSession";
 const router = Router();
 
 router.post(
@@ -40,5 +41,7 @@ router.post(
 );
 
 router.post("/auth/login", loginValidator, LoginStaffController);
+
+router.post("/auth/session", requireStaffSession);
 
 export default router;

@@ -8,12 +8,15 @@ import StaffModel from "../model/staff.model";
 import BadRequestException from "../../../exception/BadRequestException";
 import ROLE from "../../user/enum/ROLE";
 import ValidateDepartment from "../../../utils/ValidateDepartment";
+import DeleteUserService from "../../user/service/DeleteUser.service";
 
 export default class RegisterStaffUC {
   private readonly createUserService: CreateUserService;
+  private readonly deleteUserService: DeleteUserService;
 
   constructor() {
     this.createUserService = new CreateUserService();
+    this.deleteUserService = new DeleteUserService();
   }
 
   async run(
@@ -29,27 +32,32 @@ export default class RegisterStaffUC {
     const id_user = uuid();
     const id_staff = uuid();
 
-    await this.createUserService.run(
-      id_user,
-      {
-        name: data.name,
-        lastname: data.lastname,
-        birthday: data.birthday,
-        cellphone: data.cellphone,
-        dni: data.dni,
-        mail: data.mail,
-      },
-      ROLE.STAFF
-    );
+    try {
+      await this.createUserService.run(
+        id_user,
+        {
+          name: data.name,
+          lastname: data.lastname,
+          birthday: data.birthday,
+          cellphone: data.cellphone,
+          dni: data.dni,
+          mail: data.mail,
+        },
+        ROLE.STAFF
+      );
 
-    await this.createStaff(id_staff, {
-      username: data.username,
-      password: data.password,
-      department: data.department,
-      id_user,
-    });
+      await this.createStaff(id_staff, {
+        username: data.username,
+        password: data.password,
+        department: data.department,
+        id_user,
+      });
 
-    return { msg: "Registro exitoso" };
+      return { msg: "Registro exitoso" };
+    } catch (error) {
+      await this.deleteUserService.run(id_user);
+      throw error;
+    }
   }
 
   private async createStaff(
