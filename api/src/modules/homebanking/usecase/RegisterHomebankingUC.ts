@@ -2,13 +2,13 @@ import BadRequestException from "../../../exception/BadRequestException";
 import NotFoundException from "../../../exception/NotFoundException";
 import { userModelInterface } from "../../user/interface/userModel.interface";
 import UserModel from "../../user/model/user.model";
-import homebankingCreateInterface from "../interface/homebankingCreate.interface";
+import hbCreateInterface from "../interface/hbCreate.interface";
 import HomebankingModel from "../model/homebanking.model";
 import { v4 as uuid } from "uuid";
 import { hash } from "bcryptjs";
 
 export default class RegisterHomebankingUC {
-  async run(data: homebankingCreateInterface): Promise<{ msg: string }> {
+  async run(data: hbCreateInterface): Promise<{ msg: string }> {
     //check user:
     const user = await this.checkRC(data.reference_code);
 
