@@ -1,10 +1,11 @@
+import { getSession } from "./getJwtSession";
 
 export const clietnSearch = async (dni: number) => {
     try {
-      const token = sessionStorage.getItem("jwt");
+      const token = await getSession(sessionStorage.getItem('jwtSession'))
       const response = await fetch(`https://easybank.fly.dev/staff/customer/${dni}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token.jwt}`
         }
       });
   
