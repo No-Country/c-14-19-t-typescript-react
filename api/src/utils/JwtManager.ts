@@ -38,4 +38,11 @@ export default class JwtManager {
     const secret = configServer.server.jwt_hb_secret;
     return verify(jwt, secret) as payloadRequest;
   }
+
+  static generateRecoverPassToken(id: string): string {
+    const secret = configServer.server.jwt_hb_secret;
+    return sign({ id }, secret, {
+      expiresIn: "15m",
+    });
+  }
 }
