@@ -5,14 +5,11 @@ import LabelsForm from '@/components/labels/LabelsForm'
 import SubmitButton from '@/components/buttons/SubmitButton'
 import SpanError from '@/components/errors/SpanError'
 import { useRouter } from 'next/navigation'
-
+import { clietnSearch } from '../../../utils/dniRequest'
 
 
 type dniError = {
     dni?: string
-}
-type dniParse = {
-    dni: number
 }
 type dniField = {
     dni: string
@@ -25,17 +22,11 @@ const page = (): React.ReactElement => {
     const router = useRouter()
     const handleSubmit = (values: dniField) => {
         
-        
         const { dni } = values
-
-        const request: dniParse = {
-            dni: parseInt(dni)
-        }
-
-        console.log(request);
+        
+        const data = clietnSearch(parseInt(dni))
 
         router.push('/staff/client-action-panel')
-
     }
 
     const validateFields = (values: dniField) => {
@@ -66,7 +57,6 @@ const page = (): React.ReactElement => {
                     <div className="flex justify-center">
                         <SubmitButton value="Buscar" />
                     </div>
-
                 </Form>
             </Formik>
         </div>
