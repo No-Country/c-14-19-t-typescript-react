@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response, Router } from "express";
 import BadRequestException from "../exception/BadRequestException";
 import staffRouter from "./staff.routes";
+import homebankingRouter from "./homebanking.routes";
 import UnauthorizedException from "../exception/UnauthorizedException";
 import NotFoundException from "../exception/NotFoundException";
 
 const route = Router();
 
 route.use("/staff", staffRouter);
+route.use("/homebanking", homebankingRouter);
 
 route.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof BadRequestException) {

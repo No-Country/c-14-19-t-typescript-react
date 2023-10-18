@@ -13,8 +13,16 @@ export default class UpdateUserService {
     const user = await this.getUser(id);
 
     //check data:
-    data.mail && (await this.checkMail(data.mail));
-    data.cellphone && (await this.checkCellphone(data.cellphone));
+    if (data.mail) {
+      if (data.mail != user.mail) {
+        await this.checkMail(data.mail);
+      }
+    }
+    if (data.cellphone) {
+      if (data.cellphone != user.cellphone) {
+        await this.checkCellphone(data.cellphone);
+      }
+    }
 
     //update:
     await UserModel.update(
