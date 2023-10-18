@@ -78,3 +78,33 @@ export const updateValidation = [
     .optional(),
   validatorManager,
 ];
+
+/**  REGISTER HOMEBANKING  **/
+export const registerHBValidation = [
+  body("username").trim().escape().isString().isLength({ min: 6, max: 25 }),
+  body("password").trim().escape().isString().isLength({ min: 6, max: 25 }),
+  body("reference_code")
+    .trim()
+    .escape()
+    .isString()
+    .isLength({ min: 9, max: 10 }),
+  validatorManager,
+];
+
+/**  PASSWORD VALIDATOR  **/
+export const passwordValidator = [
+  body("password").trim().escape().isString().isLength({ min: 6, max: 25 }),
+  validatorManager,
+];
+
+/**  RECOVER VALIDATOR  **/
+
+export const recoverValidator = [
+  body("username").trim().escape().isString().isLength({ min: 6, max: 25 }),
+  body("reference_code")
+    .trim()
+    .escape()
+    .isString()
+    .isLength({ min: 9, max: 10 }),
+  validatorManager,
+];

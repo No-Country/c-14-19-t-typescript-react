@@ -1,5 +1,9 @@
-import React from 'react';
+"use client"
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { clietnSearch } from '@/utils/dniRequest';
+import { UserData } from '@/components/user/interfaces/users.interface';
+
 
 interface Cuenta {
   n: number;
@@ -13,10 +17,35 @@ const cuentas: Cuenta[] = [
   { n: 1234578, p: "$50" }
 ];
 
-const Page = (): React.ReactElement => {
+
+const Page = ({ params }: any): React.ReactElement => {
+
+  const [userData, setUserData] = useState<UserData | null>(null);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log(params.id); 
+        const data = await clietnSearch(parseInt(params.id));
+        
+        setUserData(data)
+        
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchData();
+  }, [params.id]);
+
+  if (!userData) {
+    return <div>Loading...</div>; 
+  }
+
   return (
     <div className='h-screen border-green-600 border-2 flex flex-col items-center justify-center gap-12 tablet:p-5'>
-      <h2 className='text-2xl tablet:text-4xl overflow-y-hidden'><span className=' font-black'>Cliente: </span>Lionel Andrés Messi</h2>
+      <h2 className='text-2xl tablet:text-4xl overflow-y-hidden'><span className=' font-black'>Cliente: </span>{userData.name} {userData.lastname}</h2>
       <div className='flex gap-5 tablet:text-lg tablet:gap-10 items-center overflow-y-hidden'>
         <Link href='/' className='border border-green-700 p-1 bg-green-300 '>Actualizar Datos</Link>
         <Link href='/' className='border border-green-700  p-1 bg-green-300'>Eliminar Cliente</Link>

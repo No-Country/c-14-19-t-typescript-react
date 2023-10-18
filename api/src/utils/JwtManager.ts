@@ -26,4 +26,23 @@ export default class JwtManager {
     const secret = configServer.server.jwt_session_secret;
     return verify(jwt, secret) as payloadRequest;
   }
+
+  static generateHBAuthorization(id: string): string {
+    const secret = configServer.server.jwt_hb_secret;
+    return sign({ id }, secret, {
+      expiresIn: configServer.server.jwt_expiration,
+    });
+  }
+
+  static verifyHBToken(jwt: string): payloadRequest {
+    const secret = configServer.server.jwt_hb_secret;
+    return verify(jwt, secret) as payloadRequest;
+  }
+
+  static generateRecoverPassToken(id: string): string {
+    const secret = configServer.server.jwt_hb_secret;
+    return sign({ id }, secret, {
+      expiresIn: "15m",
+    });
+  }
 }

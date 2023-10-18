@@ -24,3 +24,16 @@ export interface UserTypesBackend {
     dni: number
     cellphone: number;
 }
+
+
+export interface UserData {
+    id: string;
+    name: string;
+    lastname: string;
+    dni: number;
+    birthday: string;
+    cellphone: string;
+    mail: string;
+    reference_code: string;
+    role: string;
+  }

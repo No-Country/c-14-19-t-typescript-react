@@ -11,9 +11,6 @@ import { useRouter } from 'next/navigation'
 type dniError = {
     dni?: string
 }
-type dniParse = {
-    dni: number
-}
 type dniField = {
     dni: string
 }
@@ -25,17 +22,11 @@ const page = (): React.ReactElement => {
     const router = useRouter()
     const handleSubmit = (values: dniField) => {
         
-        
         const { dni } = values
+        
+        /* const data = clietnSearch(parseInt(dni)) */
 
-        const request: dniParse = {
-            dni: parseInt(dni)
-        }
-
-        console.log(request);
-
-        router.push('/staff/client-action-panel')
-
+        router.push(`/staff/searchcustomer/${dni}`)
     }
 
     const validateFields = (values: dniField) => {
@@ -66,7 +57,6 @@ const page = (): React.ReactElement => {
                     <div className="flex justify-center">
                         <SubmitButton value="Buscar" />
                     </div>
-
                 </Form>
             </Formik>
         </div>
