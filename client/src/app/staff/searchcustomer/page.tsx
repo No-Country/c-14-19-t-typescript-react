@@ -5,7 +5,7 @@ import LabelsForm from '@/components/labels/LabelsForm'
 import SubmitButton from '@/components/buttons/SubmitButton'
 import SpanError from '@/components/errors/SpanError'
 import { useRouter } from 'next/navigation'
-import { clietnSearch } from '../../../utils/dniRequest'
+
 
 
 type dniError = {
@@ -24,9 +24,9 @@ const page = (): React.ReactElement => {
         
         const { dni } = values
         
-        const data = clietnSearch(parseInt(dni))
+        /* const data = clietnSearch(parseInt(dni)) */
 
-        router.push('/staff/client-action-panel')
+        router.push(`/staff/searchcustomer/${dni}`)
     }
 
     const validateFields = (values: dniField) => {
