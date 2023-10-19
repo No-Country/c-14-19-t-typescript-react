@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { createNewCustomer } from "@/utils/formsRequests";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
 import { getSession } from "@/utils/getJwtSession";
-import getParsedDate from "@/utils/parsedDate";
+import { getParsedDate } from "@/utils/utils";
 
 const INITIAL_VALUES = {
   name: "",
@@ -44,11 +44,21 @@ const FormRegister = (): React.ReactElement => {
     const token = await getSession(sessionStorage.getItem("jwtSession"));
     const response = await createNewCustomer(newCustomer, token.jwt);
 
+    if (response.status === 400) {
+      setIsAuthorized(false)
+      const error = await response.json();
+      setErrorMessage(error.msg);
+      setIsClicked(false)
+      resetForm()
+    }
+
     // En caso de 401, no autorizar y mandar mensaje de error
     if (response.status === 401) {
       setIsAuthorized(false);
       const error = await response.json();
       setErrorMessage(error.msg);
+      setIsClicked(false);
+      resetForm()
     }
 
     // En caso de 201, usuario creado y resetear formulario
@@ -56,7 +66,7 @@ const FormRegister = (): React.ReactElement => {
       setIsClicked(false);
       resetForm();
       setIsAuthorized(true);
-      alert('Usuario registrado satisfactoriamente!') //! Alert temporal
+      alert('Usuario registrado correctamente!') //! Alert temporal
     }
   };
 
@@ -66,13 +76,13 @@ const FormRegister = (): React.ReactElement => {
 
     const isUserOlder = calculateUserAge(birthday);
 
-    if (name.length < 3) errors.name = "The name must be longer than 3 characters";
-    if (lastname.length < 3) errors.lastname = "The lastname must be longer than 3 characters";
-    if (!REGEXP.test(mail)) errors.mail = "Invalid email";
-    if (!birthday) errors.birthday = "Your birthday is required for our security";
-    if (isUserOlder === false) errors.birthday = "You should be 18 years old";
-    if (cellphone.length < 10 || cellphone.length > 12) errors.cellphone = "Non-existent phone";
-    if (dni.length < 8) errors.dni = "Invalid DNI";
+    if (name.length < 3) errors.name = "El nombre debe ser mayor a 3 caracteres";
+    if (lastname.length < 3) errors.lastname = "El apellido debe ser mayor a 3 caracteres";
+    if (!REGEXP.test(mail)) errors.mail = "Email incorrecto";
+    if (!birthday) errors.birthday = "Fecha de nacimiento requerida";
+    if (isUserOlder === false) errors.birthday = "Tenes que ser mayor a 18 años";
+    if (cellphone.length < 10 || cellphone.length > 12) errors.cellphone = "Número incorrecto";
+    if (dni.length < 7 || dni.length > 8) errors.dni = "DNI incorrecto";
 
     return errors;
   };
@@ -82,7 +92,7 @@ const FormRegister = (): React.ReactElement => {
       <Formik
         initialValues={INITIAL_VALUES}
         onSubmit={(values, resetForm) => {
-          setIsClicked(true);
+          setIsClicked(true)
           handleSubmit(values, resetForm);
         }}
         validate={validateFields}

@@ -5,20 +5,20 @@ import { nunito } from '@/fonts/fonts';
 
 const Navbar = (): React.ReactElement => {
   const [route, setRoute] = useState<string>('');
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
 
   useEffect(() => {
     const getSession = sessionStorage.getItem('jwtSession');
-    const getDepartment = sessionStorage.getItem('department');
+    const getDepartment = sessionStorage.getItem('zxcvbn');
 
     // Comprobar si el usuario está autenticado
-    const isAuthenticated = sessionStorage.getItem('authenticated');
-    setIsAuthenticated(!!isAuthenticated);
+    const getAuth = sessionStorage.getItem('authorized');
+    setIsAuthorized(!!getAuth);
 
     // Obtener sesion y checkear departamento
     if (getSession) {
-      if (getDepartment === 'hhrr') return setRoute('/hhrr/home');
-      if (getDepartment === 'attention') return setRoute('/staff/staffpanel');
+      if (getDepartment === 'h') return setRoute('/hhrr/home');
+      if (getDepartment === 'a') return setRoute('/staff/staffpanel');
     }
   }, []);
 
@@ -31,19 +31,19 @@ const Navbar = (): React.ReactElement => {
       </div>
       <div className="flex gap-3 font-medium tablet:text-xl">
         <ul className="flex gap-5">
-          {!isAuthenticated && (
+          {!isAuthorized && (
             <Link
               href="/login"
-              className="p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[100px] text-center hover:bg-indigo-600 transition-all ease-in duration-200"
+              className="p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[100%] text-center hover:bg-indigo-600 transition-all ease-in duration-200"
             >
               Login
             </Link>
           )}
           <Link
-            href={!isAuthenticated ? "/login-staff" : route}
+            href={!isAuthorized ? "/login-staff" : route}
             className="p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[100%] text-center hover:bg-indigo-600 transition-all ease-in duration-200 capitalize"
           >
-            {isAuthenticated ? "Mi cuenta - Staff" : "Staff"}
+            {isAuthorized ? "Mi cuenta - Staff" : "Staff"}
           </Link>
         </ul>
       </div>

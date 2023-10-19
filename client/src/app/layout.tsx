@@ -23,8 +23,8 @@ const RootLayout = ({
   children: React.ReactNode;
 }): React.ReactElement => {
   return (
-    <html lang="en">
-      <body className={ nunito.className }>{children}</body>
+    <html lang="es">
+      <body className={nunito.className}>{children}</body>
     </html>
   );
 };

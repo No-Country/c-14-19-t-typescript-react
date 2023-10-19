@@ -1,11 +1,14 @@
 "use client";
-import React from "react";
-import { Formik, Form, Field } from "formik";
+import React, { useState } from "react";
+import { Formik, Form, Field, FormikHelpers } from "formik";
 import { BackendTypesStaff, StaffRegister, StaffRegisterErrors } from "../interfaces/staff.interface";
 import LabelsForm from "@/components/labels/LabelsForm";
 import SpanError from "@/components/errors/SpanError";
 import SubmitButton from "@/components/buttons/SubmitButton";
 import { registerStaff } from "@/utils/formsRequests";
+import { getParsedDate } from "@/utils/utils";
+import { getSession } from "@/utils/getJwtSession";
+import MessageAuthorization from "@/components/authorization/MessageAuthorization";
 
 const INITIAL_VALUES = {
   name: "",
@@ -21,23 +24,48 @@ const INITIAL_VALUES = {
 const REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const FormRegisterStaff = (): React.ReactElement => {
-  const handleSubmit = async (values: StaffRegister) => {
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
+
+  const handleSubmit = async (values: StaffRegister, { resetForm }: FormikHelpers<StaffRegister>) => {
     const { username, password, name, mail, lastname, dni, department, birthday, cellphone } = values;
 
     const newStaffUser: BackendTypesStaff = {
         name,
         lastname,
+        dni: parseInt(dni),
+        birthday: getParsedDate(birthday),
         mail,
+        cellphone: parseInt(cellphone),
         username,
         password,
-        dni: parseInt(dni),
-        birthday,
-        cellphone: parseInt(cellphone),
         department: department.toLowerCase(),
     };
+    
+    // Verificar token y mandar la peticion
+    const token = await getSession(sessionStorage.getItem('jwtSession'))
+    const newStaff = await registerStaff(newStaffUser, token.jwt);
 
-    const newStaff = await registerStaff(newStaffUser);
-    console.log(newStaff)
+    // const isAuth = sessionStorage.getItem('authorized');
+
+
+    if (newStaff?.status === 404) {
+      setIsAuthorized(false);
+      setErrorMessage(newStaff.data.msg);
+      setIsClicked(false);
+    }
+    if (newStaff?.status === 400) {
+      setIsAuthorized(false)
+      setErrorMessage(newStaff.data.msg);
+      setIsClicked(false);
+    }
+    if (newStaff?.status === 201) {
+      setIsAuthorized(true)
+      setIsClicked(false);
+      resetForm();
+      alert('Usuario registrado correctamente!'); //! ALERT TEMPORAL
+    }
   };
 
   const validateFields = (values: StaffRegister) => {
@@ -58,9 +86,13 @@ const FormRegisterStaff = (): React.ReactElement => {
   };
 
   return (
+    <>
     <Formik
       initialValues={INITIAL_VALUES}
-      onSubmit={handleSubmit}
+      onSubmit={(values, resetForm) => {
+        handleSubmit(values, resetForm);
+        setIsClicked(true)
+      }}
       validate={validateFields}
     >
       <Form className="flex flex-col p-5 h-full tablet:justify-center">
@@ -142,12 +174,14 @@ const FormRegisterStaff = (): React.ReactElement => {
             <SpanError prop="department" />
 
             <div className="flex justify-center desktop:relative desktop:top-7">
-                <SubmitButton value="Register" />
+                <SubmitButton value={isClicked ? 'Registrando...' : 'Registrar'} />
             </div>
           </div>
         </div>
       </Form>
     </Formik>
+    {isAuthorized ? "" : <MessageAuthorization message={errorMessage} />}
+    </>
   );
 };
 
