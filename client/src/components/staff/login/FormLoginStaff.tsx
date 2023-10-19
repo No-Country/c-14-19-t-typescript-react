@@ -65,7 +65,7 @@ const FormLoginStaff = (): React.ReactElement => {
         validate={validateFieds}
       >
         <Form className="flex flex-col">
-          <LabelsForm htmlFor="username" />
+          <LabelsForm htmlFor="usuario" />
           <Field
             className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm mobile:w-[100%] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[100%] tablet:p-3 desktop:p-4 tablet:text-lg desktop:text-xl"
             name="username"
@@ -73,7 +73,7 @@ const FormLoginStaff = (): React.ReactElement => {
           />
           <SpanError prop="username"/>
 
-          <LabelsForm htmlFor="password" />
+          <LabelsForm htmlFor="contraseña" />
           <Field
             className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm mobile:w-[100%] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[100%] tablet:p-3 desktop:p-4 tablet:text-lg desktop:text-xl"
             name="password"
