@@ -43,6 +43,13 @@ const FormLoginStaff = (): React.ReactElement => {
         setErrorMessage('');
       }, 3000);
     }
+    if (response?.status === 400) {
+      setSubmitButtonValue('Login')
+      setErrorMessage(response.data);
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
+    }
   };
 
   const validateFieds = (values: StaffLogin): StaffLoginErrors => {

@@ -40,6 +40,7 @@ export const loginStaff = async (staffUser: StaffLogin) => {
     }
   
     if (response.status === 404) return { data: data.msg, status: 404 }
+    if (response.status === 400) return { data: data.msg, status: 400 }
   };
 
 export const registerStaff = async (newStaff: BackendTypesStaff, token: string) => {  
