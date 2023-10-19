@@ -63,7 +63,7 @@ const Page = ({ params }: any): React.ReactElement => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center text-4xl mt-5 "><h2 className="overflow-y-hidden">Actualizar cliente</h2></div>
+      <div className="flex items-center  justify-center text-4xl mt-8 "><h2 className="overflow-y-hidden">Actualizar cliente</h2></div>
 
       <Formik
         initialValues={INITIAL_VALUES}
@@ -73,8 +73,8 @@ const Page = ({ params }: any): React.ReactElement => {
         }}
         validate={validateFields}
       >
-        <Form className="flex flex-col p-5 h-full">
-          <div className="flex flex-col tablet:flex-row tablet:gap-10 tablet:justify-center desktop:gap-20">
+        <Form className="flex flex-col p-5 h-full overflow-y-hidden">
+          <div className="flex flex-col justify-center items-center">
             <div className="flex flex-col gap-1">
               <LabelsForm htmlFor="email" />
               <Field
