@@ -1,4 +1,6 @@
+import { UpdateCustumer, UserTypesBackend } from "@/components/user/interfaces/users.interface";
 import { getSession } from "./getJwtSession";
+
 
 
 export const clietnSearch = async (dni: number) => {
@@ -10,7 +12,7 @@ export const clietnSearch = async (dni: number) => {
       }
     });
 
-    if (response.ok) {
+    if (response.ok) {   
       const data = await response.json();
 
       return data;
@@ -19,7 +21,6 @@ export const clietnSearch = async (dni: number) => {
     }
   } catch (error) {
     console.error('Error fetching data:', error);
-    throw error;
   }
 };
 
@@ -42,6 +43,32 @@ export const clientDelete = async (id: string | undefined) => {
     }
   } catch (error) {
     console.error('Error fetching data:', error);
-    throw error;
+  }
+}
+
+export const clietnUpdate = async (id: string, client: UpdateCustumer) => {
+  try {
+    const token = await getSession(sessionStorage.getItem('jwtSession'))
+    const response = await fetch(`https://easybank.fly.dev/staff/customer/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(client),
+      headers: {
+        'Content-Type': `application/json`,
+        'Authorization': `Bearer ${token.jwt}`
+      }
+    });
+  
+    if(response.status === 400){
+      return response
+    }
+
+    if (response.status === 200) {
+      return response;
+    } else {
+      const errorData = await response.json();
+      throw new Error(errorData.msg);
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
   }
 }

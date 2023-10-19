@@ -41,7 +41,7 @@ const Page = ({ params }: any): React.ReactElement => {
 
         if (data === 'error') {
           router.push(`/staff/searchcustomer`)
-        }else{
+        }else{   
           setUserData(data)
         }
 

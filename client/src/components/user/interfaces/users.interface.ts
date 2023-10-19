@@ -36,4 +36,9 @@ export interface UserData {
     mail: string;
     reference_code: string;
     role: string;
-  }
+}
+
+export interface UpdateCustumer {
+    mail?: string;
+    cellphone?: number;
+}
