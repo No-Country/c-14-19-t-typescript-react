@@ -17,7 +17,7 @@ const Navbar = (): React.ReactElement => {
 
     // Obtener sesion y checkear departamento
     if (getSession) {
-      if (getDepartment === 'h') return setRoute('/hhrr/home');
+      if (getDepartment === 'h') return setRoute('/hhrr/hhrrpanel');
       if (getDepartment === 'a') return setRoute('/staff/staffpanel');
     }
   }, []);

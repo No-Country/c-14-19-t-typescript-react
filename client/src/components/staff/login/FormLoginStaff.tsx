@@ -33,7 +33,7 @@ const FormLoginStaff = (): React.ReactElement => {
       const memberDepartment = sessionStorage.getItem('zxcvbn');       
            
       if (!memberDepartment) return router.push('/login-staff')
-      if (memberDepartment === 'h') return router.push('/hhrr/home');
+      if (memberDepartment === 'h') return router.push('/hhrr/hhrrpanel');
       if (memberDepartment === 'a') return router.push('/staff/staffpanel');
     }
     if (response?.status === 404) {
