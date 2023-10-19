@@ -9,6 +9,7 @@ import { registerStaff } from "@/utils/formsRequests";
 import { getParsedDate } from "@/utils/utils";
 import { getSession } from "@/utils/getJwtSession";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
+import calculateUserAge from "@/utils/calculateUserAge";
 
 const INITIAL_VALUES = {
   name: "",
@@ -72,9 +73,12 @@ const FormRegisterStaff = (): React.ReactElement => {
     const { username, password, name, mail, lastname, dni, cellphone, birthday, department } = values;
     const errors: StaffRegisterErrors = {};
 
+    const isUserOlder = calculateUserAge(birthday);
+
     if (name.length < 3 || name.length > 25) errors.name = "Nombre incorrecto (3 - 25 caracteres)";
     if (lastname.length < 3 || lastname.length > 25) errors.lastname = "Apellido incorrecto (3 - 25 caracteres)";
     if (!birthday) errors.birthday = "Debe insertar su fecha de nacimiento";
+    if (isUserOlder === false) errors.birthday = "Debe ser mayor a 18 años";
     if (dni.length < 7 || dni.length > 8) errors.dni = "Dni incorrecto";
     if (!REGEXP.test(mail)) errors.mail = "Email incorrecto";
     if (cellphone.length < 10 || cellphone.length > 12) errors.cellphone = "Número inexistente";
