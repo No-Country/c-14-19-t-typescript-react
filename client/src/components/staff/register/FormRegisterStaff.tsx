@@ -48,9 +48,6 @@ const FormRegisterStaff = (): React.ReactElement => {
     const token = await getSession(sessionStorage.getItem('jwtSession'))
     const newStaff = await registerStaff(newStaffUser, token.jwt);
 
-    // const isAuth = sessionStorage.getItem('authorized');
-
-
     if (newStaff?.status === 404) {
       setIsAuthorized(false);
       setErrorMessage(newStaff.data.msg);
@@ -100,10 +97,10 @@ const FormRegisterStaff = (): React.ReactElement => {
       validate={validateFields}
     >
       <Form className="flex flex-col p-5 h-full tablet:justify-center">
-        <h1 className='mt-5 text-xl font-semibold whitespace-nowrap text-center desktop:text-4xl overflow-y-hidden tablet:mb-10'>Register for <span className='text-indigo-500'>Staff Members</span> only</h1>
+        <h1 className='mt-5 text-xl font-semibold whitespace-nowrap text-center desktop:text-4xl overflow-y-hidden tablet:mb-10'>Registrar nuevo <span className='text-indigo-500'>Staff Member</span></h1>
         <div className="flex flex-col tablet:flex-row tablet:gap-10 tablet:justify-center desktop:gap-20">
           <div className="flex flex-col gap-[5px] tablet:gap-0">
-            <LabelsForm htmlFor="name" />
+            <LabelsForm htmlFor="nombre" />
             <Field
               className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
               name="name"
@@ -111,7 +108,7 @@ const FormRegisterStaff = (): React.ReactElement => {
             />
             <SpanError prop="name" />
 
-            <LabelsForm htmlFor="lastname" />
+            <LabelsForm htmlFor="apellido" />
             <Field
               className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
               name="lastname"
@@ -119,7 +116,7 @@ const FormRegisterStaff = (): React.ReactElement => {
             />
             <SpanError prop="lastname" />
 
-            <LabelsForm htmlFor="password" />
+            <LabelsForm htmlFor="contraseña" />
             <Field
               className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
               name="password"
@@ -127,7 +124,7 @@ const FormRegisterStaff = (): React.ReactElement => {
             />
             <SpanError prop="password" />
 
-            <LabelsForm htmlFor="birthday" />
+            <LabelsForm htmlFor="fecha de nacimiento" />
             <Field
               className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
               name="birthday"
@@ -135,7 +132,7 @@ const FormRegisterStaff = (): React.ReactElement => {
             />
             <SpanError prop="birthday" />
 
-            <LabelsForm htmlFor="dni" />
+            <LabelsForm htmlFor="DNI" />
             <Field
               className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
               name="dni"
@@ -153,7 +150,7 @@ const FormRegisterStaff = (): React.ReactElement => {
             />
             <SpanError prop="mail" />
 
-            <LabelsForm htmlFor="cellphone" />
+            <LabelsForm htmlFor="celular" />
             <Field
               className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
               name="cellphone"
@@ -161,7 +158,7 @@ const FormRegisterStaff = (): React.ReactElement => {
             />
             <SpanError prop="cellphone" />
 
-            <LabelsForm htmlFor="username" />
+            <LabelsForm htmlFor="nombre de usuario" />
             <Field
               className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
               name="username"
@@ -169,7 +166,7 @@ const FormRegisterStaff = (): React.ReactElement => {
             />
             <SpanError prop="username" />
 
-            <LabelsForm htmlFor="department - (attention / hhrr)" />
+            <LabelsForm htmlFor="departamento - (attention / hhrr)" />
             <Field
               className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
               name="department"

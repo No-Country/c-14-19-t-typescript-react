@@ -38,7 +38,7 @@ const FormLoginStaff = (): React.ReactElement => {
     }
     if (response?.status === 404) {
       setSubmitButtonValue('Login')
-      setErrorMessage(response.data);
+      setErrorMessage('Usuario no registrado, por favor ingrese un usuario valido');
       setTimeout(() => {
         setErrorMessage('');
       }, 3000);
@@ -49,8 +49,8 @@ const FormLoginStaff = (): React.ReactElement => {
     const { username, password } = values;
     const errors: StaffLoginErrors = {};
 
-    if (username.length < 6 || username.length > 25) errors.username = "Username must be between 6 - 25 characters";
-    if (password.length < 6 || password.length > 25) errors.password = "Password must be between 6 - 25 characters";
+    if (username.length < 6 || username.length > 25) errors.username = "Nombre de usuario no valido";
+    if (password.length < 6 || password.length > 25) errors.password = "Contraseña no valida";
 
     return errors;
   };
@@ -60,7 +60,7 @@ const FormLoginStaff = (): React.ReactElement => {
         initialValues={INITIAL_VALUES}
         onSubmit={(values) => {
           handleSubmit(values)
-          setSubmitButtonValue('Loging in...')
+          setSubmitButtonValue('Ingresando...')
         }}
         validate={validateFieds}
       >

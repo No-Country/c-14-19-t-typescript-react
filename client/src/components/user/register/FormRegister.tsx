@@ -6,7 +6,6 @@ import SpanError from "@/components/errors/SpanError";
 import calculateUserAge from "@/utils/calculateUserAge";
 import LabelsForm from "@/components/labels/LabelsForm";
 import SubmitButton from "@/components/buttons/SubmitButton";
-import { useRouter } from "next/navigation";
 import { createNewCustomer } from "@/utils/formsRequests";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
 import { getSession } from "@/utils/getJwtSession";
@@ -23,7 +22,6 @@ const INITIAL_VALUES = {
 const REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const FormRegister = (): React.ReactElement => {
-  const router = useRouter();
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -100,7 +98,7 @@ const FormRegister = (): React.ReactElement => {
         <Form className="flex flex-col p-5 h-full">
           <div className="flex flex-col tablet:flex-row tablet:gap-10 tablet:justify-center desktop:gap-20">
             <div className="flex flex-col gap-1">
-              <LabelsForm htmlFor="name" />
+              <LabelsForm htmlFor="nombre" />
               <Field
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="name"
@@ -108,7 +106,7 @@ const FormRegister = (): React.ReactElement => {
               />
               <SpanError prop="name" />
 
-              <LabelsForm htmlFor="lastname" />
+              <LabelsForm htmlFor="apellido" />
               <Field
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="lastname"
@@ -126,7 +124,7 @@ const FormRegister = (): React.ReactElement => {
             </div>
 
             <div className="flex flex-col gap-1">
-              <LabelsForm htmlFor="birthday" />
+              <LabelsForm htmlFor="fecha de nacimiento" />
               <Field
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="birthday"
@@ -134,7 +132,7 @@ const FormRegister = (): React.ReactElement => {
               />
               <SpanError prop="birthday" />
 
-              <LabelsForm htmlFor="cellphone" />
+              <LabelsForm htmlFor="celular" />
               <Field
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="cellphone"
@@ -142,7 +140,7 @@ const FormRegister = (): React.ReactElement => {
               />
               <SpanError prop="cellphone" />
 
-              <LabelsForm htmlFor="dni" />
+              <LabelsForm htmlFor="DNI" />
               <Field
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="dni"
@@ -153,7 +151,7 @@ const FormRegister = (): React.ReactElement => {
           </div>
 
           <div className="w-full flex flex-col justify-center items-center desktop:relative desktop:top-[25px]">
-            <SubmitButton value={!isClicked ? "Register" : "Checking in..."} />
+            <SubmitButton value={!isClicked ? "Registro" : "Registrando..."} />
           </div>
         </Form>
       </Formik>
