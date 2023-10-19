@@ -38,6 +38,13 @@ const FormLoginStaff = (): React.ReactElement => {
     }
     if (response?.status === 404) {
       setSubmitButtonValue('Login')
+      setErrorMessage('Usuario no registrado, por favor ingrese un usuario valido');
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
+    }
+    if (response?.status === 400) {
+      setSubmitButtonValue('Login')
       setErrorMessage(response.data);
       setTimeout(() => {
         setErrorMessage('');
@@ -49,8 +56,8 @@ const FormLoginStaff = (): React.ReactElement => {
     const { username, password } = values;
     const errors: StaffLoginErrors = {};
 
-    if (username.length < 6 || username.length > 25) errors.username = "Username must be between 6 - 25 characters";
-    if (password.length < 6 || password.length > 25) errors.password = "Password must be between 6 - 25 characters";
+    if (username.length < 6 || username.length > 25) errors.username = "Nombre de usuario no valido";
+    if (password.length < 6 || password.length > 25) errors.password = "Contraseña no valida";
 
     return errors;
   };
@@ -60,12 +67,12 @@ const FormLoginStaff = (): React.ReactElement => {
         initialValues={INITIAL_VALUES}
         onSubmit={(values) => {
           handleSubmit(values)
-          setSubmitButtonValue('Loging in...')
+          setSubmitButtonValue('Ingresando...')
         }}
         validate={validateFieds}
       >
         <Form className="flex flex-col">
-          <LabelsForm htmlFor="username" />
+          <LabelsForm htmlFor="usuario" />
           <Field
             className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm mobile:w-[100%] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[100%] tablet:p-3 desktop:p-4 tablet:text-lg desktop:text-xl"
             name="username"
@@ -73,7 +80,7 @@ const FormLoginStaff = (): React.ReactElement => {
           />
           <SpanError prop="username"/>
 
-          <LabelsForm htmlFor="password" />
+          <LabelsForm htmlFor="contraseña" />
           <Field
             className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm mobile:w-[100%] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[100%] tablet:p-3 desktop:p-4 tablet:text-lg desktop:text-xl"
             name="password"
