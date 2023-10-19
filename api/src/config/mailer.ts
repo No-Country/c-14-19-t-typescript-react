@@ -8,8 +8,8 @@ export const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: "easybankmessage@gmail.com",
-    pass: "wevi vjpf ahxd ebmk",
+    user: configServer.mailer.user,
+    pass: configServer.mailer.pass,
   },
 });
 
