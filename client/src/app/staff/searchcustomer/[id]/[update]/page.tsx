@@ -54,8 +54,8 @@ const Page = ({ params }: any): React.ReactElement => {
     const { mail, cellphone } = values;
     const errors: ValidationErrors = {};
 
-    if (1 <= mail.length && !REGEXP.test(mail)) errors.mail = "Invalid email";
-    if (1 <= cellphone.length && cellphone.length < 10 || cellphone.length > 12) errors.cellphone = "Non-existent phone";
+    if (!REGEXP.test(mail)) errors.mail = "Invalid email";
+    if (cellphone.length < 10 || cellphone.length > 12) errors.cellphone = "Non-existent phone";
 
     return errors;
   };
