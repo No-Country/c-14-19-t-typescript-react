@@ -15,6 +15,11 @@ const configServer = {
     db: process.env.PG_DB,
     port: process.env.PG_PORT,
   },
+  mailer: {
+    user: process.env.MAIL_USER,
+    host: process.env.MAIL_HOST,
+    pass: process.env.MAIL_PASS,
+  },
 };
 
 export default configServer;
