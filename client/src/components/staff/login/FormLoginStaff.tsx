@@ -30,12 +30,11 @@ const FormLoginStaff = (): React.ReactElement => {
     
     if (response?.status === 200) {  
       // Verificar departamento
-      const memberDepartment = sessionStorage.getItem('department');       
-      console.log(memberDepartment);
+      const memberDepartment = sessionStorage.getItem('zxcvbn');       
            
       if (!memberDepartment) return router.push('/login-staff')
-      if (memberDepartment === 'hhrr') return router.push('/hhrr/home');
-      if (memberDepartment === 'attention') return router.push('/staff/staffpanel');
+      if (memberDepartment === 'h') return router.push('/hhrr/hhrrpanel');
+      if (memberDepartment === 'a') return router.push('/staff/staffpanel');
     }
     if (response?.status === 404) {
       setSubmitButtonValue('Login')

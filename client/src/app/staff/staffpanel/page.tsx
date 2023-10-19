@@ -3,15 +3,24 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { nunito } from "@/fonts/fonts";
 import Loader from "@/components/Loader";
+import { useRouter } from "next/navigation";
 
-// ! HACER LA PETICION PARA VER EL USUARIO
 const PageStaffPanel = (): React.ReactElement => {
+  const router = useRouter();
   const [isAuth, setIsAuth] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>('');
 
   useEffect(() => {
-    const getDepartment = sessionStorage.getItem("department");
-    if (getDepartment !== "attention") return setIsAuth(false);
-    else return setIsAuth(true);
+    const getDepartment = sessionStorage.getItem("zxcvbn");
+    const getUsername = sessionStorage.getItem('username');
+    if (getDepartment === 'a') {
+      setIsAuth(true);
+      if (getUsername) return setUsername(getUsername);
+    }
+    else {
+      router.push('/login-staff')
+      return setIsAuth(false);
+    }
   }, []);
 
   return (
@@ -21,7 +30,7 @@ const PageStaffPanel = (): React.ReactElement => {
           className={`${nunito.className} h-full w-full flex flex-col items-center border-4 border-blue-300 bg-green-50`}
         >
           <div className="h-2/5 tablet:h-2/4 tablet:text-4xl desktop:text-6xl text-3xl flex items-center">
-            <h2 className="overflow-y-hidden">Bienvenido de vuelta "x"</h2>
+            <h2 className="overflow-y-hidden">Bienvenido de vuelta {username}</h2>
           </div>
 
           <div className="flex flex-col tablet:flex-row tablet:gap-14 gap-7 font-light text-center">
