@@ -1,4 +1,5 @@
 "use client";
+import LogoutButton from "@/components/buttons/LogoutButton";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -33,8 +34,14 @@ const StaffLayout = ({
             Logo
           </Link>
           {isAuthenticated && (
-            <div className="p-4">
-              <Link href="/staff/staffpanel">Panel Staff</Link>
+            <div className="p-4 flex gap-5">
+              <Link
+                className="font-bold p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[300px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize"
+                href="/staff/staffpanel"
+              >
+                Panel Staff
+              </Link>
+              <LogoutButton />
             </div>
           )}
         </nav>

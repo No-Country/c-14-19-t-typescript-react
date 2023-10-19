@@ -1,4 +1,5 @@
 "use client"
+import LogoutButton from '@/components/buttons/LogoutButton';
 import NavbarLink from '@/components/links/NavbarLink';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -19,13 +20,14 @@ const HHRRLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <nav className="flex items-center justify-between border">
-        <Link href='/' className="p-2 text-xl uppercase font-bold tablet:p-5 tablet:text-2xl">
+        <Link href='/hhrr/hhrrpanel' className="p-2 text-xl uppercase font-bold tablet:p-5 tablet:text-2xl">
           Logo
         </Link>
         {isAuthenticated && (
           <ul className="h-[90px] flex items-center gap-3 p-3 tablet:gap-5 tablet:p-5">
             <NavbarLink route="/staff/customers" content="Ver Staff Members" />
-            <NavbarLink route="/hhrr/hhrrpanel" content="Staff panel"/>
+            <LogoutButton />
+            {/* <NavbarLink route="/hhrr/hhrrpanel" content="Staff panel"/> */}
           </ul>
         )}
       </nav>

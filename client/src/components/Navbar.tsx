@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { nunito } from '@/fonts/fonts';
+import LogoutButton from './buttons/LogoutButton';
 
 const Navbar = (): React.ReactElement => {
   const [route, setRoute] = useState<string>('');
@@ -34,14 +35,15 @@ const Navbar = (): React.ReactElement => {
           {!isAuthorized && (
             <Link
               href="/login"
-              className="p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[100%] text-center hover:bg-indigo-600 transition-all ease-in duration-200"
+              className="font-bold p-1 tablet:p-1 flex items-center justify-center rounded-md bg-indigo-500 desktop:w-[200px]  hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize"
             >
               Login
             </Link>
           )}
+          {isAuthorized && <LogoutButton />}
           <Link
             href={!isAuthorized ? "/login-staff" : route}
-            className="p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[100%] text-center hover:bg-indigo-600 transition-all ease-in duration-200 capitalize"
+            className={`${isAuthorized ? 'text-base' : 'text-xl'} font-bold p-1 tablet:p-1 flex items-center justify-center rounded-md bg-indigo-500 desktop:w-[200px]  hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize`}
           >
             {isAuthorized ? "Mi cuenta - Staff" : "Staff"}
           </Link>
