@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import "./globals.css";
 import React from "react";
 import { nunito } from "@/fonts/fonts";
+import { GlobalContextProvider } from "@/context/store";
 
 export const metadata: Metadata = {
   title: "EasyBank",
@@ -24,7 +25,9 @@ const RootLayout = ({
 }): React.ReactElement => {
   return (
     <html lang="es">
-      <body className={nunito.className}>{children}</body>
+      <body className={nunito.className}>
+        <GlobalContextProvider>{children}</GlobalContextProvider>
+      </body>
     </html>
   );
 };

@@ -1,19 +1,20 @@
 "use client"
 import LogoutButton from '@/components/buttons/LogoutButton';
 import NavbarLink from '@/components/links/NavbarLink';
+import { useGlobalContext } from '@/hooks/useContext';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 const HHRRLayout = ({ children }: { children: React.ReactNode }) => {
+    const { isAuthorized, setIsAuthorized } = useGlobalContext();
     const router = useRouter();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
     
     useEffect(() => {
-        if (sessionStorage.getItem('jwtSession')) return setIsAuthenticated(true)
+        if (sessionStorage.getItem('jwtSession')) return setIsAuthorized(true)
         else {
             router.push('/')
-            setIsAuthenticated(false);
+            setIsAuthorized(false);
         }
     }, [])
     
@@ -23,7 +24,7 @@ const HHRRLayout = ({ children }: { children: React.ReactNode }) => {
         <Link href='/hhrr/hhrrpanel' className="p-2 text-xl uppercase font-bold tablet:p-5 tablet:text-2xl">
           Logo
         </Link>
-        {isAuthenticated && (
+        {isAuthorized && (
           <ul className="h-[90px] flex items-center gap-3 p-3 tablet:gap-5 tablet:p-5">
             <NavbarLink route="/staff/customers" content="Ver Staff Members" />
             <LogoutButton />

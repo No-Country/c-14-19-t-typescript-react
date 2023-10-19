@@ -1,30 +1,30 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { nunito } from "@/fonts/fonts";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/navigation";
+import { useGlobalContext } from "@/hooks/useContext";
 
 const PageStaffPanel = (): React.ReactElement => {
   const router = useRouter();
-  const [isAuth, setIsAuth] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>("");
+  const { isAuthorized, username, setIsAuthorized, setUsername } = useGlobalContext();
 
   useEffect(() => {
     const getDepartment = sessionStorage.getItem("zxcvbn");
     const getUsername = sessionStorage.getItem("username");
     if (getDepartment === "a") {
-      setIsAuth(true);
+      setIsAuthorized(true);
       if (getUsername) return setUsername(getUsername);
     } else {
       router.push("/login-staff");
-      return setIsAuth(false);
+      return setIsAuthorized(false);
     }
   }, []);
 
   return (
     <div className="flex flex-col justify-center items-center h-[94vh] tablet:h-[92vh]">
-      {isAuth ? (
+      {isAuthorized ? (
         <div
           className={`${nunito.className} h-full w-full flex flex-col items-center border-4 border-blue-300 bg-green-50`}
         >

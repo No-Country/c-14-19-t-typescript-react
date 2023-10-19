@@ -21,9 +21,7 @@ const INITIAL_VALUES = {
 const page = (): React.ReactElement => {
     const router = useRouter()
     const handleSubmit = (values: dniField) => {
-        
         const { dni } = values
-
         router.push(`/staff/searchcustomer/${dni}`)
     }
 

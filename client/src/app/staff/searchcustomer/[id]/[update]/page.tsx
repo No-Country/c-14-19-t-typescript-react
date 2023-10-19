@@ -3,12 +3,10 @@ import SubmitButton from "@/components/buttons/SubmitButton";
 import SpanError from "@/components/errors/SpanError";
 import LabelsForm from "@/components/labels/LabelsForm";
 import { UpdateCustumer, UserRegisterTypes, ValidationErrors } from "@/components/user/interfaces/users.interface";
-import calculateUserAge from "@/utils/calculateUserAge";
+import { useGlobalContext } from "@/hooks/useContext";
 import { clietnUpdate } from "@/utils/dniRequest";
-import { getParsedDate } from "@/utils/utils";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const INITIAL_VALUES = {
   name: "",
@@ -22,9 +20,8 @@ const INITIAL_VALUES = {
 const REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const Page = ({ params }: any): React.ReactElement => {
+  const { isClicked, setIsClicked } = useGlobalContext();
   const router = useRouter()
-
-  const [loading, setLoading] = useState<boolean>(false)
 
   const handleSubmit = async (values: UserRegisterTypes, { resetForm }: FormikHelpers<UserRegisterTypes>) => {
     const { mail, cellphone } = values;
@@ -34,18 +31,17 @@ const Page = ({ params }: any): React.ReactElement => {
       cellphone: parseInt(cellphone),
     }
 
-    console.log(newCustomer);
     const res = await clietnUpdate(params.update, newCustomer)
     if (res?.ok) {
       alert('Usuario Actualizado')
-      setLoading(false)
+      setIsClicked(false)
       resetForm()
       router.push(`/staff/searchcustomer/${params.id}`)
     }
 
     if(res?.status === 400){
       alert('No se puedo actualizar el cliente')
-      setLoading(false)
+      setIsClicked(false)
       resetForm()
     }
   };
@@ -54,8 +50,8 @@ const Page = ({ params }: any): React.ReactElement => {
     const { mail, cellphone } = values;
     const errors: ValidationErrors = {};
 
-    if (1 <= mail.length && !REGEXP.test(mail)) errors.mail = "Invalid email";
-    if (1 <= cellphone.length && cellphone.length < 10 || cellphone.length > 12) errors.cellphone = "Non-existent phone";
+    if (!REGEXP.test(mail)) errors.mail = "Invalid email";
+    if (cellphone.length < 10 || cellphone.length > 12) errors.cellphone = "Non-existent phone";
 
     return errors;
   };
@@ -69,7 +65,7 @@ const Page = ({ params }: any): React.ReactElement => {
         initialValues={INITIAL_VALUES}
         onSubmit={(values, resetForm) => {
           handleSubmit(values, resetForm);
-          setLoading(true)
+          setIsClicked(true)
         }}
         validate={validateFields}
       >
@@ -96,7 +92,7 @@ const Page = ({ params }: any): React.ReactElement => {
           </div>
 
           <div className="w-full flex flex-col justify-center items-center desktop:relative desktop:top-[25px]">
-            <SubmitButton value={loading ? "Actualizando..." : "Actualizar"} />
+            <SubmitButton value={isClicked ? "Actualizando..." : "Actualizar"} />
           </div>
         </Form>
       </Formik>

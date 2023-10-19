@@ -1,30 +1,30 @@
 "use client";
 import Loader from '@/components/Loader'
+import { useGlobalContext } from '@/hooks/useContext';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 const HomeHHRPage = (): React.ReactElement => {
+  const { isAuthorized, username, setIsAuthorized, setUsername } = useGlobalContext();
   const router = useRouter();
-  const [isAuth, setIsAuth] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>('');
 
   useEffect(() => {
     const getDepartment = sessionStorage.getItem("zxcvbn");
     const getUsername = sessionStorage.getItem('username');
     if (getDepartment === 'h') {
-      setIsAuth(true);
+      setIsAuthorized(true);
       if (getUsername) return setUsername(getUsername);
     }
     else {
       router.push('/login-staff')
-      return setIsAuth(false);
+      return setIsAuthorized(false);
     }
   }, []);
 
   return (
     <div className="flex flex-col justify-center items-center h-[94vh] tablet:h-[92vh]">
-    {isAuth ? (
+    {isAuthorized ? (
       <div
         className="h-full w-full flex flex-col items-center border-4 bg-slate-100"
       >

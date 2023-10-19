@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import SubmitButton from "@/components/buttons/SubmitButton";
 import LabelsForm from "@/components/labels/LabelsForm";
 import SpanError from "@/components/errors/SpanError";
@@ -7,6 +7,7 @@ import { Formik, Form, Field } from "formik";
 import { StaffLogin, StaffLoginErrors } from "../interfaces/staff.interface";
 import { useRouter } from "next/navigation";
 import { loginStaff } from "@/utils/formsRequests";
+import { useGlobalContext } from "@/hooks/useContext";
 
 const INITIAL_VALUES = {
   username: "",
@@ -15,8 +16,12 @@ const INITIAL_VALUES = {
 
 const FormLoginStaff = (): React.ReactElement => {
   const router = useRouter();
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [submitButtonValue, setSubmitButtonValue] = useState<string>('Login');
+  const {
+    errorMessage,
+    submitButtonValue,
+    setErrorMessage,
+    setSubmitButtonValue,
+  } = useGlobalContext();
 
   const handleSubmit = async (values: StaffLogin) => {
     const { username, password } = values;

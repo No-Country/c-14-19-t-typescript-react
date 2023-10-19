@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import { BackendTypesStaff, StaffRegister, StaffRegisterErrors } from "../interfaces/staff.interface";
 import LabelsForm from "@/components/labels/LabelsForm";
@@ -10,6 +10,7 @@ import { getParsedDate } from "@/utils/utils";
 import { getSession } from "@/utils/getJwtSession";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
 import calculateUserAge from "@/utils/calculateUserAge";
+import { useGlobalContext } from "@/hooks/useContext";
 
 const INITIAL_VALUES = {
   name: "",
@@ -25,9 +26,14 @@ const INITIAL_VALUES = {
 const REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const FormRegisterStaff = (): React.ReactElement => {
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [isClicked, setIsClicked] = useState<boolean>(false);
-  const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
+  const {
+    errorMessage,
+    isClicked,
+    isAuthorized,
+    setErrorMessage,
+    setIsClicked,
+    setIsAuthorized,
+  } = useGlobalContext();
 
   const handleSubmit = async (values: StaffRegister, { resetForm }: FormikHelpers<StaffRegister>) => {
     const { username, password, name, mail, lastname, dni, department, birthday, cellphone } = values;

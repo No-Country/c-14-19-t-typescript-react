@@ -30,6 +30,7 @@ export const clientDelete = async (id: string | undefined) => {
     const response = await fetch(`https://easybank.fly.dev/staff/customer/${id}`, {
       method: "DELETE",
       headers: {
+        "Content-Type": "application/json",
         'Authorization': `Bearer ${token.jwt}`
       }
     });

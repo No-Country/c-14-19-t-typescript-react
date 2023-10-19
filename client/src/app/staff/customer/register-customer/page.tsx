@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "EasyBank - Register",
+  title: "EasyBank/Staff - Nuevo cliente",
 };
 
 const Register = (): React.ReactElement => {
