@@ -23,8 +23,6 @@ const page = (): React.ReactElement => {
     const handleSubmit = (values: dniField) => {
         
         const { dni } = values
-        
-        /* const data = clietnSearch(parseInt(dni)) */
 
         router.push(`/staff/searchcustomer/${dni}`)
     }

@@ -1,8 +1,11 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { clietnSearch } from '@/utils/dniRequest';
+import { useRouter } from 'next/navigation'
+import { clientDelete, clietnSearch } from '@/utils/dniRequest';
 import { UserData } from '@/components/user/interfaces/users.interface';
+import SpanError from '@/components/errors/SpanError';
+import Loader from '@/components/Loader';
 
 
 interface Cuenta {
@@ -19,18 +22,30 @@ const cuentas: Cuenta[] = [
 
 
 const Page = ({ params }: any): React.ReactElement => {
-
+  const router = useRouter()
   const [userData, setUserData] = useState<UserData | null>(null);
-
+  
+  const deleteCustomer = (): any => {
+    const response = confirm('¿Seguro que Quiere eliminar al cliente?')
+    if (response) {
+      clientDelete(userData?.id)
+      router.push(`/staff/searchcustomer`)
+    } else {
+      return
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(params.id); 
         const data = await clietnSearch(parseInt(params.id));
-        
-        setUserData(data)
-        
+
+        if (data === 'error') {
+          router.push(`/staff/searchcustomer`)
+        }else{
+          setUserData(data)
+        }
+
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -40,7 +55,7 @@ const Page = ({ params }: any): React.ReactElement => {
   }, [params.id]);
 
   if (!userData) {
-    return <div>Loading...</div>; 
+    return (<div className='flex items-center justify-center h-[90vh]'> <Loader/> </div>)
   }
 
   return (
@@ -48,7 +63,7 @@ const Page = ({ params }: any): React.ReactElement => {
       <h2 className='text-2xl tablet:text-4xl overflow-y-hidden'><span className=' font-black'>Cliente: </span>{userData.name} {userData.lastname}</h2>
       <div className='flex gap-5 tablet:text-lg tablet:gap-10 items-center overflow-y-hidden'>
         <Link href='/' className='border border-green-700 p-1 bg-green-300 '>Actualizar Datos</Link>
-        <Link href='/' className='border border-green-700  p-1 bg-green-300'>Eliminar Cliente</Link>
+        <button onClick={deleteCustomer} className='border border-green-700  p-1 bg-green-300'>Eliminar Cliente</button>
       </div>
       <h3 className='text-2xl tablet:text-3xl overflow-y-hidden'>Cuentas Bancarias</h3>
       <div className='border  border-green-800 w-3/4 max-w-xl  flex  flex-col gap-5 p-3 '>
