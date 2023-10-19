@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { nunito } from "@/fonts/fonts";
@@ -8,17 +8,16 @@ import { useRouter } from "next/navigation";
 const PageStaffPanel = (): React.ReactElement => {
   const router = useRouter();
   const [isAuth, setIsAuth] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>('');
+  const [username, setUsername] = useState<string>("");
 
   useEffect(() => {
     const getDepartment = sessionStorage.getItem("zxcvbn");
-    const getUsername = sessionStorage.getItem('username');
-    if (getDepartment === 'a') {
+    const getUsername = sessionStorage.getItem("username");
+    if (getDepartment === "a") {
       setIsAuth(true);
       if (getUsername) return setUsername(getUsername);
-    }
-    else {
-      router.push('/login-staff')
+    } else {
+      router.push("/login-staff");
       return setIsAuth(false);
     }
   }, []);
@@ -30,18 +29,23 @@ const PageStaffPanel = (): React.ReactElement => {
           className={`${nunito.className} h-full w-full flex flex-col items-center border-4 border-blue-300 bg-green-50`}
         >
           <div className="h-2/5 tablet:h-2/4 tablet:text-4xl desktop:text-6xl text-3xl flex items-center">
-            <h2 className="overflow-y-hidden">Bienvenido de vuelta {username}</h2>
+            <h2 className="overflow-y-hidden">
+              Bienvenido de vuelta{" "}
+              <span className="font-bold text-indigo-600 text-4xl desktop:text-6xl">
+                {username}
+              </span>
+            </h2>
           </div>
 
-          <div className="flex flex-col tablet:flex-row tablet:gap-14 gap-7 font-light text-center">
+          <div className="flex flex-col tablet:flex-row tablet:gap-14 gap-7 font-light text-center h-[20%]">
             <Link
-              className="border rounded-md desktop:text-4xl desktop:p-5  border-black text-3xl p-2 bg-indigo-500"
+              className="shadow-md shadow-indigo-600 rounded-md desktop:text-4xl font-bold  text-3xl p-5 bg-indigo-500  hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 h-[50%]"
               href="/staff/customer/register-customer"
             >
               Registar cliente
             </Link>
             <Link
-              className="border rounded-md desktop:text-4xl desktop:p-5 border-black text-3xl p-2 bg-indigo-500"
+              className="shadow-md shadow-indigo-600 rounded-md desktop:text-4xl font-bold text-3xl p-5 bg-indigo-500  hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 h-[50%]"
               href="/staff/searchcustomer"
             >
               Buscar cliente

@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 import { clientDelete, clietnSearch } from '@/utils/dniRequest';
 import { UserData } from '@/components/user/interfaces/users.interface';
-import SpanError from '@/components/errors/SpanError';
 import Loader from '@/components/Loader';
 
 
@@ -62,7 +61,7 @@ const Page = ({ params }: any): React.ReactElement => {
     <div className='h-screen border-green-600 border-2 flex flex-col items-center justify-center gap-12 tablet:p-5'>
       <h2 className='text-2xl tablet:text-4xl overflow-y-hidden'><span className=' font-black'>Cliente: </span>{userData.name} {userData.lastname}</h2>
       <div className='flex gap-5 tablet:text-lg tablet:gap-10 items-center overflow-y-hidden'>
-        <Link href='/' className='border border-green-700 p-1 bg-green-300 '>Actualizar Datos</Link>
+        <Link href={`/staff/searchcustomer/${params.id}/${userData.id}`} className='border border-green-700 p-1 bg-green-300 '>Actualizar Datos</Link>
         <button onClick={deleteCustomer} className='border border-green-700  p-1 bg-green-300'>Eliminar Cliente</button>
       </div>
       <h3 className='text-2xl tablet:text-3xl overflow-y-hidden'>Cuentas Bancarias</h3>
