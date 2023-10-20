@@ -41,12 +41,6 @@ const Navbar = (): React.ReactElement => {
             </Link>
           )}
           {isAuthorized && <LogoutButton />}
-          <Link
-            href={!isAuthorized ? "/login-staff" : route}
-            className={`${isAuthorized ? 'text-base' : 'text-xl'} font-bold p-1 tablet:p-1 flex items-center justify-center rounded-md bg-indigo-500 desktop:w-[200px]  hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize`}
-          >
-            {isAuthorized ? "Mi cuenta - Staff" : "Staff"}
-          </Link>
         </ul>
       </div>
     </nav>
