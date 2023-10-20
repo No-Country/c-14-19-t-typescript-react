@@ -10,7 +10,8 @@ const Staff = () => {
     const getAuth = sessionStorage.getItem('authorized');
     const getDepartment = sessionStorage.getItem('zxcvbn');
     if (getAuth && getDepartment === 'a') router.push('/staff/staffpanel');
-    else router.push('/hhrr/hhrrpanel')
+    if (getAuth && getDepartment === 'h') router.push('/hhrr/hhrrpanel');
+    else return
   }, [])
 
   return (
