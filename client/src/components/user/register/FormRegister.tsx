@@ -48,7 +48,7 @@ const FormRegister = (): React.ReactElement => {
     const token = await getSession(sessionStorage.getItem("jwtSession"));
     const response = await createNewCustomer(newCustomer, token.jwt);
 
-    if (response.status === 400) {
+    if (response?.status === 400) {
       setIsAuthorized(false)
       const error = await response.json();
       setErrorMessage(error.msg);
@@ -57,7 +57,7 @@ const FormRegister = (): React.ReactElement => {
     }
 
     // En caso de 401, no autorizar y mandar mensaje de error
-    if (response.status === 401) {
+    if (response?.status === 401) {
       setIsAuthorized(false);
       const error = await response.json();
       setErrorMessage(error.msg);
@@ -66,7 +66,7 @@ const FormRegister = (): React.ReactElement => {
     }
 
     // En caso de 201, usuario creado y resetear formulario
-    if (response.status === 201) {
+    if (response?.status === 201) {
       setIsClicked(false);
       resetForm();
       setIsAuthorized(true);
