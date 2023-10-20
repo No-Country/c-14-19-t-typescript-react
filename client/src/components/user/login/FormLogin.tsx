@@ -30,7 +30,7 @@ const FormLogin = (): React.ReactElement => {
 
     const login = await loginCustomer(request);
     
-    if (login.status === 404 || login.status === 400) {
+    if (login?.status === 404 || login?.status === 400) {
       setIsClicked(false);
       setErrorMessage(login.error);
       setTimeout(() => {
