@@ -1,12 +1,16 @@
+"use client"
 import FormLogin from "@/components/user/login/FormLogin";
-import { Metadata } from "next";
-import React from "react";
-
-export const metadata: Metadata = {
-  title: "EasyBank - Login",
-};
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 const Login = (): React.ReactElement => {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (sessionStorage.getItem('isCustomer') === 'c') router.push('/customer/homebanking');
+  }, [])
+  
+  
   return (
     <div className="bg-slate-100">
       <div className="flex flex-col w-full h-[90vh] justify-center items-center">

@@ -11,7 +11,7 @@ const Register = (): React.ReactElement => {
         <div className="bg-slate-100">
           <div className="flex flex-col w-full h-[100vh] justify-center items-center">
             <h1 className="mt-5 text-3xl font-semibold whitespace-nowrap text-center desktop:text-4xl overflow-y-hidden">
-              Register
+              Registra tu cuenta de <span className='text-indigo-500'>Homebanking</span>
             </h1>
     
             <div className="w-[80%] tablet:w-full">

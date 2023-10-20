@@ -19,7 +19,9 @@ const StaffLayout = ({
       if (getDepartment === "h") router.push("/hhrr/hhrrpanel");
       if (getDepartment === "a") router.push("/staff/staffpanel");
       return setIsAuthorized(true);
-    } else {
+    }
+    if (sessionStorage.getItem('isCustomer') === 'c') router.push('/customer/homebanking')
+    else {
       router.push("/login-staff");
       setIsAuthorized(false);
     }

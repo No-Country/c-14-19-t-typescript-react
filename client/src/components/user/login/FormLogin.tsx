@@ -1,11 +1,14 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Field, Form } from "formik";
 import LabelsForm from "@/components/labels/LabelsForm";
 import { LoginErrors, LoginFields } from "../interfaces/usersLogin.interface";
 import SubmitButton from "@/components/buttons/SubmitButton";
 import SpanError from "@/components/errors/SpanError";
 import { useRouter } from "next/navigation";
+import { loginCustomer } from "@/utils/formsRequests";
+import { useGlobalContext } from "@/hooks/useContext";
+import MessageAuthorization from "@/components/authorization/MessageAuthorization";
 
 const INITIAL_VALUES = {
   username: "",
@@ -15,8 +18,9 @@ const INITIAL_VALUES = {
 
 const FormLogin = (): React.ReactElement => {
     const router = useRouter();
+    const { isClicked, errorMessage, setIsClicked, setErrorMessage } = useGlobalContext();
 
-    const handleSubmit = (values: LoginFields) => {
+    const handleSubmit = async (values: LoginFields) => {
     const { username, password } = values;
 
     const request: LoginFields = {
@@ -24,12 +28,19 @@ const FormLogin = (): React.ReactElement => {
         password
     }
 
-    console.log(request)
+    const login = await loginCustomer(request);
     
-    // ? SetTimeout para simular una peticion asincrona hasta que este el backend
-    setTimeout(() => {
-        router.push('/customer/homeclient')
-      }, 1000);
+    if (login.status === 404 || login.status === 400) {
+      setIsClicked(false);
+      setErrorMessage(login.error);
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
+    };
+
+    setIsClicked(false);
+    router.push('/customer/homebanking')
+    
   };
 
   const validateFields = (values: LoginFields): LoginErrors => {
@@ -46,7 +57,10 @@ const FormLogin = (): React.ReactElement => {
     <div className="flex flex-col tablet:items-center">
       <Formik
         initialValues={INITIAL_VALUES}
-        onSubmit={handleSubmit}
+        onSubmit={(values) => {
+          handleSubmit(values)
+          setIsClicked(true)
+        }}
         validate={validateFields}
       >
         <Form className="flex flex-col p-5 mobile:w-[100%] tablet:w-[40%] desktop:w-[45%]">
@@ -67,10 +81,11 @@ const FormLogin = (): React.ReactElement => {
           <SpanError prop="password"/>
 
           <div className="w-full flex justify-center">
-            <SubmitButton value="Login" />
+            <SubmitButton value={isClicked ? 'Ingresando...' : 'Login'} />
           </div>
         </Form>
       </Formik>
+      {errorMessage && <MessageAuthorization message={errorMessage}/>}
     </div>
   );
 };

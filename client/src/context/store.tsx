@@ -43,10 +43,10 @@ export const GlobalContextProvider = ({ children }: ChildrenProp) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [submitButtonValue, setSubmitButtonValue] = useState<string>("Login");
   const [isClicked, setIsClicked] = useState<boolean>(false);
-  const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
 
   // ---- AUTH ---- //
   const [username, setUsername] = useState<string>("");
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
 
   return (
     <GlobalContext.Provider

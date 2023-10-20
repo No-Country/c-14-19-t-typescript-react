@@ -4,10 +4,7 @@ import SpanError from "@/components/errors/SpanError";
 import LabelsForm from "@/components/labels/LabelsForm";
 import { Field, Form, Formik } from "formik";
 import React from "react";
-import {
-  CustomerRegister,
-  CustomerRegisterErrors,
-} from "../interfaces/users.interface";
+import { CustomerRegister, CustomerRegisterErrors } from "../interfaces/users.interface";
 import { useGlobalContext } from "@/hooks/useContext";
 import { registerNewCustomer } from "@/utils/formsRequests";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
@@ -21,29 +18,23 @@ const INITIAL_VALUES = {
 
 const FormRegisterCustomer = () => {
   const router = useRouter();
-  const { errorMessage, isClicked, isAuthorized, setErrorMessage, setIsClicked, setIsAuthorized } = useGlobalContext();
+  const { errorMessage, isClicked, setErrorMessage, setIsClicked } = useGlobalContext();
 
   const handleSubmit = async (values: CustomerRegister) => {
     const newCustomer = await registerNewCustomer(values);
     
-    if (newCustomer?.status === 404) {
-        setErrorMessage(newCustomer.error.msg);
+    if (newCustomer?.status === 404 || newCustomer?.status === 400) {
+        setErrorMessage(newCustomer.error);
         setIsClicked(false);
         setTimeout(() => {
             setErrorMessage('');
         }, 3000);
     } 
-    if (newCustomer?.status === 400) {
-        setErrorMessage(newCustomer.error.msg);
-        setIsClicked(false)
-        setTimeout(() => {
-            setErrorMessage('')
-        }, 3000);
-    }
 
     if (newCustomer?.status === 201) {
         setIsClicked(false);
-        router.push('/customer/homebanking');
+        alert('Usted va a ser redirigido para loguearse a su cuenta') //! ALERT TEMPORAL
+        router.push('/customer/login');
     }
     
 };

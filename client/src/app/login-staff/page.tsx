@@ -11,6 +11,7 @@ const Staff = () => {
     const getDepartment = sessionStorage.getItem('zxcvbn');
     if (getAuth && getDepartment === 'a') router.push('/staff/staffpanel');
     if (getAuth && getDepartment === 'h') router.push('/hhrr/hhrrpanel');
+    if (sessionStorage.getItem('isCustomer') === 'c') router.push('/customer/homebanking')
     else return
   }, [])
 
