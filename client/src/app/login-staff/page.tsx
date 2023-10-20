@@ -1,7 +1,18 @@
+"use client";
 import FormLoginStaff from '@/components/staff/login/FormLoginStaff'
-import React from 'react'
+import { useRouter } from 'next/navigation';
+import React, { useEffect } from 'react'
 
 const Staff = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const getAuth = sessionStorage.getItem('authorized');
+    const getDepartment = sessionStorage.getItem('zxcvbn');
+    if (getAuth && getDepartment === 'a') router.push('/staff/staffpanel');
+    else router.push('/hhrr/hhrrpanel')
+  }, [])
+
   return (
     <div className='w-screen h-[90vh]'>
         <div className='flex flex-col justify-center items-center h-full w-full'>
