@@ -1,5 +1,5 @@
 import { BackendTypesStaff, StaffLogin, StaffRegister } from "@/components/staff/interfaces/staff.interface";
-import { UserTypesBackend } from "@/components/user/interfaces/users.interface";
+import { CustomerRegister, UserTypesBackend } from "@/components/user/interfaces/users.interface";
 import { removeSessionStorage } from "./removeSessionStorage";
 import { getDepartmentLetter } from "./utils";
 
@@ -58,3 +58,28 @@ export const registerStaff = async (newStaff: BackendTypesStaff, token: string) 
   if (response.status === 400) return { data, status: 400 };
   if (response.status === 201) return { data, status: 201 };
 }
+
+export const registerNewCustomer = async (customerAccount: CustomerRegister) => {
+  const response = await fetch('https://easybank.fly.dev/homebanking/auth/register', {
+    method: 'POST',
+    body: JSON.stringify(customerAccount),
+    headers: {
+      "Content-Type": "application/json",
+    }
+  });
+
+  if (response.status === 404) {
+    const error = await response.json();
+    return { error, status: 400 }
+  }
+
+  if (response.status === 400) {
+    const error = await response.json();
+    return { error, status: 400 }
+  }
+
+  if (response.status === 201) {
+    const data = await response.json();
+    return { data, status: 201 };
+  }  
+};

@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import FormLogin from "@/components/user/login/FormLogin";
 import { Metadata } from "next";
 import React from "react";

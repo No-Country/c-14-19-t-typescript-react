@@ -9,8 +9,8 @@ const Staff = () => {
   useEffect(() => {
     const getAuth = sessionStorage.getItem('authorized');
     const getDepartment = sessionStorage.getItem('zxcvbn');
-    if (getAuth && getDepartment === 'a') router.push('/staff/staffpanel');
-    else router.push('/hhrr/hhrrpanel')
+    if (getAuth && getDepartment === 'a') return router.push('/staff/staffpanel');
+    else return router.push('/hhrr/hhrrpanel')
   }, [])
 
   return (

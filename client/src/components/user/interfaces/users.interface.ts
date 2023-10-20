@@ -42,3 +42,15 @@ export interface UpdateCustumer {
     mail?: string;
     cellphone?: number;
 }
+
+export interface CustomerRegister {
+    username: string;
+    password: string;
+    reference_code: string;
+};
+
+export interface CustomerRegisterErrors {
+    username?: string;
+    password?: string;
+    reference_code?: string;
+}

@@ -10,6 +10,9 @@ const App = (): React.ReactElement => {
   return (
     <div>
       <Navbar />
+      <div className='flex justify-center items-center h-[90vh]'>
+        <p className='text-2xl font-medium'>Homebanking in development...</p>
+      </div>
     </div>
   )
 }
