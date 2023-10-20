@@ -1,31 +1,32 @@
 "use client";
 import LogoutButton from "@/components/buttons/LogoutButton";
+import { useGlobalContext } from "@/hooks/useContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 const StaffLayout = ({
   children,
 }: {
   children: React.ReactNode;
 }): React.ReactElement => {
+  const { isAuthorized, setIsAuthorized } = useGlobalContext();
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     if (sessionStorage.getItem("jwtSession")) {
-      const getDepartment = sessionStorage.getItem("department");
-      if (getDepartment === "hhrr") router.push("/hhrr/home");
-      if (getDepartment === "attention") router.push("/staff/staffpanel");
-      return setIsAuthenticated(true);
+      const getDepartment = sessionStorage.getItem("zxcvbn");
+      if (getDepartment === "h") router.push("/hhrr/hhrrpanel");
+      if (getDepartment === "a") router.push("/staff/staffpanel");
+      return setIsAuthorized(true);
     } else {
-      router.push("/");
-      setIsAuthenticated(false);
+      router.push("/login-staff");
+      setIsAuthorized(false);
     }
   }, []);
   return (
     <>
-      {isAuthenticated && (
+      {isAuthorized && (
         <nav className="flex items-center justify-between border">
           <Link
             href="/"
@@ -33,7 +34,7 @@ const StaffLayout = ({
           >
             Logo
           </Link>
-          {isAuthenticated && (
+          {isAuthorized && (
             <div className="p-4 flex gap-5">
               <Link
                 className="font-bold p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[300px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize"

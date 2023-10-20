@@ -11,7 +11,11 @@ const HHRRLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
     
     useEffect(() => {
-        if (sessionStorage.getItem('jwtSession')) return setIsAuthorized(true)
+        if (sessionStorage.getItem('jwtSession')) {
+          const getDepartment = sessionStorage.getItem("zxcvbn");
+          if (getDepartment === "a") router.push("/staff/staffpanel");
+          setIsAuthorized(true);
+        }
         else {
             router.push('/')
             setIsAuthorized(false);
