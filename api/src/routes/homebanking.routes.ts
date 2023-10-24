@@ -11,6 +11,7 @@ import requireHBAccount from "../middleware/requireHBAccount";
 import requireHBSession from "../middleware/requireHBSession";
 import { updatePassHCController } from "../modules/homebanking/controller/updatePassHB.controller";
 import { recoverPassHCController } from "../modules/homebanking/controller/recoverPassHB.controller";
+import { createAccountController } from "../modules/homebanking/controller/createAccount.controller";
 
 const router = Router();
 
@@ -32,4 +33,6 @@ router.patch(
   passwordValidator,
   updatePassHCController
 );
+
+router.post("/account", requireHBAccount, createAccountController);
 export default router;

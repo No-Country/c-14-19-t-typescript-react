@@ -7,20 +7,24 @@ type AccountTypeModel = typeof Model & {
   new (values?: object, options?: BuildOptions): accountModelInterface;
 };
 
-const AccountModel = sequelize.define("accounts", {
-  number_account: {
-    type: DataTypes.STRING,
-    primaryKey: true,
+const AccountModel = sequelize.define(
+  "accounts",
+  {
+    number_account: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
+    money: {
+      type: DataTypes.DECIMAL(10, 2),
+      defaultValue: 0,
+    },
+    id_user: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
-  money: {
-    type: DataTypes.DECIMAL(10, 2),
-    defaultValue: 0,
-  },
-  id_user: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-}) as AccountTypeModel;
+  { defaultScope: { attributes: { exclude: ["createdAt", "updatedAt"] } } }
+) as AccountTypeModel;
 
 UserModel.hasMany(AccountModel, {
   foreignKey: "id_user",
