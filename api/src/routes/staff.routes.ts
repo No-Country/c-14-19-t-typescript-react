@@ -16,6 +16,7 @@ import { getCustomerByIdController } from "../modules/staff/controller/getCustom
 import requireStaffSession from "../middleware/requireStaffSession";
 import { createAccountCustomerController } from "../modules/staff/controller/createAccountCustomer.controller";
 import { deleteAccountCustomerController } from "../modules/staff/controller/deleteAccountCustomer.controller";
+import { listAccountCustomerController } from "../modules/staff/controller/listAccoutCustomer.controller";
 const router = Router();
 
 router.post(
@@ -40,6 +41,12 @@ router.delete(
   "/customer/account/:na",
   requireStaff,
   deleteAccountCustomerController
+);
+
+router.get(
+  "/customer/account/:id/list",
+  requireStaff,
+  listAccountCustomerController
 );
 
 router.post(
