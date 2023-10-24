@@ -13,14 +13,13 @@ const HomeBanking = () => {
   return (
     <div className='flex flex-col items-center'>
       <nav className="flex items-center justify-between border w-full px-2">
-        <Link
+        {<Link
           href="/"
           className="p-2 text-xl uppercase font-bold tablet:p-5 tablet:text-2xl"
         >
           Logo
-        </Link>
-
-        <LogoutButton />
+        </Link> }
+        <LogoutButton/>
       </nav >
 
       <div className='flex flex-col item-center justify-center gap-10 h-[93vh]'>

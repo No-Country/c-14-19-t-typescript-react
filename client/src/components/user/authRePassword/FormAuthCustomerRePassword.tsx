@@ -30,6 +30,7 @@ const FormAuthCustomerRePassword = (): React.ReactElement => {
     const data = await authCustomerRePass(request);
     console.log(data);
     
+    
     if (data?.status === 404 || data?.status === 400) {
       setIsClicked(false);
       setErrorMessage(data.error);
@@ -39,7 +40,7 @@ const FormAuthCustomerRePassword = (): React.ReactElement => {
     };
 
     setIsClicked(false);
-    /* router.push('/customer/homebanking') */
+    router.push(`/customer/auth-customer/${data.id}`) 
 
   };
 
@@ -80,7 +81,7 @@ const FormAuthCustomerRePassword = (): React.ReactElement => {
           <SpanError prop="reference code" />
 
           <div className="w-full flex justify-center">
-            <SubmitButton value={isClicked ? 'Ingresando...' : 'Login'} />
+            <SubmitButton value={isClicked ? 'Solicitando...' : 'Solicitar'} />
           </div>
         </Form>
       </Formik>
