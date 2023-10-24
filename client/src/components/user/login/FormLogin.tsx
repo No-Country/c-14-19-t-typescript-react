@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
+import Link from "next/link";
 import { Formik, Field, Form } from "formik";
 import LabelsForm from "@/components/labels/LabelsForm";
 import { LoginErrors, LoginFields } from "../interfaces/usersLogin.interface";
@@ -79,8 +80,9 @@ const FormLogin = (): React.ReactElement => {
           />
           <SpanError prop="password"/>
 
-          <div className="w-full flex justify-center">
+          <div className="flex items-end gap-1 w-full">
             <SubmitButton value={isClicked ? 'Ingresando...' : 'Login'} />
+            <Link className="pb-1 tablet:pb-[2%] text-blue-700" href={'/customer/auth-customer'}>Recuperar Contraseña</Link>
           </div>
         </Form>
       </Formik>

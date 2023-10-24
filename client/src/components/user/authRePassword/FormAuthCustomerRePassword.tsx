@@ -8,6 +8,7 @@ import { useGlobalContext } from "@/hooks/useContext";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
 import { AuthCustomerRePass, ErrorsAuthCustomerRePass } from "../interfaces/usersRePassword.interface";
 import { authCustomerRePass } from "@/utils/authRepasswordRequest";
+import Link from "next/link";
 
 const INITIAL_VALUES = {
   username: "",
@@ -80,8 +81,9 @@ const FormAuthCustomerRePassword = (): React.ReactElement => {
           />
           <SpanError prop="reference code" />
 
-          <div className="w-full flex justify-center">
+          <div className="flex items-end gap-1 w-full">
             <SubmitButton value={isClicked ? 'Solicitando...' : 'Solicitar'} />
+            <Link className="pb-1 tablet:pb-[2%] text-blue-700" href={'/customer/login'}>Volver</Link>
           </div>
         </Form>
       </Formik>
