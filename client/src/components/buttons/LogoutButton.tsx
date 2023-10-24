@@ -13,7 +13,6 @@ const LogoutButton = (): React.ReactElement => {
     if (!getJwtSessionStaff || !getJwtSessionCustomer) {
         alert('Usuario deslogueado') //! ALERT TEMPORAL
         router.push('/');
-        window.location.reload();
     } 
   };
   return (
