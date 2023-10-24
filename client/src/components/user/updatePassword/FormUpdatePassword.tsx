@@ -82,7 +82,7 @@ const FormUpdatePassword = (): React.ReactElement => {
   };
 
   return (
-    <div className='w-[80%]'>
+    <div className='w-[80%] flex flex-col justify-center items-center'>
       <Formik initialValues={INITIAL_VALUES} onSubmit={handleSubmit} validate={validateFields}>
         <Form className='flex flex-col'>
           <LabelsForm htmlFor='Contraseña'/>
