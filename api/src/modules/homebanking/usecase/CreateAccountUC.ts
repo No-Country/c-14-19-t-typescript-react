@@ -1,5 +1,5 @@
 import AuthorizationManager from "../../../utils/AuthotizationManager";
-import accountCreatedInterface from "../../bankingAccount/interface/accountCreated.interface";
+import accountInterface from "../../bankingAccount/interface/account.interface";
 import CreateAccountService from "../../bankingAccount/service/CreateAccount.service";
 
 export default class CreateAccountUC {
@@ -9,7 +9,7 @@ export default class CreateAccountUC {
     this.createAccountService = new CreateAccountService();
   }
 
-  async run(id_user: string, idJwt: string): Promise<accountCreatedInterface> {
+  async run(id_user: string, idJwt: string): Promise<accountInterface> {
     //check authorization:
     AuthorizationManager.checkIdentity(id_user, idJwt);
 

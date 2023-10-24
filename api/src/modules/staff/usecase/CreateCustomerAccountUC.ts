@@ -1,5 +1,5 @@
 import AuthorizationManager from "../../../utils/AuthotizationManager";
-import accountCreatedInterface from "../../bankingAccount/interface/accountCreated.interface";
+import accountInterface from "../../bankingAccount/interface/account.interface";
 import CreateAccountService from "../../bankingAccount/service/CreateAccount.service";
 import DEPARTMENT from "../enum/DEPARTMENT";
 
@@ -13,7 +13,7 @@ export default class CreateCustomerAccountUC {
   async run(
     id_user: string,
     department: DEPARTMENT
-  ): Promise<accountCreatedInterface> {
+  ): Promise<accountInterface> {
     //check authorization:
     AuthorizationManager.validateDepartment(department, [DEPARTMENT.ATTENTION]);
 

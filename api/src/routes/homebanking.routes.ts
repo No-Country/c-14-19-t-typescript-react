@@ -12,6 +12,7 @@ import requireHBSession from "../middleware/requireHBSession";
 import { updatePassHCController } from "../modules/homebanking/controller/updatePassHB.controller";
 import { recoverPassHCController } from "../modules/homebanking/controller/recoverPassHB.controller";
 import { createAccountController } from "../modules/homebanking/controller/createAccount.controller";
+import { deleteAccountController } from "../modules/homebanking/controller/deleteAccount.controller";
 
 const router = Router();
 
@@ -35,4 +36,5 @@ router.patch(
 );
 
 router.post("/account", requireHBAccount, createAccountController);
+router.delete("/account/:na", requireHBAccount, deleteAccountController);
 export default router;

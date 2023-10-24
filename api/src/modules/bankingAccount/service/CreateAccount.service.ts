@@ -1,7 +1,6 @@
 import BadRequestException from "../../../exception/BadRequestException";
 import AccountManager from "../../../utils/AccountManager";
-import accountCreatedInterface from "../interface/accountCreated.interface";
-import accountModelInterface from "../interface/accountModel.interface";
+import accountInterface from "../interface/account.interface";
 import AccountModel from "../model/account.model";
 import ListAccountService from "./ListAccount.service";
 
@@ -12,7 +11,7 @@ export default class CreateAccountService {
     this.listAccountService = new ListAccountService();
   }
 
-  async run(id_user: string): Promise<accountCreatedInterface> {
+  async run(id_user: string): Promise<accountInterface> {
     //check account's limit:
     await this.checkAccountLimits(id_user);
 
