@@ -5,7 +5,7 @@ import UserModel from "../model/user.model";
 export default class GetUserByIdService {
   async run(id_user: string): Promise<userModelInterface> {
     const user = await UserModel.findOne({ where: { id: id_user } });
-    if (!user) throw new NotFoundException("User not found");
+    if (!user) throw new NotFoundException("Usuario no encontrado");
 
     return user;
   }

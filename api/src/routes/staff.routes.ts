@@ -14,6 +14,7 @@ import { updateCustomerController } from "../modules/staff/controller/updateCust
 import { deleteCustomerController } from "../modules/staff/controller/deleteCustomer.controller";
 import { getCustomerByIdController } from "../modules/staff/controller/getCustomerByDni.controller";
 import requireStaffSession from "../middleware/requireStaffSession";
+import { createAccountCustomerController } from "../modules/staff/controller/createAccountCustomer.controller";
 const router = Router();
 
 router.post(
@@ -32,6 +33,8 @@ router.patch(
 router.get("/customer/:dni", requireStaff, getCustomerByIdController);
 
 router.delete("/customer/:id", requireStaff, deleteCustomerController);
+
+router.post("/customer/account", requireStaff, createAccountCustomerController);
 
 router.post(
   "/auth/register",
