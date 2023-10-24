@@ -58,18 +58,19 @@ const Page = ({ params }: any): React.ReactElement => {
     <div className="h-screen border-green-600 border-2 flex flex-col items-center justify-center gap-12 tablet:p-5">
       <h2 className="text-2xl tablet:text-4xl overflow-y-hidden">
         <span className=" font-black">Cliente: </span>
-        {userData.name} {userData.lastname}
+        {`${userData.name[0].toUpperCase()}${userData.name.slice(1)}`}{" "}
+        {`${userData.lastname[0].toUpperCase()}${userData.lastname.slice(1)}`}
       </h2>
       <div className="flex gap-5 tablet:text-lg tablet:gap-10 items-center overflow-y-hidden">
         <Link
           href={`/staff/searchcustomer/${params.id}/${userData.id}`}
-          className="border border-green-700 p-1 bg-green-300 "
+          className="font-bold p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[300px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize eb-button"
         >
           Actualizar Datos
         </Link>
         <button
           onClick={deleteCustomer}
-          className="border border-green-700  p-1 bg-green-300"
+          className="font-bold p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[300px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize eb-button"
         >
           Eliminar Cliente
         </button>
@@ -86,13 +87,15 @@ const Page = ({ params }: any): React.ReactElement => {
             <p className=" text-red-400">{cuenta.n}</p>
             <p className=" text-red-500">{cuenta.p}</p>
             {/* Pasar este div a un componente para hacer el delete de la cuenta */}
-            <button className="border border-green-400 p-1 ">Eliminar</button>
+            <button className="font-bold p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[100px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize eb-buttonCancel">
+              Eliminar
+            </button>
           </div>
         ))}
       </div>
       <Link
         href="/"
-        className="border p-1 border-green-700 bg-green-300 tablet:text-lg overflow-y-hidden"
+        className="font-bold p-1 tablet:p-1 rounded-md bg-indigo-500 desktop:w-[300px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize eb-button"
       >
         Crear Nueva
       </Link>

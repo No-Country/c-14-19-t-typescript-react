@@ -1,6 +1,10 @@
 "use client";
 import React from "react";
-import { UserRegisterTypes, UserTypesBackend, ValidationErrors } from "@/components/user/interfaces/users.interface";
+import {
+  UserRegisterTypes,
+  UserTypesBackend,
+  ValidationErrors,
+} from "@/components/user/interfaces/users.interface";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import SpanError from "@/components/errors/SpanError";
 import calculateUserAge from "@/utils/calculateUserAge";
@@ -32,7 +36,10 @@ const FormRegister = (): React.ReactElement => {
     setErrorMessage,
   } = useGlobalContext();
 
-  const handleSubmit = async (values: UserRegisterTypes, { resetForm }: FormikHelpers<UserRegisterTypes>) => {
+  const handleSubmit = async (
+    values: UserRegisterTypes,
+    { resetForm }: FormikHelpers<UserRegisterTypes>
+  ) => {
     const { name, lastname, mail, birthday, cellphone, dni } = values;
 
     const newCustomer: UserTypesBackend = {
@@ -49,11 +56,11 @@ const FormRegister = (): React.ReactElement => {
     const response = await createNewCustomer(newCustomer, token.jwt);
 
     if (response?.status === 400) {
-      setIsAuthorized(false)
+      setIsAuthorized(false);
       const error = await response.json();
       setErrorMessage(error.msg);
-      setIsClicked(false)
-      resetForm()
+      setIsClicked(false);
+      resetForm();
     }
 
     // En caso de 401, no autorizar y mandar mensaje de error
@@ -62,7 +69,7 @@ const FormRegister = (): React.ReactElement => {
       const error = await response.json();
       setErrorMessage(error.msg);
       setIsClicked(false);
-      resetForm()
+      resetForm();
     }
 
     // En caso de 201, usuario creado y resetear formulario
@@ -70,7 +77,7 @@ const FormRegister = (): React.ReactElement => {
       setIsClicked(false);
       resetForm();
       setIsAuthorized(true);
-      alert('Usuario registrado correctamente!') //! Alert temporal
+      alert("Usuario registrado correctamente!"); //! Alert temporal
     }
   };
 
@@ -80,12 +87,16 @@ const FormRegister = (): React.ReactElement => {
 
     const isUserOlder = calculateUserAge(birthday);
 
-    if (name.length < 3) errors.name = "El nombre debe ser mayor a 3 caracteres";
-    if (lastname.length < 3) errors.lastname = "El apellido debe ser mayor a 3 caracteres";
+    if (name.length < 3)
+      errors.name = "El nombre debe ser mayor a 3 caracteres";
+    if (lastname.length < 3)
+      errors.lastname = "El apellido debe ser mayor a 3 caracteres";
     if (!REGEXP.test(mail)) errors.mail = "Email incorrecto";
     if (!birthday) errors.birthday = "Fecha de nacimiento requerida";
-    if (isUserOlder === false) errors.birthday = "Tenes que ser mayor a 18 años";
-    if (cellphone.length < 10 || cellphone.length > 12) errors.cellphone = "Número incorrecto";
+    if (isUserOlder === false)
+      errors.birthday = "Tenes que ser mayor a 18 años";
+    if (cellphone.length < 10 || cellphone.length > 12)
+      errors.cellphone = "Número incorrecto";
     if (dni.length < 7 || dni.length > 8) errors.dni = "DNI incorrecto";
 
     return errors;
@@ -96,12 +107,12 @@ const FormRegister = (): React.ReactElement => {
       <Formik
         initialValues={INITIAL_VALUES}
         onSubmit={(values, resetForm) => {
-          setIsClicked(true)
+          setIsClicked(true);
           handleSubmit(values, resetForm);
         }}
         validate={validateFields}
       >
-        <Form className="flex flex-col p-5 h-full">
+        <Form className="flex flex-col p-10 h-full">
           <div className="flex flex-col tablet:flex-row tablet:gap-10 tablet:justify-center desktop:gap-20">
             <div className="flex flex-col gap-1">
               <LabelsForm htmlFor="nombre" />

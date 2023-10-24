@@ -1,0 +1,50 @@
+/** FORMS **/
+.eb-input {
+  background-color: var(--Color4);
+}
+.eb-input:focus {
+  background-color: var(--Color4);
+}
+
+/** BUTTONS **/
+
+.eb-button {
+  background-color: var(--Color1);
+  color: var(--Color4);
+  border-radius: 7px;
+  overflow-y: none;
+  font-weight: bolder;
+}
+.eb-button:hover {
+  background-color: var(--Color3);
+  color: var(--Color1);
+  font-weight: bolder;
+}
+
+.eb-buttonCancel {
+  background-color: var(--Color6);
+  color: #fff;
+  border-radius: 7px;
+  overflow-y: none;
+  font-weight: bolder;
+}
+.eb-buttonCancel:hover {
+  background-color: var(--Color3);
+  color: var(--Color1);
+  font-weight: bolder;
+}
+
+.eb-buttonResponse {
+  background-color: var(--Color1);
+  color: var(--Color4);
+  border-radius: 7px;
+  overflow-y: none;
+  height: 3rem;
+  padding: 5rem;
+}
+
+/** TEXT **/
+
+.eb-principalColor {
+  color: var(--Color2);
+}
