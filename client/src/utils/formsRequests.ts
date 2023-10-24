@@ -1,9 +1,11 @@
-import { BackendTypesStaff, StaffLogin, StaffRegister } from "@/components/staff/interfaces/staff.interface";
+import { BackendTypesStaff, StaffLogin } from "@/components/staff/interfaces/staff.interface";
 import { CustomerRegister, UserTypesBackend } from "@/components/user/interfaces/users.interface";
 import { removeSessionStorage } from "./removeSessionStorage";
 import { getDepartmentLetter } from "./utils";
 import { LoginFields } from "@/components/user/interfaces/usersLogin.interface";
 
+
+//* CREAR NUEVO CLIENTE COMO STAFF
 export const createNewCustomer = async (newClient: UserTypesBackend, token: string) => {
   try {
     const response = await fetch("https://easybank.fly.dev/staff/customer/register", {
@@ -18,10 +20,11 @@ export const createNewCustomer = async (newClient: UserTypesBackend, token: stri
 
     return response;
   } catch (error) {
-    console.error(error);
+    console.error({error});
   }
 };
 
+//* LOGIN DE STAFF
 export const loginStaff = async (staffUser: StaffLogin) => {
   try {
     const response = await fetch("https://easybank.fly.dev/staff/auth/login", {
@@ -48,10 +51,11 @@ export const loginStaff = async (staffUser: StaffLogin) => {
     if (response.status === 404) return { data: data.msg, status: 404 };
     if (response.status === 400) return { data: data.msg, status: 400 };
   } catch (error) {
-    console.error(error);
+    console.error({error});
   }
 };
 
+//* REGISTRO DE STAFF
 export const registerStaff = async (newStaff: BackendTypesStaff, token: string) => {  
   try {
     const response = await fetch("https://easybank.fly.dev/staff/auth/register", {
@@ -69,10 +73,11 @@ export const registerStaff = async (newStaff: BackendTypesStaff, token: string) 
     if (response.status === 400) return { data, status: 400 };
     if (response.status === 201) return { data, status: 201 };
   } catch (error) {
-    console.error(error);
+    console.error({error});
   }
 }
 
+//* REGISTRO DE CLIENTE DEL LADO DEL HOMEBANKING
 export const registerNewCustomer = async (customerAccount: CustomerRegister) => {
   try {
     const response = await fetch("https://easybank.fly.dev/homebanking/auth/register", {
@@ -99,10 +104,11 @@ export const registerNewCustomer = async (customerAccount: CustomerRegister) => 
       return { data, status: 201 };
     }
   } catch (error) {
-    console.error(error);
+    console.error({error});
   }
 };
 
+//* LOGIN DE CLIENTE
 export const loginCustomer = async (customerAccount: LoginFields) => {
   try {
     const response = await fetch("https://easybank.fly.dev/homebanking/auth/login", {
@@ -134,6 +140,28 @@ export const loginCustomer = async (customerAccount: LoginFields) => {
       return data;
     }
   } catch (error) {
-    console.error(error);
+    console.error({error});
   }
 }
+
+//* ACTUALIZAR CONTRASEÑA
+export const updatePassword = async (params: string, password: string, token: string) => {
+  try {
+    const response = await fetch(`https://easybank.fly.dev/homebanking/password/${params}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ password }),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    
+    const data = await response.json();
+
+    if (response.status === 401) return { error: data.msg, status: 401 }
+    if (response.status === 400) return { error: data.msg, status: 400 }
+    if (response.ok) return { data, status: 200 }
+  } catch (error) {
+    console.error({error});
+  }
+};

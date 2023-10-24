@@ -36,11 +36,10 @@ const FormLogin = (): React.ReactElement => {
       setTimeout(() => {
         setErrorMessage('');
       }, 3000);
-    };
-
-    setIsClicked(false);
-    router.push('/customer/homebanking')
-    
+    } else {
+      setIsClicked(false);
+      router.push('/customer/homebanking')
+    }
   };
 
   const validateFields = (values: LoginFields): LoginErrors => {
