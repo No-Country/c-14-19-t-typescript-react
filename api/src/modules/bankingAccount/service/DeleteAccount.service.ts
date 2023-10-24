@@ -1,3 +1,4 @@
+import BadRequestException from "../../../exception/BadRequestException";
 import AccountModel from "../model/account.model";
 
 export default class DeleteAccountService {
@@ -5,7 +6,7 @@ export default class DeleteAccountService {
     const del: number = await AccountModel.destroy({
       where: { number_account },
     });
-    if (del === 0) return { msg: "Error eliminando cuenta" };
+    if (del === 0) throw new BadRequestException("Error eliminando cuenta");
     return { msg: "Cuenta eliminada" };
   }
 }
