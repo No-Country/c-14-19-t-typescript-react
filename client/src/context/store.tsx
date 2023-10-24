@@ -1,24 +1,22 @@
 "use client";
+import React, { ReactNode, createContext, useState } from "react";
+import { ContextProps, UserAccount } from "./interfaces/store.interfaces";
 
-import React, {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  createContext,
-  useState,
-} from "react";
-
-interface ContextProps {
-  errorMessage: string;
-  setErrorMessage: Dispatch<SetStateAction<string>>;
-  submitButtonValue: string;
-  setSubmitButtonValue: Dispatch<SetStateAction<string>>;
-  isClicked: boolean;
-  setIsClicked: Dispatch<SetStateAction<boolean>>;
-  isAuthorized: boolean;
-  setIsAuthorized: Dispatch<SetStateAction<boolean>>;
-  username: string;
-  setUsername: Dispatch<SetStateAction<string>>;
+const userInfoValues = {
+    jwt: '',
+    hbAccount: { 
+        id: '',
+        username: '',
+        user: {
+        id: '',
+        name: '',
+        lastname: '',
+        birthday: '',
+        dni: '',
+        mail: '',
+        cellphone: ''
+        }
+    } 
 }
 
 type ChildrenProp = {
@@ -36,6 +34,8 @@ export const GlobalContext = createContext<ContextProps>({
   setIsAuthorized: (): boolean => false,
   username: "",
   setUsername: (): string => "",
+  userInfo: userInfoValues,
+  setUserInfo: ():UserAccount => userInfoValues
 });
 
 export const GlobalContextProvider = ({ children }: ChildrenProp) => {
@@ -47,6 +47,7 @@ export const GlobalContextProvider = ({ children }: ChildrenProp) => {
   // ---- AUTH ---- //
   const [username, setUsername] = useState<string>("");
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useState<UserAccount>(userInfoValues);
 
   return (
     <GlobalContext.Provider
@@ -56,11 +57,13 @@ export const GlobalContextProvider = ({ children }: ChildrenProp) => {
         isClicked,
         isAuthorized,
         username,
+        userInfo,
         setErrorMessage,
         setSubmitButtonValue,
         setIsClicked,
         setIsAuthorized,
         setUsername,
+        setUserInfo
       }}
     >
       {children}

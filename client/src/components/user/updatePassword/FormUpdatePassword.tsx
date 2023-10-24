@@ -27,8 +27,7 @@ const INITIAL_VALUES = {
 
 const FormUpdatePassword = (): React.ReactElement => {
   const router = useRouter();
-  const { errorMessage, isClicked, setIsClicked, setErrorMessage } = useGlobalContext();
-  const [userInfo, setUserInfo] = useState({ jwt: '', hbAccount: { id: '' } });
+  const { errorMessage, isClicked, userInfo, setUserInfo, setIsClicked, setErrorMessage } = useGlobalContext();
 
   useEffect(() => {
     const sessionToken = sessionStorage.getItem('customerJwtSession')
@@ -49,18 +48,11 @@ const FormUpdatePassword = (): React.ReactElement => {
 
     const request = await updatePassword(userInfo.hbAccount.id, password, userInfo.jwt)
     
-    if (request?.status === 401) {
+    if (request?.status === 401 || request?.status === 400) {
       setErrorMessage(request.error);
       setIsClicked(false);
       setTimeout(() => {
         setErrorMessage('')
-      }, 3000);
-    }
-    if (request?.status === 400) {
-      setErrorMessage(request.error);
-      setIsClicked(false);
-      setTimeout(() => {
-        setErrorMessage('');
       }, 3000);
     }
     if (request?.status === 200) {

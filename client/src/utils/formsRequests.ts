@@ -3,6 +3,7 @@ import { CustomerRegister, UserTypesBackend } from "@/components/user/interfaces
 import { removeSessionStorage } from "./removeSessionStorage";
 import { getDepartmentLetter } from "./utils";
 import { LoginFields } from "@/components/user/interfaces/usersLogin.interface";
+import { UpdatePersonalInfo } from "@/components/user/updatePersonalInfo/FormUpdatePersonalInfo";
 
 
 //* CREAR NUEVO CLIENTE COMO STAFF
@@ -20,7 +21,7 @@ export const createNewCustomer = async (newClient: UserTypesBackend, token: stri
 
     return response;
   } catch (error) {
-    console.error({error});
+    console.error(error);
   }
 };
 
@@ -51,7 +52,7 @@ export const loginStaff = async (staffUser: StaffLogin) => {
     if (response.status === 404) return { data: data.msg, status: 404 };
     if (response.status === 400) return { data: data.msg, status: 400 };
   } catch (error) {
-    console.error({error});
+    console.error(error);
   }
 };
 
@@ -73,7 +74,7 @@ export const registerStaff = async (newStaff: BackendTypesStaff, token: string) 
     if (response.status === 400) return { data, status: 400 };
     if (response.status === 201) return { data, status: 201 };
   } catch (error) {
-    console.error({error});
+    console.error(error);
   }
 }
 
@@ -104,7 +105,7 @@ export const registerNewCustomer = async (customerAccount: CustomerRegister) => 
       return { data, status: 201 };
     }
   } catch (error) {
-    console.error({error});
+    console.error(error);
   }
 };
 
@@ -140,7 +141,7 @@ export const loginCustomer = async (customerAccount: LoginFields) => {
       return data;
     }
   } catch (error) {
-    console.error({error});
+    console.error(error);
   }
 }
 
@@ -162,6 +163,34 @@ export const updatePassword = async (params: string, password: string, token: st
     if (response.status === 400) return { error: data.msg, status: 400 }
     if (response.ok) return { data, status: 200 }
   } catch (error) {
-    console.error({error});
+    console.error(error);
+  }
+};
+
+//* ACTUALIZAR DATOS PERSONALES
+export const updatePersonalData = async (params: string, values: UpdatePersonalInfo, token: string) => {
+  const { mail, cellphone } = values;
+ 
+  const body = {
+    mail,
+    cellphone: parseInt(cellphone)
+  }
+
+  try {
+    const response = await fetch(`https://easybank.fly.dev/homebanking/customer/${params}`, {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    const data = await response.json();
+
+    if (response.status === 401) return { error: data, status: 401 };
+    if (response.status === 400) return { error: data, status: 400 };
+    if (response.ok) return { data, status: 200 };
+  } catch (error) {
+    console.error(error);
   }
 };
