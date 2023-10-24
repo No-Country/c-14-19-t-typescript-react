@@ -31,10 +31,10 @@ const HomeBanking = () => {
           <Link href="/" className="overflow-y-hidden shadow-md shadow-indigo-600 rounded-md desktop:text-4xl  text-xl p-3 bg-indigo-500  hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 h-[50%]">
             Gestion De Cuentas
           </Link>
-          <Link href="/" className="overflow-y-hidden shadow-md shadow-indigo-600 rounded-md desktop:text-4xl   text-xl p-3 bg-indigo-500  hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 h-[50%]">
+          <Link href="/customer/homebanking/update-customer-info" className="overflow-y-hidden shadow-md shadow-indigo-600 rounded-md desktop:text-4xl   text-xl p-3 bg-indigo-500  hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 h-[50%]">
             Actualizar Datos Personales
           </Link>
-          <Link href="customer/homebanking/update-password" className="overflow-y-hidden shadow-md shadow-indigo-600 rounded-md desktop:text-4xl   text-xl p-3 bg-indigo-500  hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 h-[50%]">
+          <Link href="/customer/homebanking/update-password" className="overflow-y-hidden shadow-md shadow-indigo-600 rounded-md desktop:text-4xl   text-xl p-3 bg-indigo-500  hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 h-[50%]">
             Cambiar Contraseña
           </Link>
         </div>
