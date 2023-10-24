@@ -6,4 +6,10 @@ export default class AuthorizationManager {
       throw new UnauthorizedException();
     }
   }
+
+  static validateDepartment(department: string, verify: string[]) {
+    if (verify.indexOf(department) === -1) {
+      throw new UnauthorizedException();
+    }
+  }
 }

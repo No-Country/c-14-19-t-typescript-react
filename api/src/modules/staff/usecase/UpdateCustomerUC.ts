@@ -1,4 +1,4 @@
-import ValidateDepartment from "../../../utils/ValidateDepartment";
+import AuthorizationManager from "../../../utils/AuthotizationManager";
 import { userModelInterface } from "../../user/interface/userModel.interface";
 import userUpdateInterface from "../../user/interface/userUpdate.interface";
 import UpdateUserService from "../../user/service/UpdateUser.service";
@@ -17,7 +17,7 @@ export default class UpdateCustomerUC {
     department: string
   ): Promise<userModelInterface> {
     //check authorization:
-    ValidateDepartment.validate(department, [DEPARTMENT.ATTENTION]);
+    AuthorizationManager.validateDepartment(department, [DEPARTMENT.ATTENTION]);
 
     return await this.updateUserService.run(id, data);
   }

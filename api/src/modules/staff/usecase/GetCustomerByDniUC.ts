@@ -1,5 +1,5 @@
 import NotFoundException from "../../../exception/NotFoundException";
-import ValidateDepartment from "../../../utils/ValidateDepartment";
+import AuthorizationManager from "../../../utils/AuthotizationManager";
 import { userModelInterface } from "../../user/interface/userModel.interface";
 import UserModel from "../../user/model/user.model";
 import DEPARTMENT from "../enum/DEPARTMENT";
@@ -7,7 +7,7 @@ import DEPARTMENT from "../enum/DEPARTMENT";
 export default class GetCustomerByDniUC {
   async run(dni: number, department: DEPARTMENT): Promise<userModelInterface> {
     //check authorization:
-    ValidateDepartment.validate(department, [DEPARTMENT.ATTENTION]);
+    AuthorizationManager.validateDepartment(department, [DEPARTMENT.ATTENTION]);
 
     //get customer:
     return await this.getCustomer(dni);

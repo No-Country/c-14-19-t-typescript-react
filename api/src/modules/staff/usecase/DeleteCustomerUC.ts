@@ -1,4 +1,4 @@
-import ValidateDepartment from "../../../utils/ValidateDepartment";
+import AuthorizationManager from "../../../utils/AuthotizationManager";
 import DeleteUserService from "../../user/service/DeleteUser.service";
 import DEPARTMENT from "../enum/DEPARTMENT";
 
@@ -10,7 +10,7 @@ export default class DeleteCustomerUC {
   }
   async run(id: string, department: DEPARTMENT): Promise<{ msg: string }> {
     //check authorization:
-    ValidateDepartment.validate(department, [DEPARTMENT.ATTENTION]);
+    AuthorizationManager.validateDepartment(department, [DEPARTMENT.ATTENTION]);
 
     const del: boolean = await this.deleteUserService.run(id);
 

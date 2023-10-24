@@ -7,8 +7,8 @@ import { hash } from "bcryptjs";
 import StaffModel from "../model/staff.model";
 import BadRequestException from "../../../exception/BadRequestException";
 import ROLE from "../../user/enum/ROLE";
-import ValidateDepartment from "../../../utils/ValidateDepartment";
 import DeleteUserService from "../../user/service/DeleteUser.service";
+import AuthorizationManager from "../../../utils/AuthotizationManager";
 
 export default class RegisterStaffUC {
   private readonly createUserService: CreateUserService;
@@ -24,8 +24,7 @@ export default class RegisterStaffUC {
     department: DEPARTMENT
   ): Promise<{ msg: string }> {
     //check authorization
-    ValidateDepartment.validate(department, [DEPARTMENT.HHRR]);
-
+    AuthorizationManager.validateDepartment(department, [DEPARTMENT.HHRR]);
     //check username
     await this.checkUsername(data.username);
 
