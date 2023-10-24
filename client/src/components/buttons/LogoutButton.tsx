@@ -6,13 +6,11 @@ const LogoutButton = (): React.ReactElement => {
     const router = useRouter();
 
    const handleOnClick = () => {
-    sessionStorage.removeItem("jwtSession");
-    sessionStorage.removeItem("username");
-    sessionStorage.removeItem("zxcvbn");
-    sessionStorage.removeItem("authorized");
+    sessionStorage.clear();
 
-    const getJwtSession = sessionStorage.getItem('jwtSession');
-    if (!getJwtSession) {
+    const getJwtSessionStaff = sessionStorage.getItem('jwtSession');
+    const getJwtSessionCustomer = sessionStorage.getItem('customerJwtSession');
+    if (!getJwtSessionStaff || !getJwtSessionCustomer) {
         alert('Usuario deslogueado') //! ALERT TEMPORAL
         router.push('/');
         window.location.reload();
