@@ -7,11 +7,10 @@ export const updateUserdataController = async (
   res: Response,
   next: NextFunction
 ) => {
-  const idJwt = req.id_user;
   const id = req.params.id;
+  const idJwt = req.id_user;
   const body = req.body;
   const usecase = new UpdateUserDataUC();
-
   try {
     const data = await usecase.run(id, body, idJwt);
     return res.json(data);

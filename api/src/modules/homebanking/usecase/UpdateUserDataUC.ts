@@ -1,5 +1,6 @@
 import NotFoundException from "../../../exception/NotFoundException";
 import UnauthorizedException from "../../../exception/UnauthorizedException";
+import AuthorizationManager from "../../../utils/AuthotizationManager";
 import userUpdateInterface from "../../user/interface/userUpdate.interface";
 import UserModel from "../../user/model/user.model";
 import UpdateUserService from "../../user/service/UpdateUser.service";
@@ -18,14 +19,16 @@ export default class UpdateUserDataUC {
     data: userUpdateInterface,
     idJwt: string
   ): Promise<homebankingModelInterface> {
-    //check authorization:
-    this.checkAuthorization(id, idJwt);
-
     //get homebanking account:
     const hbAccount = await this.getHomebanking(id);
+    //check authorization:
+    AuthorizationManager.checkIdentity(hbAccount.user.id, idJwt);
 
     //update data:
-    const userUpdated = await this.updateUserService.run(id, data);
+    const userUpdated = await this.updateUserService.run(
+      hbAccount.user.id,
+      data
+    );
 
     hbAccount.user.mail = userUpdated.mail;
     hbAccount.user.cellphone = userUpdated.cellphone;
@@ -33,15 +36,9 @@ export default class UpdateUserDataUC {
     return hbAccount;
   }
 
-  private checkAuthorization(id: string, idJwt: string): void {
-    if (id !== idJwt) {
-      throw new UnauthorizedException();
-    }
-  }
-
   private async getHomebanking(id: string): Promise<homebankingModelInterface> {
     const hbAccount = await HomebankingModel.findOne({
-      where: { id_user: id },
+      where: { id },
       attributes: {
         exclude: ["createdAt", "updatedAt", "password", "id_user"],
       },
