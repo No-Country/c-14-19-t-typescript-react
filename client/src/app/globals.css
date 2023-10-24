@@ -3,5 +3,14 @@
 @tailwind utilities;
 
 * {
-    overflow-x: hidden;
+  overflow-x: hidden;
+}
+
+:root {
+  --Color1: #306a46;
+  --Color2: #788b61;
+  --Color3: #bccc9c;
+  --Color4: #e7e7d9;
+  --Color5: #f9f9f9;
+  --Color6: #efc97e;
 }

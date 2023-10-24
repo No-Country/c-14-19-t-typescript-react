@@ -26,11 +26,14 @@ const Navbar = (): React.ReactElement => {
 
   return (
     <nav
-      className={`flex ${nunito.className} items-center p-3 tablet:h-24 tablet:pr-5 desktop:max-h-32 justify-between border border-b-2 shadow-lg`}
+      className={`flex ${nunito.className} items-center p-3 tablet:h-24 tablet:pr-5 desktop:max-h-32 justify-around border border-b-2 shadow-lg no-scrollbar`}
     >
       <div className="p-1 tablet:text-2xl font-extrabold">
         <Link href="/">LOGO</Link>
       </div>
+
+      <img src="/logo/easy2.png" style={{ height: "90px", padding: 0 }} />
+
       <div className="flex gap-3 font-medium tablet:text-xl">
         <ul className="flex gap-5">
           {!isAuthorized && (
