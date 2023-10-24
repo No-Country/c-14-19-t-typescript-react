@@ -14,6 +14,7 @@ import { recoverPassHCController } from "../modules/homebanking/controller/recov
 import { createAccountController } from "../modules/homebanking/controller/createAccount.controller";
 import { deleteAccountController } from "../modules/homebanking/controller/deleteAccount.controller";
 import { listAccountController } from "../modules/homebanking/controller/listAccount.controller";
+import { createTransferenceController } from "../modules/homebanking/controller/createTransference.controller";
 
 const router = Router();
 
@@ -39,4 +40,6 @@ router.patch(
 router.post("/account", requireHBAccount, createAccountController);
 router.delete("/account/:na", requireHBAccount, deleteAccountController);
 router.get("/account/:id/list", requireHBAccount, listAccountController);
+
+router.post("/transference", requireHBAccount, createTransferenceController);
 export default router;
