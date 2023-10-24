@@ -48,7 +48,10 @@ export const authUpdatePassword = async ( id: string, password: String, token: S
 
     if (response.status === 401) return { error: data.msg, status: 401 };
     if (response.status === 400) return { error: data.msg, status: 400 };
-    if (response.ok) return { data, status: 200 };
+    if (response.ok){ 
+      sessionStorage.removeItem('AuthUpdatePass');
+      return {data, status: 200 }
+    };
   } catch (error) {
     console.error({ error });
   }
