@@ -3,7 +3,7 @@ import React from "react";
 
 const RegisterStaff = () => {
   return (
-    <div className="h-[100vh] w-screen">
+    <div className="h-screen w-screen">
       <div className="flex flex-col justify-center items-center h-full w-full">
         <FormRegisterStaff />
       </div>

@@ -134,13 +134,13 @@ const FormRegisterStaff = (): React.ReactElement => {
         }}
         validate={validateFields}
       >
-        <Form className="flex flex-col justify-center p-5 h-full tablet:justify-start ">
-          <div className="h-full flex flex-col tablet:flex-row tablet:gap-10 tablet:justify-center desktop:gap-20">
-          <h1 className="mt-5 text-xl font-semibold whitespace-nowrap text-center desktop:text-4xl overflow-y-hidden tablet:mb-10 pb-5">
+        <Form className="flex flex-col justify-center p-5 tablet:p-0 h-full tablet:justify-start ">
+        <h1 className="mt-5 tablet:mt-10 text-xl font-semibold text-center desktop:text-4xl overflow-y-hidden  pb-5">
             Registrar nuevo
             <span className="eb-principalColor"> Staff Member</span>
           </h1>
-            <div className="flex flex-col gap-[5px] tablet:gap-0">
+          <div className="h-full flex flex-col tablet:flex-row tablet:gap-10 tablet:justify-center desktop:gap-20">
+            <div className="flex flex-col items-center h-full tablet:gap-0">
               <LabelsForm htmlFor="nombre" />
               <Field
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
@@ -182,7 +182,7 @@ const FormRegisterStaff = (): React.ReactElement => {
               <SpanError prop="dni" />
             </div>
 
-            <div className="flex flex-col gap-[5px] tablet:gap-0">
+            <div className="flex flex-col items-center h-full tablet:gap-0">
               <LabelsForm htmlFor="email" />
               <Field
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
@@ -209,13 +209,13 @@ const FormRegisterStaff = (): React.ReactElement => {
 
               <LabelsForm htmlFor="departamento - (attention / hhrr)" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="mb-4 placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="department"
                 type="text"
               />
               <SpanError prop="department" />
 
-              <div className="flex justify-center desktop:relative desktop:top-7">
+              <div className="flex justify-center desktop:relative desktop:top-[1.3%] w-full">
                 <SubmitButton
                   value={isClicked ? "Registrando..." : "Registrar"}
                 />

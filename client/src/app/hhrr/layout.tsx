@@ -24,7 +24,7 @@ const HHRRLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <nav className="flex items-center justify-between border">
+      <nav className="flex items-center justify-between border h-[90px] overflow-hidden">
         <Link
           href="/hhrr/hhrrpanel"
           className="text-xl uppercase font-bold tablet:text-2xl p-5"
