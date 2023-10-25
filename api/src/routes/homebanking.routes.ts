@@ -15,6 +15,7 @@ import { createAccountController } from "../modules/homebanking/controller/creat
 import { deleteAccountController } from "../modules/homebanking/controller/deleteAccount.controller";
 import { listAccountController } from "../modules/homebanking/controller/listAccount.controller";
 import { createTransferenceController } from "../modules/homebanking/controller/createTransference.controller";
+import { listTransferenceController } from "../modules/homebanking/controller/listTransferences.controller";
 
 const router = Router();
 
@@ -42,4 +43,9 @@ router.delete("/account/:na", requireHBAccount, deleteAccountController);
 router.get("/account/:id/list", requireHBAccount, listAccountController);
 
 router.post("/transference", requireHBAccount, createTransferenceController);
+router.get(
+  "/transference/:na/list",
+  requireHBAccount,
+  listTransferenceController
+);
 export default router;
