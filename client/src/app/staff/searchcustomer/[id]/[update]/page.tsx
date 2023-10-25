@@ -7,6 +7,7 @@ import { useGlobalContext } from "@/hooks/useContext";
 import { clietnUpdate } from "@/utils/dniRequest";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import { useRouter } from "next/navigation";
+import * as Yup from "yup";
 
 const INITIAL_VALUES = {
   name: "",
@@ -17,8 +18,6 @@ const INITIAL_VALUES = {
   dni: "",
 };
 
-const REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
 const Page = ({ params }: any): React.ReactElement => {
   const { isClicked, setIsClicked } = useGlobalContext();
   const router = useRouter()
@@ -26,10 +25,12 @@ const Page = ({ params }: any): React.ReactElement => {
   const handleSubmit = async (values: UserRegisterTypes, { resetForm }: FormikHelpers<UserRegisterTypes>) => {
     const { mail, cellphone } = values;
 
-    const newCustomer: UpdateCustumer = {
-      mail,
-      cellphone: parseInt(cellphone),
-    }
+    let newCustomer: UpdateCustumer = {}
+
+    // Actualizar el body para mandar la peticion
+    if (mail) newCustomer = { mail }
+    if (cellphone) newCustomer = { cellphone: parseInt(cellphone) };
+    if (!mail && !cellphone) newCustomer = { mail: '', cellphone: NaN }
 
     const res = await clietnUpdate(params.update, newCustomer)
     if (res?.ok) {
@@ -39,21 +40,41 @@ const Page = ({ params }: any): React.ReactElement => {
       router.push(`/staff/searchcustomer/${params.id}`)
     }
 
-    if(res?.status === 400){
-      alert('No se puedo actualizar el cliente')
+    if(res?.status === 400){      
+      alert('No se puedo actualizar el cliente, debe llenar por lo menos un campo')
       setIsClicked(false)
       resetForm()
     }
   };
 
-  const validateFields = (values: UserRegisterTypes) => {
-    const { mail, cellphone } = values;
-    const errors: ValidationErrors = {};
+  const validationSchema = Yup.object().shape({
+    mail: Yup.string().email("El email no es válido").notRequired(),
+    cellphone: Yup.string()
+      .notRequired()
+      .test(
+        "is-valid-phone",
+        "El teléfono debe ser entre 10 y 12 caracteres",
+        (value) => {
+          if (value) {
+            return value.length >= 10 && value.length <= 12;
+          }
+          return true; // Si el valor está vacío, se considera válido
+        }
+      ),
+  });
+  
 
-    if (!REGEXP.test(mail)) errors.mail = "Invalid email";
-    if (cellphone.length < 10 || cellphone.length > 12) errors.cellphone = "Non-existent phone";
-
-    return errors;
+  const validateFields = async (values: UserRegisterTypes) => {
+    try {
+      await validationSchema.validate(values, { abortEarly: false });
+    } catch (error: any) {
+      // Si encuentra error llena el objeto de errors y lo retorna
+      const errors: ValidationErrors = {};
+      error.inner.forEach((e: any) => {
+        errors[e.path] = e.message;
+      });
+      return errors;
+    }
   };
 
 

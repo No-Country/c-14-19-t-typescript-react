@@ -169,17 +169,10 @@ export const updatePassword = async (params: string, password: string, token: st
 
 //* ACTUALIZAR DATOS PERSONALES
 export const updatePersonalData = async (params: string, values: UpdatePersonalInfo, token: string) => {
-  const { mail, cellphone } = values;
- 
-  const body = {
-    mail,
-    cellphone: parseInt(cellphone)
-  }
-
   try {
     const response = await fetch(`https://easybank.fly.dev/homebanking/customer/${params}`, {
       method: 'PATCH',
-      body: JSON.stringify(body),
+      body: JSON.stringify(values),
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`

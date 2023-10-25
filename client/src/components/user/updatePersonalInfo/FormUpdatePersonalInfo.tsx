@@ -9,23 +9,17 @@ import { getCustomerSession } from '@/utils/getJwtSession';
 import { Field, Form, Formik } from 'formik'
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useId } from 'react'
+import * as Yup from "yup";
 
-export type UpdatePersonalInfo = {
-    mail: string,
-    cellphone: string
-};
+export type UpdatePersonalInfo = Record<string, string>;
 
-type UpdatePersonalInfoErrors = {
-    mail?: string,
-    cellphone?: string | number
-};
+type UpdatePersonalInfoErrors = Record<string, string>
 
 const INITIAL_VALUES = {
     mail: '',
     cellphone: ''
 }
 
-const REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const FormUpdatePersonalInfo = (): React.ReactElement => {
     const router = useRouter();
@@ -44,18 +38,22 @@ const FormUpdatePersonalInfo = (): React.ReactElement => {
     }, [])
 
     const handleSubmit = async (values: UpdatePersonalInfo) => {
+        const { mail, cellphone } = values;
         setIsClicked(true);
         const userID = userInfo.hbAccount.id;
         const token = userInfo.jwt;
+
+        let body = {}
         
-        const request = await updatePersonalData(userID, values, token);
+        if (mail) body = { mail };
+        if (cellphone) body = { cellphone: parseInt(cellphone) };
+        if (!mail && !cellphone) body = { mail: '', cellphone: NaN } 
+        
+        const request = await updatePersonalData(userID, body, token);
         
         if (request?.status === 401 || request?.status === 400) {
-            // setErrorMessage(request.error);
+            alert('Debe llenar al menos un campo para actualizar sus datos')
             setIsClicked(false);
-            setTimeout(() => {
-                setErrorMessage('');
-            }, 3000);
         }
 
         if (request?.status === 200) {
@@ -66,17 +64,43 @@ const FormUpdatePersonalInfo = (): React.ReactElement => {
         }
     };
 
-    const validateFields = (values: UpdatePersonalInfo) => {
-        const { mail, cellphone } = values;
-        const errors: UpdatePersonalInfoErrors = {};
+    const validationSchema = Yup.object().shape({
+      mail: Yup.string().email('El email no es válido').test('not-same-as-current', 'El email debe ser distinto al actual.', (value) => {
+      const currentUserMail = userInfo.hbAccount.user.mail;
 
-        if (mail === userInfo.hbAccount.user.mail) errors.mail = "El email debe ser distinto al actual.";
-        if (!REGEXP.test(mail)) errors.mail = "Debe insertar un mail válido."
-        if (cellphone.length < 10 || cellphone.length > 12) errors.cellphone = "Número no válido."
-        if (isNaN(parseInt(cellphone))) errors.cellphone = "El número no puede contener letras."
-        if (cellphone.length === 0) errors.cellphone = "Campo requerido."
+      // Compara el valor del campo 'mail' con el correo electrónico actual del usuario
+      if (value === currentUserMail) {
+        return false; // Devuelve false si son iguales, lo que generará un error
+      }
+      
+      return true; // Devuelve true si son diferentes, lo que indica una validación exitosa
+    })
+    .notRequired(),
+      cellphone: Yup.string()
+      .notRequired()
+      .test(
+        "is-valid-phone",
+        "El teléfono debe ser entre 10 y 12 caracteres",
+        (value) => {
+          if (value) {
+            return value.length >= 10 && value.length <= 12;
+          }
+          return true; // Si el valor está vacío, se considera válido
+        }
+      ),
+    })
 
-        return errors;
+    const validateFields = async (values: UpdatePersonalInfo) => {
+        try {
+          await validationSchema.validate(values, { abortEarly: false })
+        } catch (error: any) {
+          // Si encuentra error llena el objeto de errors y lo retorna
+          const errors: UpdatePersonalInfoErrors = {};
+          error.inner.forEach((e: any) => {
+            errors[e.path] = e.message;
+          });
+          return errors;
+        }
     };
   return (
     <div className='w-[80%] flex flex-col justify-center items-center'>

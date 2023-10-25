@@ -7,15 +7,7 @@ export interface UserRegisterTypes {
     cellphone: string;
 };
 
-export interface ValidationErrors {
-    name?: string;
-    lastname?: string;
-    mail?: string;
-    birthday?: string;
-    dni?: string
-    cellphone?: string;
-}
-
+export type ValidationErrors = Record<string, string>
 export interface UserTypesBackend {
     name: string;
     lastname: string;
@@ -49,8 +41,4 @@ export interface CustomerRegister {
     reference_code: string;
 };
 
-export interface CustomerRegisterErrors {
-    username?: string;
-    password?: string;
-    reference_code?: string;
-}
+export type CustomerRegisterErrors = Record<string, string>
