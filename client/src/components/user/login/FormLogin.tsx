@@ -80,9 +80,9 @@ const FormLogin = (): React.ReactElement => {
           />
           <SpanError prop="password"/>
 
-          <div className="flex items-end gap-1 w-full">
+          <div className="flex flex-col tablet:flex-row tablet:items-end justify-center gap-[50px] w-full">
             <SubmitButton value={isClicked ? 'Ingresando...' : 'Login'} />
-            <Link className="pb-1 tablet:pb-[2%] text-blue-700" href={'/customer/auth-customer'}>Recuperar Contraseña</Link>
+            <Link className="pb-1 text-center tablet:pb-2 text-blue-700 whitespace-nowrap" href={'/customer/auth-customer'}>¿Olvidaste tu contraseña?</Link>
           </div>
         </Form>
       </Formik>

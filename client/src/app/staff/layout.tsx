@@ -1,6 +1,7 @@
 "use client";
 import LogoutButton from "@/components/buttons/LogoutButton";
 import { useGlobalContext } from "@/hooks/useContext";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -33,9 +34,9 @@ const StaffLayout = ({
         <nav className="flex items-center justify-between border">
           <Link
             href="/"
-            className=" text-xl uppercase font-bold  tablet:text-2xl"
+            className=" text-xl uppercase font-bold  tablet:text-2xl p-5"
           >
-            <img src="/logo/Easy2.png" />
+            <Image src="/logo/Easy2.png" width={110} height={100} alt="logo-easy"/>
           </Link>
           {isAuthorized && (
             <div className="p-4 flex gap-5">

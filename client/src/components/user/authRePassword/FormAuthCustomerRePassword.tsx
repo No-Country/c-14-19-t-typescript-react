@@ -16,7 +16,7 @@ const INITIAL_VALUES = {
 };
 
 
-const FormAuthCustomerRePassword = (): React.ReactElement => {
+const   FormAuthCustomerRePassword = (): React.ReactElement => {
   const router = useRouter();
   const { isClicked, errorMessage, setIsClicked, setErrorMessage } = useGlobalContext();
 
@@ -81,9 +81,9 @@ const FormAuthCustomerRePassword = (): React.ReactElement => {
           />
           <SpanError prop="reference code" />
 
-          <div className="flex items-end gap-1 w-full">
+          <div className="flex flex-col tablet:flex-row tablet:items-end justify-center gap-[50px] w-full">
             <SubmitButton value={isClicked ? 'Solicitando...' : 'Solicitar'} />
-            <Link className="pb-1 tablet:pb-[2%] text-blue-700" href={'/customer/login'}>Volver</Link>
+            <Link className="pb-1 text-center tablet:pb-2 text-blue-700 whitespace-nowrap" href={'/customer/login'}>Volver</Link>
           </div>
         </Form>
       </Formik>
