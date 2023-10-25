@@ -135,11 +135,11 @@ const FormRegisterStaff = (): React.ReactElement => {
         validate={validateFields}
       >
         <Form className="flex flex-col justify-center p-5 h-full tablet:justify-start ">
+          <div className="h-full flex flex-col tablet:flex-row tablet:gap-10 tablet:justify-center desktop:gap-20">
           <h1 className="mt-5 text-xl font-semibold whitespace-nowrap text-center desktop:text-4xl overflow-y-hidden tablet:mb-10 pb-5">
             Registrar nuevo
             <span className="eb-principalColor"> Staff Member</span>
           </h1>
-          <div className="flex flex-col tablet:flex-row tablet:gap-10 tablet:justify-center desktop:gap-20">
             <div className="flex flex-col gap-[5px] tablet:gap-0">
               <LabelsForm htmlFor="nombre" />
               <Field

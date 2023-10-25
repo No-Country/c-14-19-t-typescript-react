@@ -4,7 +4,10 @@ import SpanError from "@/components/errors/SpanError";
 import LabelsForm from "@/components/labels/LabelsForm";
 import { Field, Form, Formik } from "formik";
 import React from "react";
-import { CustomerRegister, CustomerRegisterErrors } from "../interfaces/users.interface";
+import {
+  CustomerRegister,
+  CustomerRegisterErrors,
+} from "../interfaces/users.interface";
 import { useGlobalContext } from "@/hooks/useContext";
 import { registerNewCustomer } from "@/utils/formsRequests";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
@@ -18,40 +21,44 @@ const INITIAL_VALUES = {
 
 const FormRegisterCustomer = () => {
   const router = useRouter();
-  const { errorMessage, isClicked, setErrorMessage, setIsClicked } = useGlobalContext();
+  const { errorMessage, isClicked, setErrorMessage, setIsClicked } =
+    useGlobalContext();
 
   const handleSubmit = async (values: CustomerRegister) => {
     const newCustomer = await registerNewCustomer(values);
-    
+
     if (newCustomer?.status === 404 || newCustomer?.status === 400) {
-        setErrorMessage(newCustomer.error);
-        setIsClicked(false);
-        setTimeout(() => {
-            setErrorMessage('');
-        }, 3000);
-    } 
+      setErrorMessage(newCustomer.error);
+      setIsClicked(false);
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 3000);
+    }
 
     if (newCustomer?.status === 201) {
-        setIsClicked(false);
-        alert('Usted va a ser redirigido para loguearse a su cuenta') //! ALERT TEMPORAL
-        router.push('/customer/login');
+      setIsClicked(false);
+      alert("Usted va a ser redirigido para loguearse a su cuenta"); //! ALERT TEMPORAL
+      router.push("/customer/login");
     }
-    
-};
+  };
 
   const validateFields = (values: CustomerRegister) => {
     const { username, password, reference_code } = values;
     const errors: CustomerRegisterErrors = {};
 
-    if (username.length < 6 || username.length > 25) errors.username = "El nombre de usuario debe contener entre 6 y 25 caracteres.";
-    if (password.length < 6 || username.length > 25) errors.password = "La contraseña debe contener entre 6 y 25 caracteres.";
-    if (reference_code.length < 10 || reference_code.length > 10 ) errors.reference_code = "Debe insertar un codigo de referencia válido.";
+    if (username.length < 6 || username.length > 25)
+      errors.username =
+        "El nombre de usuario debe contener entre 6 y 25 caracteres.";
+    if (password.length < 6 || username.length > 25)
+      errors.password = "La contraseña debe contener entre 6 y 25 caracteres.";
+    if (reference_code.length < 10 || reference_code.length > 10)
+      errors.reference_code = "Debe insertar un codigo de referencia válido.";
 
-    return errors
+    return errors;
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full justify-center items-center">
       <Formik
         initialValues={INITIAL_VALUES}
         onSubmit={(values) => {
@@ -60,7 +67,11 @@ const FormRegisterCustomer = () => {
         }}
         validate={validateFields}
       >
-        <Form className="flex flex-col p-5 desktop:h-[70vh]">
+        <Form className="flex flex-col justify-center p-5 h-full">
+          <h1 className="text-3xl font-semibold mb-10 tablet:mb-0 desktop:whitespace-nowrap text-center desktop:text-4xl overflow-y-hidden">
+            Registra tu cuenta de{" "}
+            <span className="text-indigo-500">Homebanking</span>
+          </h1>
           <div className="flex flex-col tablet:flex-row tablet:gap-10 tablet:justify-center desktop:gap-20">
             <div className="flex flex-col gap-1">
               <LabelsForm htmlFor="usuario" />
