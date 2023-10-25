@@ -27,7 +27,7 @@ const HHRRLayout = ({ children }: { children: React.ReactNode }) => {
       <nav className="flex items-center justify-between border">
         <Link
           href="/hhrr/hhrrpanel"
-          className=" text-xl uppercase font-bold tablet:text-2xl p-5"
+          className="text-xl uppercase font-bold tablet:text-2xl p-5"
         >
           <Image src="/logo/easy2.png" width={120} height={100} alt="logo-easy" />
         </Link>

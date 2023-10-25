@@ -1,5 +1,6 @@
 "use client";
 import LogoutButton from '@/components/buttons/LogoutButton';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
@@ -19,15 +20,15 @@ const HomeBanking = () => {
       <nav className="flex items-center justify-between border w-full px-2">
         {<Link
           href="/"
-          className="p-2 text-xl uppercase font-bold tablet:p-5 tablet:text-2xl"
+          className="p-2 text-xl uppercase font-bold tablet:p-3 tablet:text-2xl"
         >
-          Logo
+          <Image src="/logo/easy2.png" width={120} height={100} alt="logo-easy" />
         </Link>}
         <LogoutButton />
       </nav >
 
       <div className='flex flex-col item-center justify-center gap-10 h-[93vh]'>
-        <h1 className='text-center text-2xl tablet:text-4xl overflow-y-hidden'>Bienvenido de vuelta "{userName}"</h1>
+        <h1 className='text-center text-2xl tablet:text-4xl overflow-y-hidden'>Bienvenido de vuelta <span className='text-[#788b61] font-bold'>{userName}</span></h1>
         <div className='flex flex-col justify-center text-center gap-8 px-5 max-w-[700px]'>
           <Link href="/" className="overflow-y-hidden shadow-md shadow-indigo-600 rounded-md desktop:text-4xl text-xl p-3 bg-indigo-500  hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 h-[50%]">
             Tranferir
