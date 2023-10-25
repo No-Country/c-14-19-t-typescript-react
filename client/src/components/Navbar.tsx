@@ -15,8 +15,10 @@ const Navbar = (): React.ReactElement => {
     const getDepartment = sessionStorage.getItem("zxcvbn");
 
     // Comprobar si el usuario está autenticado
-    const getAuth = sessionStorage.getItem("authorized");
-    setIsAuthorized(!!getAuth);
+    const getAuthStaff = sessionStorage.getItem("authorized");
+    const getAuthCustomer = sessionStorage.getItem('isCustomer')
+    if (getAuthStaff) setIsAuthorized(!!getAuthStaff)
+    if (getAuthCustomer) setIsAuthorized(!!getAuthCustomer)
 
     // Obtener sesion y checkear departamento
     if (getSession) {

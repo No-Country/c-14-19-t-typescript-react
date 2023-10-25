@@ -1,10 +1,13 @@
 "use client";
+import { useGlobalContext } from "@/hooks/useContext";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 const LogoutButton = (): React.ReactElement => {
     const router = useRouter();
-
+    const { isAuthorized } = useGlobalContext();
+    console.log(isAuthorized);
+    
    const handleOnClick = () => {
     sessionStorage.clear();
 
@@ -13,6 +16,7 @@ const LogoutButton = (): React.ReactElement => {
     if (!getJwtSessionStaff || !getJwtSessionCustomer) {
         alert('Usuario deslogueado') //! ALERT TEMPORAL
         router.push('/');
+        if (isAuthorized) window.location.reload();
     } 
   };
   return (
