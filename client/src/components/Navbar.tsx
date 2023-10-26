@@ -5,6 +5,7 @@ import { nunito } from "@/fonts/fonts";
 import LogoutButton from "./buttons/LogoutButton";
 import { useGlobalContext } from "@/hooks/useContext";
 import Image from "next/image";
+import "../app/custom.css";
 
 const Navbar = (): React.ReactElement => {
   const { isAuthorized, setIsAuthorized } = useGlobalContext();
@@ -16,9 +17,9 @@ const Navbar = (): React.ReactElement => {
 
     // Comprobar si el usuario está autenticado
     const getAuthStaff = sessionStorage.getItem("authorized");
-    const getAuthCustomer = sessionStorage.getItem('isCustomer')
-    if (getAuthStaff) setIsAuthorized(!!getAuthStaff)
-    if (getAuthCustomer) setIsAuthorized(!!getAuthCustomer)
+    const getAuthCustomer = sessionStorage.getItem("isCustomer");
+    if (getAuthStaff) setIsAuthorized(!!getAuthStaff);
+    if (getAuthCustomer) setIsAuthorized(!!getAuthCustomer);
 
     // Obtener sesion y checkear departamento
     if (getSession) {
@@ -33,7 +34,12 @@ const Navbar = (): React.ReactElement => {
     >
       <div className="p-1 tablet:text-2xl font-extrabold">
         <Link href="/">
-        <Image src="/logo/easy2.png"  height={100} width={100} alt="logo-easy"/>
+          <Image
+            src="/logo/easy2.png"
+            height={100}
+            width={100}
+            alt="logo-easy"
+          />
         </Link>
       </div>
 
@@ -43,13 +49,13 @@ const Navbar = (): React.ReactElement => {
             <>
               <Link
                 href="/customer/login"
-                className="font-bold p-1 tablet:p-1 flex items-center justify-center rounded-md bg-indigo-500 desktop:w-[200px]  hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize"
+                className="font-bold p-1 tablet:p-1 flex items-center justify-center rounded-md desktop:w-[200px] hover:text-white transition-all ease-in duration-200 capitalize eb-button"
               >
                 Login
               </Link>
               <Link
                 href="/customer/register"
-                className="font-bold p-1 tablet:p-1 flex items-center justify-center rounded-md bg-indigo-500 desktop:w-[200px]  hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize"
+                className="font-bold p-1 tablet:p-1 flex items-center justify-center rounded-md  desktop:w-[200px] hover:text-white transition-all ease-in duration-200 capitalize eb-button"
               >
                 Register
               </Link>
