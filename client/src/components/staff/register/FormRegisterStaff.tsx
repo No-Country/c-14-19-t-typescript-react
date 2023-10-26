@@ -15,6 +15,7 @@ import { getSession } from "@/utils/getJwtSession";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
 import calculateUserAge from "@/utils/calculateUserAge";
 import { useGlobalContext } from "@/hooks/useContext";
+import * as Yup from "yup";
 
 const INITIAL_VALUES = {
   name: "",
@@ -89,39 +90,70 @@ const FormRegisterStaff = (): React.ReactElement => {
     }
   };
 
-  const validateFields = (values: StaffRegister) => {
-    const {
-      username,
-      password,
-      name,
-      mail,
-      lastname,
-      dni,
-      cellphone,
-      birthday,
-      department,
-    } = values;
-    const errors: StaffRegisterErrors = {};
+  const validationSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(6, "El nombre de usuario debe ser mayor a 6 caracteres.")
+      .max(25, "El nombre de usuario debe ser menor a 25 caracteres.")
+      .required("Campo requerido."),
+    password: Yup.string()
+      .min(6, "La contraseña debe ser mayor a 6 caracteres.")
+      .max(25, "La contraseña debe ser menor a 25 caracteres.")
+      .required("Campo requerido."),
+    name: Yup.string()
+      .min(3, "El nombre debe ser mayor a 3 caracteres.")
+      .max(25, "El nombre debe ser menor a 25 caracteres.")
+      .required("Campo requerido."),
+    mail: Yup.string().email("Email no válido").required("Campo requerido."),
+    lastname: Yup.string()
+      .min(3, "El apellido debe ser mayor a 3 caracteres.")
+      .max(25, "El apellido debe ser menor a 25 caracteres.")
+      .required("Campo requerido."),
+    dni: Yup.string()
+      .min(7, "DNI no válido.")
+      .max(8, "DNI no válido.")
+      .required("Campo requerido.")
+      .test(
+        "chars-not-allowed",
+        "Este campo permite solo números.",
+        (value) => {
+          if (/^[0-9]+$/.test(value)) return true;
+          return false;
+        }
+      ),
+    cellphone: Yup.string()
+      .min(10, "Número no válido.")
+      .max(12, "Número no valido.")
+      .required("Campo requerido.")
+      .test(
+        "chars-not-allowed",
+        "Este campo permite solo números.",
+        (value) => {
+          if (/^[0-9]+$/.test(value)) return true;
+          return false;
+        }
+      ),
+    birthday: Yup.string()
+      .required("Campo requerido.")
+      .test("is-user-adult", "Tenes que ser mayor de 18 años.", (value) => {
+        const isUserOlder = calculateUserAge(value);
+        return isUserOlder;
+      }),
+    department: Yup.string()
+      .equals(["hhrr", "attention"], "Departamento no encontrado.")
+      .required("Campo requerido."),
+  });
 
-    const isUserOlder = calculateUserAge(birthday);
+  const validateFields = async (values: StaffRegister) => {
+    try {
+      await validationSchema.validate(values, { abortEarly: false });
+    } catch (error: any) {
+      const errors: StaffRegisterErrors = {};
 
-    if (name.length < 3 || name.length > 25)
-      errors.name = "Nombre incorrecto (3 - 25 caracteres)";
-    if (lastname.length < 3 || lastname.length > 25)
-      errors.lastname = "Apellido incorrecto (3 - 25 caracteres)";
-    if (!birthday) errors.birthday = "Debe insertar su fecha de nacimiento";
-    if (isUserOlder === false) errors.birthday = "Debe ser mayor a 18 años";
-    if (dni.length < 7 || dni.length > 8) errors.dni = "Dni incorrecto";
-    if (!REGEXP.test(mail)) errors.mail = "Email incorrecto";
-    if (cellphone.length < 10 || cellphone.length > 12)
-      errors.cellphone = "Número inexistente";
-    if (username.length < 6 || username.length > 25)
-      errors.username = "Usuario incorrecto (3 - 25 caracteres)";
-    if (password.length < 6 || password.length > 25)
-      errors.password = "Contraseña incorrecta (3 - 25 caracteres)";
-    if (!department) errors.department = "Debes seleccionar un departamento";
-
-    return errors;
+      error.inner.forEach((e: any) => {
+        errors[e.path] = e.message;
+      })
+      return errors
+    }
   };
 
   return (

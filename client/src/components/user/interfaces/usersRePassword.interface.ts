@@ -3,7 +3,4 @@ export interface AuthCustomerRePass {
     reference_code: string;
 };
 
-export interface ErrorsAuthCustomerRePass {
-    username?: string;
-    reference_code?: string;
-};
+export type ErrorsAuthCustomerRePass = Record<string, string>

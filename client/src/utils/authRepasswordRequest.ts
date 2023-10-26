@@ -30,7 +30,7 @@ export const authCustomerRePass = async (client: AuthCustomerRePass) => {
   }
 };
 
-export const authUpdatePassword = async ( id: string, password: String, token: String | null) => {
+export const authUpdatePassword = async ( id: string, password: string, token: string | null) => {
   try {
     const response = await fetch(
       `https://easybank.fly.dev/homebanking/password/${id}`,

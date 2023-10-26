@@ -9,6 +9,7 @@ import { useGlobalContext } from "@/hooks/useContext";
 import { registerNewCustomer } from "@/utils/formsRequests";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
 import { useRouter } from "next/navigation";
+import * as Yup from "yup";
 
 const INITIAL_VALUES = {
   username: "",
@@ -44,15 +45,33 @@ const FormRegisterCustomer = () => {
     }
   };
 
-  const validateFields = (values: CustomerRegister) => {
-    const { username, password, reference_code } = values;
-    const errors: CustomerRegisterErrors = {};
+  const validationSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(6, "El nombre de usuario debe contener entre 6 y 25 caracteres.")
+      .max(25, "La contraseña debe contener entre 6 y 25 caracteres.")
+      .required("Campo requerido."),
+    password: Yup.string()
+      .min(6, "La contraseña debe contener entre 6 y 25 caracteres.")
+      .max(25, "La contraseña debe contener entre 6 y 25 caracteres.")
+      .required("Campo requerido."),
+    reference_code: Yup.string()
+      .min(10, "Debe insertar un codigo de referencia válido.")
+      .max(10, "Debe insertar un codigo de referencia válido.")
+      .required("Campo requerido."),
+  });
 
-    if (username.length < 6 || username.length > 25) errors.username = "El nombre de usuario debe contener entre 6 y 25 caracteres.";
-    if (password.length < 6 || username.length > 25) errors.password = "La contraseña debe contener entre 6 y 25 caracteres.";
-    if (reference_code.length < 10 || reference_code.length > 10) errors.reference_code = "Debe insertar un codigo de referencia válido.";
+  const validateFields = async (values: CustomerRegister) => {
+    try {
+      await validationSchema.validate(values, { abortEarly: false })
+    } catch (error: any) {
+      const errors: CustomerRegisterErrors = {};
+     
+      error.inner.forEach((e: any) => {
+        errors[e.path] = e.message
+      });
 
-    return errors;
+      return errors
+    }
   };
 
   return (
