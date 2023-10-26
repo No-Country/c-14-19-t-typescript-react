@@ -6,20 +6,17 @@ import LabelsForm from '@/components/labels/LabelsForm';
 import { useGlobalContext } from '@/hooks/useContext';
 import { authUpdatePassword } from '@/utils/authRepasswordRequest';
 import { updatePassword } from '@/utils/formsRequests';
-import { getCustomerSession } from '@/utils/getJwtSession';
 import { Field, Form, Formik } from 'formik';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import * as Yup from "yup"
 
 type updatePassword = {
     password: string,
     repeatPassword: string
 }
 
-type updatePasswordErrors = {
-    password?: string
-    repeatPassword?: string
-}
+type updatePasswordErrors = Record<string, string>
 
 const INITIAL_VALUES = {
     password: '',
@@ -48,7 +45,7 @@ const FormAuthUpdatePassword = (id : any): React.ReactElement => {
             }, 3000);
         }
         if (request?.status === 400) {
-            setErrorMessage(request.error);
+            setErrorMessage(request.error);            
             setIsClicked(false);
             setTimeout(() => {
                 setErrorMessage('');
@@ -61,15 +58,22 @@ const FormAuthUpdatePassword = (id : any): React.ReactElement => {
         }
     };
 
-    const validateFields = (values: updatePassword) => {
-        const { password, repeatPassword } = values;
-        const errors: updatePasswordErrors = {};
+    const schemaValidation = Yup.object().shape({
+        password: Yup.string().min(6, 'La contraseña debe ser mayor a 6 caracteres.').max(25, 'La contraseña debe ser menor a 25 caracteres.').required('Campo requerido.'),
+        repeatPassword: Yup.string().required('Campo requerido.').oneOf([Yup.ref('password')], 'Las contraseñas no coinciden.')
+    });
 
-        if (password === undefined) errors.password = "No puede dejar el campo vacío.";
-        if (password.length < 6 || password.length > 25) errors.password = "La contraseña debe contener entre 6 a 25 caracteres."
-        if (repeatPassword !== password) errors.repeatPassword = "La contraseña no coincide con la con la escrita."
+    const validateFields = async (values: updatePassword) => {
+        try {
+            await schemaValidation.validate(values, { abortEarly: false });
+        } catch (error: any) {
+            const errors: updatePasswordErrors = {};
 
-        return errors;
+            error.inner.forEach((e: any) => {
+                errors[e.path] = e.message;
+            });
+            return errors
+        }
     };
 
     return (

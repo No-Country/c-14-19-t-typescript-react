@@ -2,16 +2,14 @@
 import SubmitButton from "@/components/buttons/SubmitButton";
 import SpanError from "@/components/errors/SpanError";
 import LabelsForm from "@/components/labels/LabelsForm";
-import { Field, Form, Formik } from "formik";
-import React from "react";
-import {
-  CustomerRegister,
-  CustomerRegisterErrors,
-} from "../interfaces/users.interface";
+import { Field, Form, Formik, FormikHelpers } from "formik";
+import React, { useRef } from "react";
+import { CustomerRegister, CustomerRegisterErrors } from "../interfaces/users.interface";
 import { useGlobalContext } from "@/hooks/useContext";
 import { registerNewCustomer } from "@/utils/formsRequests";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
 import { useRouter } from "next/navigation";
+import * as Yup from "yup";
 
 const INITIAL_VALUES = {
   username: "",
@@ -21,17 +19,22 @@ const INITIAL_VALUES = {
 
 const FormRegisterCustomer = () => {
   const router = useRouter();
-  const { errorMessage, isClicked, setErrorMessage, setIsClicked } =
-    useGlobalContext();
+  const referenceCodeInput = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = async (values: CustomerRegister) => {
+  const { errorMessage, isClicked, setErrorMessage, setIsClicked } = useGlobalContext();
+
+  const handleSubmit = async (values: CustomerRegister, { setFieldValue }: FormikHelpers<CustomerRegister>) => {
+    setIsClicked(true);
     const newCustomer = await registerNewCustomer(values);
 
     if (newCustomer?.status === 404 || newCustomer?.status === 400) {
-      setErrorMessage(newCustomer.error);
+      // setErrorMessage(newCustomer.error);
+      setErrorMessage('Codigo de referencia no encontrado');
       setIsClicked(false);
       setTimeout(() => {
         setErrorMessage("");
+        setFieldValue('reference_code', '')
+        referenceCodeInput.current?.focus() // Hacer focus al campo de codigo de referencia
       }, 3000);
     }
 
@@ -42,29 +45,40 @@ const FormRegisterCustomer = () => {
     }
   };
 
-  const validateFields = (values: CustomerRegister) => {
-    const { username, password, reference_code } = values;
-    const errors: CustomerRegisterErrors = {};
+  const validationSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(6, "El nombre de usuario debe contener entre 6 y 25 caracteres.")
+      .max(25, "La contraseña debe contener entre 6 y 25 caracteres.")
+      .required("Campo requerido."),
+    password: Yup.string()
+      .min(6, "La contraseña debe contener entre 6 y 25 caracteres.")
+      .max(25, "La contraseña debe contener entre 6 y 25 caracteres.")
+      .required("Campo requerido."),
+    reference_code: Yup.string()
+      .min(10, "Debe insertar un codigo de referencia válido.")
+      .max(10, "Debe insertar un codigo de referencia válido.")
+      .required("Campo requerido."),
+  });
 
-    if (username.length < 6 || username.length > 25)
-      errors.username =
-        "El nombre de usuario debe contener entre 6 y 25 caracteres.";
-    if (password.length < 6 || username.length > 25)
-      errors.password = "La contraseña debe contener entre 6 y 25 caracteres.";
-    if (reference_code.length < 10 || reference_code.length > 10)
-      errors.reference_code = "Debe insertar un codigo de referencia válido.";
+  const validateFields = async (values: CustomerRegister) => {
+    try {
+      await validationSchema.validate(values, { abortEarly: false })
+    } catch (error: any) {
+      const errors: CustomerRegisterErrors = {};
+     
+      error.inner.forEach((e: any) => {
+        errors[e.path] = e.message
+      });
 
-    return errors;
+      return errors
+    }
   };
 
   return (
     <div className="flex flex-col h-full justify-center items-center">
       <Formik
         initialValues={INITIAL_VALUES}
-        onSubmit={(values) => {
-          handleSubmit(values);
-          setIsClicked(true);
-        }}
+        onSubmit={handleSubmit}
         validate={validateFields}
       >
         <Form className="flex flex-col justify-center p-5 h-full">
@@ -95,6 +109,7 @@ const FormRegisterCustomer = () => {
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="reference_code"
                 type="text"
+                innerRef={referenceCodeInput}
               />
               <SpanError prop="reference_code" />
             </div>
