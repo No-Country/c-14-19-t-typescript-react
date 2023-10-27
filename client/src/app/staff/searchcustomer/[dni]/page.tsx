@@ -6,17 +6,7 @@ import { clientDelete, clietnSearch } from "@/utils/dniRequest";
 import { UserData } from "@/components/user/interfaces/users.interface";
 import Loader from "@/components/Loader";
 
-interface Cuenta {
-  n: number;
-  p: string;
-}
-
-const cuentas: Cuenta[] = [
-  { n: 1234578, p: "$50" },
-  { n: 1234578, p: "$50" },
-  { n: 1234578, p: "$50" },
-  { n: 1234578, p: "$50" },
-];
+import BankAccounts from "@/components/staff/BankAccounts";
 
 const Page = ({ params }: any): React.ReactElement => {
   const router = useRouter();
@@ -31,19 +21,21 @@ const Page = ({ params }: any): React.ReactElement => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDataUser = async () => {
       try {
-        const data = await clietnSearch(parseInt(params.id));
+        const user = await clietnSearch(parseInt(params.dni));
 
-        if (data === "error") router.push(`/staff/searchcustomer`);
-        else setUserData(data);
+        if (user === "error") router.push(`/staff/searchcustomer`);
+        
+        setUserData(user);
+        
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
 
-    fetchData();
-  }, [params.id]);
+    fetchDataUser();
+  }, [params.dni]);
 
   if (!userData) {
     return (
@@ -63,7 +55,7 @@ const Page = ({ params }: any): React.ReactElement => {
       </h2>
       <div className="flex gap-5 tablet:text-lg tablet:gap-10 items-center overflow-y-hidden">
         <Link
-          href={`/staff/searchcustomer/${params.id}/${userData.id}`}
+          href={`/staff/searchcustomer/${params.dni}/${userData.id}`}
           className="font-bold p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[300px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize eb-button"
         >
           Actualizar Datos
@@ -78,23 +70,11 @@ const Page = ({ params }: any): React.ReactElement => {
       <h3 className="text-2xl tablet:text-3xl overflow-y-hidden">
         Cuentas Bancarias
       </h3>
-      <div className="border  border-green-800 w-3/4 max-w-xl  flex  flex-col gap-5 p-3 ">
-        {cuentas.map((cuenta, index) => (
-          <div
-            key={index}
-            className="flex justify-around items-center overflow-y-hidden"
-          >
-            <p className=" text-red-400">{cuenta.n}</p>
-            <p className=" text-red-500">{cuenta.p}</p>
-            {/* Pasar este div a un componente para hacer el delete de la cuenta */}
-            <button className="font-bold p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[100px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize eb-buttonCancel">
-              Eliminar
-            </button>
-          </div>
-        ))}
-      </div>
+
+      <BankAccounts id={userData.id}></BankAccounts>
+      
       <Link
-        href="/"
+        href={`/staff/searchcustomer//${params.dni}/create-account/${userData.id}`}
         className="font-bold p-1 tablet:p-1 rounded-md bg-indigo-500 desktop:w-[300px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize eb-button"
       >
         Crear Nueva

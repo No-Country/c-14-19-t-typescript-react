@@ -48,3 +48,14 @@
 .eb-principalColor {
   color: var(--Color2);
 }
+
+/** HOME**/
+
+.eb-background {
+  background-color: black;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.6348914565826331) 0%,
+    rgba(0, 0, 0, 0.6152836134453781) 100%
+  );
+}

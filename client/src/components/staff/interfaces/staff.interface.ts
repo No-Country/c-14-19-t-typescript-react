@@ -33,3 +33,18 @@ export interface BackendTypesStaff {
     password: string
     department: string
 }
+
+export interface account {
+    number_account: string;
+    money: string;
+    id_user: string
+}
+
+export interface Cuenta {
+    n: number;
+    p: string;
+}
+
+export interface idAcount {
+    id_user: string
+}
