@@ -111,3 +111,11 @@ export const recoverValidator = [
     .isLength({ min: 9, max: 10 }),
   validatorManager,
 ];
+
+/**  TRANSACTION **/
+export const transactionValidator = [
+  body("sender_number_account").isString(),
+  body("receiver_number_account").isString(),
+  body("amount").matches(/^[-+]?[0-9]*\.?[0-9]+$/),
+  validatorManager,
+];

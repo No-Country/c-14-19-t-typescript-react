@@ -72,7 +72,7 @@ export default class CreateTransferenceService {
   }
 
   private checkMoneyAvailable(amount: number, account: accountInterface): void {
-    if (amount < 0) throw new BadRequestException("Monto inválido");
+    if (amount < 1000) throw new BadRequestException("Monto inválido");
 
     if (account.money < amount)
       throw new BadRequestException("Dinero insuficiente");

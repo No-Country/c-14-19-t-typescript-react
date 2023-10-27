@@ -3,6 +3,7 @@ import { registerHBController } from "../modules/homebanking/controller/register
 import {
   passwordValidator,
   registerHBValidation,
+  transactionValidator,
   updateValidation,
 } from "../middleware/ValidatorManager";
 import { loginHBController } from "../modules/homebanking/controller/loginHB.controller";
@@ -42,7 +43,12 @@ router.post("/account", requireHBAccount, createAccountController);
 router.delete("/account/:na", requireHBAccount, deleteAccountController);
 router.get("/account/:id/list", requireHBAccount, listAccountController);
 
-router.post("/transference", requireHBAccount, createTransferenceController);
+router.post(
+  "/transference",
+  requireHBAccount,
+  transactionValidator,
+  createTransferenceController
+);
 router.get(
   "/transference/:na/list",
   requireHBAccount,
