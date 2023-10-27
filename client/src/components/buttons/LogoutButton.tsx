@@ -21,7 +21,7 @@ const LogoutButton = (): React.ReactElement => {
   return (
     <button
       onClick={handleOnClick}
-      className="font-bold p-1 tablet:p-2 rounded-md bg-red-400 desktop:w-[100px] text-center hover:bg-red-500 hover:text-white transition-all ease-in duration-200 capitalize"
+      className="bg-red-400 hover:bg-red-500 font-bold p-2 tablet:p-2 rounded-md desktop:w-[140px] desktop:p-3 text-center text-xs tablet:text-xl hover:text-white transition-all ease-in duration-200 capitalize"
     >
       Logout
     </button>

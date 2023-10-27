@@ -40,13 +40,13 @@ const PageStaffPanel = (): React.ReactElement => {
 
           <div className="flex flex-col tablet:flex-row tablet:gap-14 gap-7 font-light text-center h-[25%]">
             <Link
-              className="shadow-md rounded-md desktop:text-2xl font-bold text-2xl p-[12px] bg-indigo-500  h-[40%] eb-button"
+              className="flex items-center shadow-md rounded-md desktop:text-2xl font-bold text-2xl p-[12px] bg-[#306a46] hover:bg-[#788b61] text-white transition-all ease-in duration-150 h-[40%] eb-button"
               href="/staff/customer/register-customer"
             >
               Registar cliente
             </Link>
             <Link
-              className="shadow-md rounded-md desktop:text-2xl font-bold text-2xl p-[12px] bg-indigo-500 h-[40%] eb-button"
+              className="flex items-center shadow-md rounded-md desktop:text-2xl font-bold text-2xl p-[12px] bg-[#306a46] hover:bg-[#788b61] text-white transition-all ease-in duration-150 h-[40%] eb-button"
               href="/staff/searchcustomer"
             >
               Buscar cliente
