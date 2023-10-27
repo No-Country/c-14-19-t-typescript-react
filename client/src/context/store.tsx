@@ -35,7 +35,9 @@ export const GlobalContext = createContext<ContextProps>({
   username: "",
   setUsername: (): string => "",
   userInfo: userInfoValues,
-  setUserInfo: ():UserAccount => userInfoValues
+  setUserInfo: ():UserAccount => userInfoValues,
+  isLoading: false,
+  setIsLoading: ():boolean => false
 });
 
 export const GlobalContextProvider = ({ children }: ChildrenProp) => {
@@ -48,6 +50,7 @@ export const GlobalContextProvider = ({ children }: ChildrenProp) => {
   const [username, setUsername] = useState<string>("");
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserAccount>(userInfoValues);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (
     <GlobalContext.Provider
@@ -58,12 +61,14 @@ export const GlobalContextProvider = ({ children }: ChildrenProp) => {
         isAuthorized,
         username,
         userInfo,
+        isLoading,
         setErrorMessage,
         setSubmitButtonValue,
         setIsClicked,
         setIsAuthorized,
         setUsername,
-        setUserInfo
+        setUserInfo,
+        setIsLoading
       }}
     >
       {children}

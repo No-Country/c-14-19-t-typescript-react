@@ -7,7 +7,7 @@ import { useGlobalContext } from "@/hooks/useContext";
 import Image from "next/image";
 import "../app/custom.css";
 
-const Navbar = (): React.ReactElement => {
+const NavbarHome = (): React.ReactElement => {
   const { isAuthorized, setIsAuthorized } = useGlobalContext();
   const [route, setRoute] = useState<string>("");
 
@@ -30,14 +30,14 @@ const Navbar = (): React.ReactElement => {
 
   return (
     <nav
-      className={`flex ${nunito.className} items-center p-3 tablet:h-24 tablet:pr-5 desktop:max-h-32 justify-between border border-b-2 shadow-lg no-scrollbar`}
+      className={`flex ${nunito.className} items-center p-3 tablet:h-24 tablet:pr-5 desktop:max-h-32 justify-between no-scrollbar bg-transparent absolute w-full z-50 overflow-y-hidden`}
     >
       <div className="p-1 tablet:text-2xl font-extrabold">
         <Link href="/">
           <Image
-            src="/logo/easy2.png"
-            height={100}
-            width={100}
+            src="/logo/easy2wb.png"
+            height={150}
+            width={150}
             alt="logo-easy"
           />
         </Link>
@@ -68,4 +68,4 @@ const Navbar = (): React.ReactElement => {
   );
 };
 
-export default Navbar;
+export default NavbarHome;

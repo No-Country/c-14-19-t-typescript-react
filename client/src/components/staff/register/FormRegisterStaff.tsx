@@ -29,6 +29,8 @@ const INITIAL_VALUES = {
   department: "",
 };
 
+const departments = ["hhrr", "attention"];
+
 const FormRegisterStaff = (): React.ReactElement => {
   const {
     errorMessage,
@@ -150,8 +152,8 @@ const FormRegisterStaff = (): React.ReactElement => {
 
       error.inner.forEach((e: any) => {
         errors[e.path] = e.message;
-      })
-      return errors
+      });
+      return errors;
     }
   };
 
@@ -166,7 +168,7 @@ const FormRegisterStaff = (): React.ReactElement => {
         validate={validateFields}
       >
         <Form className="flex flex-col justify-center p-5 tablet:p-0 h-full tablet:justify-start ">
-        <h1 className="mt-5 tablet:mt-10 text-xl font-semibold text-center desktop:text-4xl overflow-y-hidden  pb-5">
+          <h1 className="mt-5 tablet:mt-10 text-xl font-semibold text-center desktop:text-4xl overflow-y-hidden  pb-5">
             Registrar nuevo
             <span className="eb-principalColor"> Staff Member</span>
           </h1>
@@ -242,8 +244,13 @@ const FormRegisterStaff = (): React.ReactElement => {
               <Field
                 className="mb-4 placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="department"
-                type="text"
-              />
+                as="select"
+              >
+                <option>Seleccione departamento</option>
+                {departments.map((value) => (
+                  <option key={value}>{value}</option>
+                ))}
+              </Field>
               <SpanError prop="department" />
 
               <div className="flex justify-center desktop:relative desktop:top-[1.3%] w-full">

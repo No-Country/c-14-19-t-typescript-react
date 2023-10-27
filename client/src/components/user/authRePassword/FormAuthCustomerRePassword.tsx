@@ -6,7 +6,10 @@ import SpanError from "@/components/errors/SpanError";
 import { useRouter } from "next/navigation";
 import { useGlobalContext } from "@/hooks/useContext";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
-import { AuthCustomerRePass, ErrorsAuthCustomerRePass } from "../interfaces/usersRePassword.interface";
+import {
+  AuthCustomerRePass,
+  ErrorsAuthCustomerRePass,
+} from "../interfaces/usersRePassword.interface";
 import { authCustomerRePass } from "@/utils/authRepasswordRequest";
 import Link from "next/link";
 import * as Yup from "yup";
@@ -16,64 +19,45 @@ const INITIAL_VALUES = {
   reference_code: "",
 };
 
-
-const   FormAuthCustomerRePassword = (): React.ReactElement => {
+const FormAuthCustomerRePassword = (): React.ReactElement => {
   const router = useRouter();
-  const { isClicked, errorMessage, setIsClicked, setErrorMessage } = useGlobalContext();
+  const { isClicked, errorMessage, setIsClicked, setErrorMessage } =
+    useGlobalContext();
 
   const handleSubmit = async (values: AuthCustomerRePass) => {
     const { username, reference_code } = values;
 
     const request: AuthCustomerRePass = {
       username,
-      reference_code
-    }
+      reference_code,
+    };
 
-    const data = await authCustomerRePass(request);    
-    
+    const data = await authCustomerRePass(request);
+
     if (data?.status === 404 || data?.status === 400) {
       setIsClicked(false);
       setErrorMessage(data.error);
       setTimeout(() => {
-        setErrorMessage('');
+        setErrorMessage("");
       }, 3000);
-    };
+    }
 
     setIsClicked(false);
-    router.push(`/customer/auth-customer/${data.id}`) 
-
+    router.push(`/customer/auth-customer/${data.id}`);
   };
 
-  const validationSchema = Yup.object().shape({
-    username: Yup.string()
-      .min(6, "El nombre de usuario debe ser mayor a 6 caracteres.")
-      .max(25, "El nombre de usuario debe ser menor a 25 caracteres.")
-      .required("Campo requerido.")
-      .test(
-        "special-chars",
-        "No se permiten caracteres especiales.",
-        (value) => {
-          if (!/^[A-Za-z0-9]+$/.test(value)) return false;
-          return true;
-        }
-      ),
-    reference_code: Yup.string()
-      .min(10, "Debe insertar un codigo de referencia válido.")
-      .max(10, "Debe insertar un codigo de referencia válido.")
-      .required("Campo requerido."),
-  });
+  const validateFields = (
+    values: AuthCustomerRePass
+  ): ErrorsAuthCustomerRePass => {
+    const { username, reference_code } = values;
+    const errors: ErrorsAuthCustomerRePass = {};
 
-  const validateFields = async (values: AuthCustomerRePass) => {
-    try {
-      await validationSchema.validate(values, { abortEarly: false });
-    } catch (error: any) {
-      const errors: ErrorsAuthCustomerRePass = {};
-
-      error.inner.forEach((e: any) => {
-        errors[e.path] = e.message;
-      });
-      return errors
-    }
+    if (username.length < 6 || username.length > 25)
+      errors.username =
+        "El nombre de usuario debe contener entre 6 y 25 caracteres.";
+    if (reference_code.length < 10 || reference_code.length > 10)
+      errors.reference_code = "Debe insertar un codigo de referencia válido.";
+    return errors;
   };
 
   return (
@@ -81,8 +65,8 @@ const   FormAuthCustomerRePassword = (): React.ReactElement => {
       <Formik
         initialValues={INITIAL_VALUES}
         onSubmit={(values) => {
-          handleSubmit(values)
-          setIsClicked(true)
+          handleSubmit(values);
+          setIsClicked(true);
         }}
         validate={validateFields}
       >
@@ -104,8 +88,13 @@ const   FormAuthCustomerRePassword = (): React.ReactElement => {
           <SpanError prop="reference_code" />
 
           <div className="flex flex-col tablet:flex-row tablet:items-end justify-center gap-[50px] w-full">
-            <SubmitButton value={isClicked ? 'Solicitando...' : 'Solicitar'} />
-            <Link className="pb-1 text-center tablet:pb-2 text-blue-700 whitespace-nowrap" href={'/customer/login'}>Volver</Link>
+            <SubmitButton value={isClicked ? "Solicitando..." : "Solicitar"} />
+            <Link
+              className="pb-1 text-center tablet:pb-2 text-blue-700 whitespace-nowrap"
+              href={"/customer/login"}
+            >
+              Volver
+            </Link>
           </div>
         </Form>
       </Formik>
