@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { loginCustomer } from "@/utils/formsRequests";
 import { useGlobalContext } from "@/hooks/useContext";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
+import * as Yup from "yup";
 
 const INITIAL_VALUES = {
   username: "",
@@ -43,14 +44,36 @@ const FormLogin = (): React.ReactElement => {
     }
   };
 
-  const validateFields = (values: LoginFields): LoginErrors => {
-    const { username, password } = values;
-    const errors: LoginErrors = {};
+  const validationSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(6, "El nombre de usuario debe ser mayor a 6 caracteres,")
+      .max(25, "El nombre de usuario debe ser menor a 25 caracteres.")
+      .required("Campo requerido.")
+      .test(
+        "special-chars",
+        "No se permiten caracteres especiales.",
+        (value) => {
+          if (!/^[A-Za-z0-9]+$/.test(value)) return false;
+          return true;
+        }
+      ),
+    password: Yup.string()
+      .min(6, "La contraseña debe ser mayor a 6 caracteres.")
+      .max(25, "La contraseña debe ser menor a 25 caracteres.")
+      .required("Campo requerido."),
+  });
 
-    if (username.length < 6 || username.length > 25) errors.username = "El nombre de usuario debe contener entre 6 y 25 caracteres.";
-    if (password.length < 6 || password.length > 25) errors.password = "La contraseña debe contener entre 6 y 25 caracteres.";
+  const validateFields = async (values: LoginFields) => {
+    try {
+      await validationSchema.validate(values, { abortEarly: false });
+    } catch (error: any) {
+      const errors: LoginErrors = {};
+      error.inner.forEach((e: any) => {
+        errors[e.path] = e.message;
+      });
 
-    return errors;
+      return errors
+    }
   };
 
   return (

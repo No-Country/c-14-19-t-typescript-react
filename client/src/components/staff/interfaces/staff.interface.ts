@@ -20,17 +20,7 @@ export interface StaffRegister {
     department: string
 };
 
-export interface StaffRegisterErrors {
-    name?: string
-    lastname?: string
-    birthday?: string
-    dni?: string
-    mail?: string
-    cellphone?: string
-    username?: string
-    password?: string
-    department?: string
-};
+export type StaffRegisterErrors = Record<string, string>;
 
 export interface BackendTypesStaff {
     name: string

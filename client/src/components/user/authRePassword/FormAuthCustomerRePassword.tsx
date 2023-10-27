@@ -9,6 +9,7 @@ import MessageAuthorization from "@/components/authorization/MessageAuthorizatio
 import { AuthCustomerRePass, ErrorsAuthCustomerRePass } from "../interfaces/usersRePassword.interface";
 import { authCustomerRePass } from "@/utils/authRepasswordRequest";
 import Link from "next/link";
+import * as Yup from "yup";
 
 const INITIAL_VALUES = {
   username: "",
@@ -28,9 +29,7 @@ const   FormAuthCustomerRePassword = (): React.ReactElement => {
       reference_code
     }
 
-    const data = await authCustomerRePass(request);
-    console.log(data);
-    
+    const data = await authCustomerRePass(request);    
     
     if (data?.status === 404 || data?.status === 400) {
       setIsClicked(false);
@@ -45,13 +44,36 @@ const   FormAuthCustomerRePassword = (): React.ReactElement => {
 
   };
 
-  const validateFields = (values: AuthCustomerRePass): ErrorsAuthCustomerRePass => {
-    const { username, reference_code } = values;
-    const errors: ErrorsAuthCustomerRePass = {};
+  const validationSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(6, "El nombre de usuario debe ser mayor a 6 caracteres.")
+      .max(25, "El nombre de usuario debe ser menor a 25 caracteres.")
+      .required("Campo requerido.")
+      .test(
+        "special-chars",
+        "No se permiten caracteres especiales.",
+        (value) => {
+          if (!/^[A-Za-z0-9]+$/.test(value)) return false;
+          return true;
+        }
+      ),
+    reference_code: Yup.string()
+      .min(10, "Debe insertar un codigo de referencia válido.")
+      .max(10, "Debe insertar un codigo de referencia válido.")
+      .required("Campo requerido."),
+  });
 
-    if (username.length < 6 || username.length > 25) errors.username = "El nombre de usuario debe contener entre 6 y 25 caracteres.";
-    if (reference_code.length < 10 || reference_code.length > 10) errors.reference_code = "Debe insertar un codigo de referencia válido.";
-    return errors;
+  const validateFields = async (values: AuthCustomerRePass) => {
+    try {
+      await validationSchema.validate(values, { abortEarly: false });
+    } catch (error: any) {
+      const errors: ErrorsAuthCustomerRePass = {};
+
+      error.inner.forEach((e: any) => {
+        errors[e.path] = e.message;
+      });
+      return errors
+    }
   };
 
   return (
@@ -73,13 +95,13 @@ const   FormAuthCustomerRePassword = (): React.ReactElement => {
           />
           <SpanError prop="username" />
 
-          <LabelsForm htmlFor="Condigo de Referencia" />
+          <LabelsForm htmlFor="Código de Referencia" />
           <Field
             className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm mobile:w-[100%] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[100%] tablet:p-3 desktop:p-4 tablet:text-lg desktop:text-xl"
             name="reference_code"
             type="text"
           />
-          <SpanError prop="reference code" />
+          <SpanError prop="reference_code" />
 
           <div className="flex flex-col tablet:flex-row tablet:items-end justify-center gap-[50px] w-full">
             <SubmitButton value={isClicked ? 'Solicitando...' : 'Solicitar'} />

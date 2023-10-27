@@ -3,7 +3,4 @@ export interface LoginFields {
     password: string;
 };
 
-export interface LoginErrors {
-    username?: string;
-    password?: string;
-};
+export type LoginErrors = Record<string, string>

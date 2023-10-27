@@ -52,8 +52,11 @@ const FormUpdatePersonalInfo = (): React.ReactElement => {
         const request = await updatePersonalData(userID, body, token);
         
         if (request?.status === 401 || request?.status === 400) {
-            alert('Debe llenar al menos un campo para actualizar sus datos')
+            setErrorMessage('Debe llenar al menos un campo para actualizar sus datos')
             setIsClicked(false);
+            setTimeout(() => {
+              setErrorMessage('')
+            }, 3000);
         }
 
         if (request?.status === 200) {

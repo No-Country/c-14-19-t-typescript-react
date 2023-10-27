@@ -15,6 +15,7 @@ import MessageAuthorization from "@/components/authorization/MessageAuthorizatio
 import { getSession } from "@/utils/getJwtSession";
 import { getParsedDate } from "@/utils/utils";
 import { useGlobalContext } from "@/hooks/useContext";
+import * as Yup from "yup"
 
 const INITIAL_VALUES = {
   name: "",
@@ -59,6 +60,8 @@ const FormRegister = (): React.ReactElement => {
       setIsAuthorized(false);
       const error = await response.json();
       setErrorMessage(error.msg);
+      console.log(error);
+      
       setIsClicked(false);
       resetForm();
     }
@@ -81,25 +84,53 @@ const FormRegister = (): React.ReactElement => {
     }
   };
 
-  const validateFields = (values: UserRegisterTypes) => {
-    const { name, lastname, mail, birthday, cellphone, dni } = values;
-    const errors: ValidationErrors = {};
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(3, "El nombre debe ser mayor a 3 caracteres.")
+      .required("Campo requerido."),
+    lastname: Yup.string()
+      .min(3, "El apellido debe ser mayor a 3 caracteres.")
+      .required("Campo requerido."),
+    mail: Yup.string().email("Email no válido.").required("Campo requerido."),
+    birthday: Yup.string()
+      .required("Campo requerido.")
+      .test("is-user-adult", "Tenes que ser mayor de 18 años.", (value) => {
+        const isUserOlder = calculateUserAge(value);
+        return isUserOlder;
+      }),
+    cellphone: Yup.string()
+      .min(10, "Número incorrecto.")
+      .max(12, "Número incorrecto.")
+      .required("Campo requerido.")
+      .test("is-not-a-number", "Este campo permite solo números.", (value) => {
+        if (!/^[0-9]+$/.test(value)) {
+          return false;
+        }
+        return true;
+      }),
+    dni: Yup.string()
+      .min(7, "DNI incorrecto.")
+      .max(8, "DNI incorrecto.")
+      .required("Campo requerido.")
+      .test("is-not-a-number", "Este campo permite solo números.", (value) => {
+        if (!/^[0-9]+$/.test(value)) {
+          return false;
+        }
+        return true;
+      }),
+  });
 
-    const isUserOlder = calculateUserAge(birthday);
+  const validateFields = async (values: UserRegisterTypes) => {  
+    try {
+      await validationSchema.validate(values, { abortEarly: false })
+    } catch (error: any) {
+      const errors: ValidationErrors = {};
+      error.inner.forEach((e: any) => {
+        errors[e.path] = e.message
+      });
 
-    if (name.length < 3)
-      errors.name = "El nombre debe ser mayor a 3 caracteres";
-    if (lastname.length < 3)
-      errors.lastname = "El apellido debe ser mayor a 3 caracteres";
-    if (!REGEXP.test(mail)) errors.mail = "Email incorrecto";
-    if (!birthday) errors.birthday = "Fecha de nacimiento requerida";
-    if (isUserOlder === false)
-      errors.birthday = "Tenes que ser mayor a 18 años";
-    if (cellphone.length < 10 || cellphone.length > 12)
-      errors.cellphone = "Número incorrecto";
-    if (dni.length < 7 || dni.length > 8) errors.dni = "DNI incorrecto";
-
-    return errors;
+      return errors
+    }   
   };
 
   return (
@@ -167,7 +198,7 @@ const FormRegister = (): React.ReactElement => {
             </div>
           </div>
 
-          <div className="w-full flex flex-col justify-center items-center desktop:relative desktop:top-[25px]">
+          <div className="w-full mt-5 flex flex-col justify-center items-center">
             <SubmitButton value={!isClicked ? "Registro" : "Registrando..."} />
           </div>
         </Form>
