@@ -29,5 +29,7 @@ export interface ContextProps {
     username: string;
     setUsername: Dispatch<SetStateAction<string>>;
     userInfo: UserAccount;
-    setUserInfo: Dispatch<SetStateAction<UserAccount>>
+    setUserInfo: Dispatch<SetStateAction<UserAccount>>;
+    isLoading: boolean;
+    setIsLoading: Dispatch<SetStateAction<boolean>>;
   }
