@@ -29,7 +29,7 @@ const PageStaffPanel = (): React.ReactElement => {
         <div
           className={`${nunito.className} h-full w-full flex flex-col items-center border-4  bg-green-50`}
         >
-          <div className="h-2/5 tablet:h-2/4 tablet:text-4xl desktop:text-6xl text-3xl flex items-center">
+          <div className="h-2/5 tablet:h-2/4 tablet:text-4xl desktop:text-6xl text-3xl flex items-center mobile:text-center">
             <h2 className="overflow-y-hidden">
               Bienvenido de vuelta{" "}
               <span className="font-bold text-4xl desktop:text-6xl eb-principalColor">
