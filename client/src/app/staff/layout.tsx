@@ -39,9 +39,9 @@ const StaffLayout = ({
             <Image src="/logo/Easy2.png" width={110} height={100} alt="logo-easy"/>
           </Link>
           {isAuthorized && (
-            <div className="p-4 flex gap-5">
+            <div className="p-4 flex items-center gap-5">
               <Link
-                className="font-bold p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[300px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize eb-button"
+                className="font-bold p-1 tablet:p-2 rounded-md bg-[#329556] hover:bg-[#008868] desktop:w-[300px] desktop:p-3 desktop:text-lg text-center  hover:text-white transition-all ease-in duration-200 capitalize eb-button"
                 href="/staff/staffpanel"
               >
                 Panel Staff

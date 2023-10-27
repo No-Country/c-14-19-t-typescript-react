@@ -56,13 +56,13 @@ const Page = ({ params }: any): React.ReactElement => {
       <div className="flex gap-5 tablet:text-lg tablet:gap-10 items-center overflow-y-hidden">
         <Link
           href={`/staff/searchcustomer/${params.dni}/${userData.id}`}
-          className="font-bold p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[300px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize eb-button"
+          className="font-bold p-1 tablet:p-2 rounded-md bg-[#329556] hover:bg-[#008868] desktop:w-[300px] text-center hover:text-white transition-all ease-in duration-200 capitalize eb-button"
         >
           Actualizar Datos
         </Link>
         <button
           onClick={deleteCustomer}
-          className="font-bold p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[300px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize eb-button"
+          className="font-bold p-1 tablet:p-2 rounded-md bg-[#329556] hover:bg-[#008868] desktop:w-[300px] text-center hover:text-white transition-all ease-in duration-200 capitalize eb-button"
         >
           Eliminar Cliente
         </button>
@@ -71,11 +71,11 @@ const Page = ({ params }: any): React.ReactElement => {
         Cuentas Bancarias
       </h3>
 
-      <BankAccounts id={userData.id}></BankAccounts>
+      <BankAccounts id={userData.id}/>
       
       <Link
         href={`/staff/searchcustomer//${params.dni}/create-account/${userData.id}`}
-        className="font-bold p-1 tablet:p-1 rounded-md bg-indigo-500 desktop:w-[300px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize eb-button"
+        className="font-bold p-1 tablet:p-1 rounded-md bg-[#329556] hover:bg-[#008868] desktop:w-[300px] text-center hover:text-white transition-all ease-in duration-200 capitalize eb-button"
       >
         Crear Nueva
       </Link>

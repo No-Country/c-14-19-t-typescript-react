@@ -6,6 +6,7 @@ import LogoutButton from "./buttons/LogoutButton";
 import { useGlobalContext } from "@/hooks/useContext";
 import Image from "next/image";
 import "../app/custom.css";
+import MyAccountButton from "./buttons/MyAccountButton";
 
 const NavbarHome = (): React.ReactElement => {
   const { isAuthorized, setIsAuthorized } = useGlobalContext();
@@ -61,7 +62,12 @@ const NavbarHome = (): React.ReactElement => {
               </Link>
             </>
           )}
-          {isAuthorized && <LogoutButton />}
+          {isAuthorized && (
+            <div className="flex items-center gap-5">
+              <LogoutButton />
+              <MyAccountButton/>
+            </div>
+          )}
         </ul>
       </div>
     </nav>

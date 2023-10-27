@@ -86,11 +86,7 @@ const Page = ({ params }: any): React.ReactElement => {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center  justify-center text-4xl mt-8 ">
-        <h2 className="overflow-y-hidden">Actualizar cliente</h2>
-      </div>
-
+    <div className="flex flex-col h-[90vh]">
       <Formik
         initialValues={INITIAL_VALUES}
         onSubmit={(values, resetForm) => {
@@ -99,12 +95,15 @@ const Page = ({ params }: any): React.ReactElement => {
         }}
         validate={validateFields}
       >
-        <Form className="flex flex-col p-5 h-full overflow-y-hidden">
+        <Form className="flex flex-col justify-center  h-full overflow-y-hidden">
+          <div className="flex items-center  justify-center text-4xl mb-8">
+            <h2 className="overflow-y-hidden">Actualizar cliente</h2>
+          </div>
           <div className="flex flex-col justify-center items-center">
             <div className="flex flex-col gap-1">
               <LabelsForm htmlFor="email" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center outline-none bg-[#d3dacccf] p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="mail"
                 type="email"
               />
@@ -113,7 +112,7 @@ const Page = ({ params }: any): React.ReactElement => {
             <div className="flex flex-col gap-1">
               <LabelsForm htmlFor="cellphone" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center outline-none bg-[#d3dacccf] p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="cellphone"
                 type="text"
               />
