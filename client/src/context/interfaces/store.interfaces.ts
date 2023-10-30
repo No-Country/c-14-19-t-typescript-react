@@ -35,4 +35,6 @@ export interface ContextProps {
     setIsLoading: Dispatch<SetStateAction<boolean>>;
     transference: AccountsTransferData;
     setTransference: Dispatch<SetStateAction<AccountsTransferData>>
+    exists: boolean;
+    setExists: Dispatch<SetStateAction<boolean>>;
   }

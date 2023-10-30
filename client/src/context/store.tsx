@@ -46,7 +46,9 @@ export const GlobalContext = createContext<ContextProps>({
   isLoading: false,
   setIsLoading: ():boolean => false,
   transference: transferSuccesfully,
-  setTransference: (): AccountsTransferData => transferSuccesfully
+  setTransference: (): AccountsTransferData => transferSuccesfully,
+  exists: true,
+  setExists: ():boolean => true
 });
 
 export const GlobalContextProvider = ({ children }: ChildrenProp) => {
@@ -54,6 +56,7 @@ export const GlobalContextProvider = ({ children }: ChildrenProp) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [submitButtonValue, setSubmitButtonValue] = useState<string>("Login");
   const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [exists, setExists] = useState(true);
 
   // ---- AUTH ---- //
   const [username, setUsername] = useState<string>("");
@@ -75,6 +78,7 @@ export const GlobalContextProvider = ({ children }: ChildrenProp) => {
         userInfo,
         isLoading,
         transference,
+        exists,
         setErrorMessage,
         setSubmitButtonValue,
         setIsClicked,
@@ -82,7 +86,8 @@ export const GlobalContextProvider = ({ children }: ChildrenProp) => {
         setUsername,
         setUserInfo,
         setIsLoading,
-        setTransference
+        setTransference,
+        setExists
       }}
     >
       {children}
