@@ -1,49 +1,34 @@
 "use client";
-import { UserAccount } from "@/context/interfaces/store.interfaces";
+import React, { useEffect, useState } from "react";
+import { Formik, Form, Field, FormikHelpers } from "formik";
 import { useGlobalContext } from "@/hooks/useContext";
 import { getCustomerSession } from "@/utils/getJwtSession";
-import {
-  getCustomerAccounts,
-  transferBetweenAccounts,
-} from "@/utils/transferences";
-import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import {
-  AccountsTransferData,
-  TransferBetweenAccountsFields,
-  UserAccounts,
-  UserAccountsError,
-} from "./interfaces/transferences.interface";
+import { getCustomerAccounts, transferBetweenAccounts } from "@/utils/transferences";
+import { AccountsTransferData, TransferBetweenAccountsFields, UserAccounts, UserAccountsError } from "./interfaces/transferences.interface";
+import { UserAccount } from "@/context/interfaces/store.interfaces";
 import LabelsForm from "../labels/LabelsForm";
-import * as Yup from "yup";
-import SubmitButton from "../buttons/SubmitButton";
 import SpanError from "../errors/SpanError";
+import SubmitButton from "../buttons/SubmitButton";
 import MessageAuthorization from "../authorization/MessageAuthorization";
+import * as Yup from "yup";
 
 const INITIAL_VALUES = {
-  from: "",
-  to: "",
-  amount: "",
-};
+    from: "",
+    to: "",
+    amount: "",
+  };
+  
 
-const TransferencesAmongAccounts = (): React.ReactElement => {
+const TransferThirdParties = (): React.ReactElement => {
+  const { userInfo, isClicked, errorMessage, setTransference, setErrorMessage, setIsClicked, setUserInfo } = useGlobalContext();
   const router = useRouter();
-  const {
-    userInfo,
-    isClicked,
-    errorMessage,
-    setErrorMessage,
-    setIsClicked,
-    setUserInfo,
-    setTransference
-  } = useGlobalContext();
   const [accounts, setAccounts] = useState<UserAccounts[]>([]);
 
   useEffect(() => {
     const getUser = async () => {
       const getSession = sessionStorage.getItem("customerJwtSession");
-      const user = await getCustomerSession(getSession);  
+      const user = await getCustomerSession(getSession);
 
       if (!getSession) router.push("/");
 
@@ -63,7 +48,7 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
       if (accounts !== undefined) setAccounts(accounts);
     };
 
-    getUser();    
+    getUser();
   }, []);
 
   const getSelectValues = accounts.map(
@@ -74,18 +59,11 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
     from: Yup.string()
       .required("Campo requerido.")
       .oneOf(getSelectValues, "Seleccione una opción válida."),
-    to: Yup.string()
-      .required("Campo requerido")
-      .oneOf(getSelectValues, "Seleccione una opción válida.")
-      .test(
-        "not-same",
-        "No se puede transferir a una misma cuenta.",
-        function (value) {
-          if (this.parent.from !== undefined && this.parent.from === value)
-            return false; // No válido si son iguales
-          return true;
-        }
-      ),
+    to: Yup.string().required('Campo requerido.').test('special-chars-denied', 'Parámetros inválidos.', (value) => {
+        const pattern = /^\d+$/
+        if (pattern.test(value)) return true
+        else return false
+    }),
     amount: Yup.string()
       .matches(/^[0-9]+$/, "Inserte un monto válido.")
       .test("minimum-amount", "Monto mínimo $1,000.", (value) => {
@@ -99,21 +77,18 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
 
   const validateFields = async (values: TransferBetweenAccountsFields) => {
     try {
-      await validationSchema.validate(values, { abortEarly: false });
+        await validationSchema.validate(values, { abortEarly: false });
     } catch (error: any) {
-      const errors: UserAccountsError = {};
+        const errors: UserAccountsError = {};
 
-      error.inner.forEach((e: any) => {
-        errors[e.path] = e.message;
-      });
-      return errors;
+        error.inner.forEach((e: any) => {
+            errors[e.path] = e.message;
+        })
+        return errors;
     }
   };
 
-  const handleSubmit = async (
-    values: TransferBetweenAccountsFields,
-    { setFieldValue }: FormikHelpers<TransferBetweenAccountsFields>
-  ) => {
+  const handleSubmit = async (values: TransferBetweenAccountsFields, { setFieldValue }: FormikHelpers<TransferBetweenAccountsFields>) => {
     const { from, to, amount } = values;
     setIsClicked(true);
 
@@ -179,17 +154,10 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
               <LabelsForm htmlFor="para" />
             </div>
             <Field
-              as="select"
+              type="text"
               name="to"
               className="bg-[#d3dacccf] rounded p-2 outline-none text-sm tablet:w-[70%] tablet:text-base desktop:w-[50%] desktop:text-lg"
-            >
-              <option>Seleccione una cuenta</option>
-              {accounts.map((values) => (
-                <option key={values.number_account}>
-                  {values.number_account} (${values.money})
-                </option>
-              ))}
-            </Field>
+            />
             <div className="w-[70%] desktop:w-[50%]">
               <SpanError prop="to" />
             </div>
@@ -215,11 +183,11 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
           </Form>
         </Formik>
         <div className="mt-10">
-        {errorMessage && <MessageAuthorization message={errorMessage} />}
+          {errorMessage && <MessageAuthorization message={errorMessage} />}
         </div>
       </div>
     </div>
   );
 };
 
-export default TransferencesAmongAccounts;
+export default TransferThirdParties;

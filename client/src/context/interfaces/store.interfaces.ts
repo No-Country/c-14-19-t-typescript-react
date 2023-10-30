@@ -1,3 +1,4 @@
+import { AccountsTransferData } from "@/components/transferences/interfaces/transferences.interface";
 import { Dispatch, SetStateAction } from "react";
 
 export interface UserAccount {
@@ -32,4 +33,6 @@ export interface ContextProps {
     setUserInfo: Dispatch<SetStateAction<UserAccount>>;
     isLoading: boolean;
     setIsLoading: Dispatch<SetStateAction<boolean>>;
+    transference: AccountsTransferData;
+    setTransference: Dispatch<SetStateAction<AccountsTransferData>>
   }
