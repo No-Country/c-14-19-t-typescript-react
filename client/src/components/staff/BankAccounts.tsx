@@ -8,14 +8,16 @@ import { deleteAccountRequest } from "@/utils/accountsRequest";
 const BankAccounts = (id: any): React.ReactElement => {
   const [accountsList, setAccountsList] = useState<Array<account>>([]);
 
-  const deleteAcount = async(id: string) => {
-    const response = confirm("¿Seguro que Quiere eliminar al cliente?");
-    if (response) {
-      const res = await deleteAccountRequest(id);
-      alert(res.msg)
-      
-      
-    } else return;
+  const deleteAccount = async (id: string, money: number) => {
+    if (money > 0) {
+      alert("No se puede eliminar una cuenta con dinero.");
+    } else {
+      const response = confirm("¿Seguro que quiere eliminar al cliente?");
+      if (response) {
+        const res = await deleteAccountRequest(id);
+        alert(res.msg);
+      }
+    }
   };
 
   useEffect(() => {
@@ -26,7 +28,7 @@ const BankAccounts = (id: any): React.ReactElement => {
       }, 300);
     };
     fetchData();
-  }, [id, deleteAcount]);
+  }, [id, deleteAccount]);
 
 
   return (
@@ -42,7 +44,7 @@ const BankAccounts = (id: any): React.ReactElement => {
             <p className=" text-[#41542a]">{account.number_account}</p>
             <p className=" text-green-500 font-bold">${account.money}</p>
             {/* Pasar este div a un componente para hacer el delete de la cuenta */}
-            <button onClick={()=> deleteAcount(account.number_account)} className="font-bold p-1 tablet:p-2 rounded-md bg-[#329556] hover:bg-[#008868] desktop:w-[100px] text-center hover:text-white transition-all ease-in duration-200 capitalize eb-buttonCancel">
+            <button onClick={()=> deleteAccount(account.number_account, account.money)} className="font-bold p-1 tablet:p-2 rounded-md bg-[#329556] hover:bg-[#008868] desktop:w-[100px] text-center hover:text-white transition-all ease-in duration-200 capitalize eb-buttonCancel">
               Eliminar
             </button>
           </div>

@@ -7,7 +7,7 @@ import "../../../app/custom.css";
 const HomeBanking = () => {
   const router = useRouter();
   const [userName, setUserName] = useState<string | null>(null);
-
+  
   useEffect(() => {
     if (sessionStorage.getItem("isCustomer") === null) router.push("/");
     const name: string | null = sessionStorage.getItem("customerUser");
