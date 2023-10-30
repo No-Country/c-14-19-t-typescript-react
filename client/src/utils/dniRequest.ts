@@ -11,14 +11,11 @@ export const clietnSearch = async (dni: number) => {
         'Authorization': `Bearer ${token.jwt}`
       }
     });
+    const data = await response.json();
 
-    if (response.ok) {   
-      const data = await response.json();
-
-      return data;
-    } else {
-      return 'error'
-    }
+    if (response.ok) return data; 
+    else return { error: data.msg, status: 404 }
+    
   } catch (error) {
     console.error('Error fetching data:', error);
   }

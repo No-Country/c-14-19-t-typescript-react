@@ -25,7 +25,7 @@ const TransferencesPage = (): React.ReactElement => {
           Transferir entre mis cuentas
         </Link>
         <Link
-          href="/"
+          href="/customer/homebanking/transference-panel/normal-transference"
           className="flex justify-center items-center rounded p-2 w-[50%] h-full font-bold bg-[#306a46] hover:bg-[#788b61] text-white hover:text-[#112a1b] transition-all ease-in duration-150 tablet:text-xl desktop:text-2xl tablet:p-5"
         >
           Transferir a un tercero

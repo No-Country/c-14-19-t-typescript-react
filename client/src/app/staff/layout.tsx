@@ -33,7 +33,7 @@ const StaffLayout = ({
       {isAuthorized && (
         <nav className="flex items-center justify-between border">
           <Link
-            href="/"
+            href="/staff/staffpanel"
             className=" text-xl uppercase font-bold  tablet:text-2xl p-5"
           >
             <Image src="/logo/Easy2.png" width={110} height={100} alt="logo-easy"/>

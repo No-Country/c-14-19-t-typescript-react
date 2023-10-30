@@ -17,8 +17,8 @@ const HomeBanking = () => {
   return (
     <div className="flex flex-col items-center">
       <div className="flex flex-col item-center justify-center gap-10 h-[93vh]">
-        <h1 className="text-center text-2xl tablet:text-4xl overflow-y-hidden">
-          Bienvenido de vuelta{" "}
+        <h1 className="text-center text-2xl tablet:text-4xl desktop:text-6xl overflow-y-hidden">
+          Bienvenido{" "}
           <span className="text-[#788b61] font-bold">{userName}</span>
         </h1>
         <div className="flex flex-col justify-center text-center gap-8 px-5 max-w-[700px]">
