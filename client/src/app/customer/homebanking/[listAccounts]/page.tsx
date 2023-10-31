@@ -2,34 +2,39 @@
 import React, { useEffect, useState } from "react";
 import { deleteAccountClient, getAccountListClient } from "@/utils/accountsRequest";
 import { setTimeout } from "timers";
-import { deleteAccountRequest } from "@/utils/accountsRequest";
 import { account } from "@/components/staff/interfaces/staff.interface";
 import Link from "next/link";
 
 const BankAccounts = ({ params }: any): React.ReactElement => {
     const [accountsList, setAccountsList] = useState<Array<account>>([]);
+    const [accounts, setAccounts] = useState<boolean>(false);
+    const [reLoad, setReload] = useState<boolean>(false);
 
     const deleteAccount = async (id: string, money: number) => {
         if (money > 0) {
-          alert("No se puede eliminar una cuenta con dinero.");
+            alert("No se puede eliminar una cuenta con dinero.");
         } else {
-          const response = confirm("¿Seguro que quiere eliminar al cliente?");
-          if (response) {
-            const res = await deleteAccountClient(id);
-            alert(res.msg);
-          }
+            const response = confirm("¿Seguro que quiere eliminar al cliente?");
+            if (response) {
+                const res = await deleteAccountClient(id);
+                alert(res.msg);
+                setReload(true)
+            }
         }
-      };
+    };
 
     useEffect(() => {
+        setReload(false)
+        setAccounts(true)
         const fetchData = async () => {
             const acounts = await getAccountListClient(params.listAccounts);
             setTimeout(() => {
                 setAccountsList(acounts);
+                setAccounts(false)
             }, 300);
         };
         fetchData();
-    }, [params.listAccounts, deleteAccount]);
+    }, [params.listAccounts, reLoad]);
 
 
     return (
@@ -37,7 +42,7 @@ const BankAccounts = ({ params }: any): React.ReactElement => {
             <h2 className="text-3xl overflow-y-hidden">Tus Cuentas</h2>
             <div className="border  border-green-800 w-11/12 max-w-xl  flex  flex-col gap-5 p-3 ">
                 {accountsList.length === 0 ? (
-                    <div className="flex justify-center">Buscando Cuentas... </div>
+                    <div className="flex justify-center">{accounts ? 'Buscando cuentas...' : 'No se encontraron cuentas'}</div>
                 ) : (
                     accountsList.map((account: any, index: any) => (
                         <div
@@ -46,7 +51,6 @@ const BankAccounts = ({ params }: any): React.ReactElement => {
                         >
                             <p className=" text-[#41542a]">{account.number_account}</p>
                             <p className=" text-green-500 font-bold">${account.money}</p>
-                            {/* Pasar este div a un componente para hacer el delete de la cuenta */}
                             <div className="flex gap-5">
                                 <Link
                                     href={`/customer/homebanking/${params.listAccounts}/${account.number_account}`}

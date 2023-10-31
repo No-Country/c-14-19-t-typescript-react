@@ -124,7 +124,6 @@ export const getTransferListClient = async (number_account: String) => {
     );
 
     const data = await response.json();
-    console.log(data);
     
     if (response.ok) {
       return data;

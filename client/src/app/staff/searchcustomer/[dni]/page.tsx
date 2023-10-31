@@ -19,7 +19,7 @@ const Page = ({ params }: any): React.ReactElement => {
     const response = confirm("¿Seguro que Quiere eliminar al cliente?");
     if (response) {
       clientDelete(userData?.id);
-      alert('La baja ha sido exitosa') //! ALERT TEMPORAL
+      alert('La baja ha sido exitosa')
       router.push(`/staff/searchcustomer`);
     } else return;
   };
