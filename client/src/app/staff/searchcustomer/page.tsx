@@ -63,7 +63,7 @@ const Page = (): React.ReactElement => {
         onSubmit={handleSubmit}
       >
         <Form className="flex flex-col">
-          <LabelsForm htmlFor="dni" />
+          <LabelsForm htmlFor="DNI" />
           <Field
             className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
             name="dni"

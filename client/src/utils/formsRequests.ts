@@ -168,7 +168,7 @@ export const updatePassword = async (params: string, password: string, token: st
 };
 
 //* ACTUALIZAR DATOS PERSONALES
-export const updatePersonalData = async (params: string, values: UpdatePersonalInfo, token: string) => {
+export const updatePersonalData = async (params: string, values: UpdatePersonalInfo, token: string) => {  
   try {
     const response = await fetch(`https://easybank.fly.dev/homebanking/customer/${params}`, {
       method: 'PATCH',
@@ -180,8 +180,8 @@ export const updatePersonalData = async (params: string, values: UpdatePersonalI
     });
     const data = await response.json();
 
-    if (response.status === 401) return { error: data, status: 401 };
-    if (response.status === 400) return { error: data, status: 400 };
+    if (response.status === 401) return { error: data.msg, status: 401 };
+    if (response.status === 400) return { error: data.msg, status: 400 };
     if (response.ok) return { data, status: 200 };
   } catch (error) {
     console.error(error);

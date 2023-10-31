@@ -17,7 +17,7 @@ const HHRRLayout = ({ children }: { children: React.ReactNode }) => {
       if (getDepartment === "a") router.push("/staff/staffpanel");
       setIsAuthorized(true);
     } else {
-      router.push("/");
+      router.push("/login-staff");
       setIsAuthorized(false);
     }
   }, []);
@@ -32,7 +32,7 @@ const HHRRLayout = ({ children }: { children: React.ReactNode }) => {
           <Image src="/logo/easy2.png" width={120} height={100} alt="logo-easy" />
         </Link>
         {isAuthorized && (
-          <ul className="h-[90px] flex items-center gap-3 p-3 tablet:gap-5 tablet:p-5">
+          <ul className="h-[90px] flex items-center gap-3 p-3 tablet:gap-5 tablet:p-5 overflow-hidden">
             <NavbarLink route="/staff/customers" content="Ver Staff Members" />
             <LogoutButton />
             {/* <NavbarLink route="/hhrr/hhrrpanel" content="Staff panel"/> */}

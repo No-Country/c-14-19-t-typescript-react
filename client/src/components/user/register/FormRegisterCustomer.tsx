@@ -4,7 +4,10 @@ import SpanError from "@/components/errors/SpanError";
 import LabelsForm from "@/components/labels/LabelsForm";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import React, { useRef } from "react";
-import { CustomerRegister, CustomerRegisterErrors } from "../interfaces/users.interface";
+import {
+  CustomerRegister,
+  CustomerRegisterErrors,
+} from "../interfaces/users.interface";
 import { useGlobalContext } from "@/hooks/useContext";
 import { registerNewCustomer } from "@/utils/formsRequests";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
@@ -20,22 +23,34 @@ const INITIAL_VALUES = {
 const FormRegisterCustomer = () => {
   const router = useRouter();
   const referenceCodeInput = useRef<HTMLInputElement>(null);
+  const usernameInput = useRef<HTMLInputElement>(null);
 
-  const { errorMessage, isClicked, setErrorMessage, setIsClicked } = useGlobalContext();
+  const { errorMessage, isClicked, setErrorMessage, setIsClicked } =
+    useGlobalContext();
 
-  const handleSubmit = async (values: CustomerRegister, { setFieldValue }: FormikHelpers<CustomerRegister>) => {
+  const handleSubmit = async (
+    values: CustomerRegister,
+    { setFieldValue }: FormikHelpers<CustomerRegister>
+  ) => {
     setIsClicked(true);
     const newCustomer = await registerNewCustomer(values);
 
     if (newCustomer?.status === 404 || newCustomer?.status === 400) {
-      // setErrorMessage(newCustomer.error);
-      setErrorMessage('Codigo de referencia no encontrado');
+      setErrorMessage(newCustomer.error);
       setIsClicked(false);
-      setTimeout(() => {
-        setErrorMessage("");
-        setFieldValue('reference_code', '')
-        referenceCodeInput.current?.focus() // Hacer focus al campo de codigo de referencia
-      }, 3000);
+      if (newCustomer.error === "Usuario ya tiene una cuenta de homebanking") {
+        setTimeout(() => {
+          setErrorMessage("");
+          setFieldValue("username", "");
+          usernameInput.current?.focus(); // Hacer focus al campo de usuario
+        }, 3000);
+      } else {
+        setTimeout(() => {
+          setErrorMessage("");
+          setFieldValue("reference_code", "");
+          referenceCodeInput.current?.focus(); // Hacer focus al campo de codigo de referencia
+        }, 3000);
+      }
     }
 
     if (newCustomer?.status === 201) {
@@ -62,26 +77,26 @@ const FormRegisterCustomer = () => {
 
   const validateFields = async (values: CustomerRegister) => {
     try {
-      await validationSchema.validate(values, { abortEarly: false })
+      await validationSchema.validate(values, { abortEarly: false });
     } catch (error: any) {
       const errors: CustomerRegisterErrors = {};
-     
+
       error.inner.forEach((e: any) => {
-        errors[e.path] = e.message
+        errors[e.path] = e.message;
       });
 
-      return errors
+      return errors;
     }
   };
 
   return (
-    <div className="flex flex-col h-full justify-center items-center">
+    <div className="flex flex-col h-full w-full justify-center items-center">
       <Formik
         initialValues={INITIAL_VALUES}
         onSubmit={handleSubmit}
         validate={validateFields}
       >
-        <Form className="flex flex-col justify-center p-5 h-full">
+        <Form className="flex flex-col justify-center p-5 tablet:h-[80%] desktop:h-[90%]">
           <h1 className="text-3xl font-semibold mb-10 tablet:mb-0 desktop:whitespace-nowrap text-center desktop:text-4xl overflow-y-hidden">
             Registra tu cuenta de{" "}
             <span className="text-indigo-500">Homebanking</span>
@@ -93,6 +108,7 @@ const FormRegisterCustomer = () => {
                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="username"
                 type="text"
+                innerRef={usernameInput}
               />
               <SpanError prop="username" />
 
@@ -115,12 +131,16 @@ const FormRegisterCustomer = () => {
             </div>
           </div>
 
-          <div className="w-full flex flex-col justify-center items-center desktop:relative desktop:top-[25px]">
+          <div className="w-full flex flex-col justify-center items-center mt-10">
             <SubmitButton value={!isClicked ? "Registro" : "Registrando..."} />
           </div>
         </Form>
       </Formik>
-      {errorMessage && <MessageAuthorization message={errorMessage} />}
+      {errorMessage && (
+        <div className="absolute top-[80%] desktop:top-[85%]">
+          <MessageAuthorization message={errorMessage} />
+        </div>
+      )}
     </div>
   );
 };

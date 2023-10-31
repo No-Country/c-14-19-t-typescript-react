@@ -6,7 +6,8 @@ import { setTimeout } from "timers";
 import { deleteAccountRequest } from "@/utils/accountsRequest";
 
 const BankAccounts = (id: any): React.ReactElement => {
-  const [accountsList, setAccountsList] = useState<Array<account>>([]);
+  const [accountsList, setAccountsList] = useState<account[]>([]);
+  const [accounts, setAccounts] = useState<boolean>(false);
 
   const deleteAccount = async (id: string, money: number) => {
     if (money > 0) {
@@ -14,27 +15,30 @@ const BankAccounts = (id: any): React.ReactElement => {
     } else {
       const response = confirm("¿Seguro que quiere eliminar al cliente?");
       if (response) {
-        const res = await deleteAccountRequest(id);
-        alert(res.msg);
+        await deleteAccountRequest(id);
+        alert('La baja ha sido exitosa');
+        window.location.reload();
       }
     }
   };
 
   useEffect(() => {
+    setAccounts(true)
     const fetchData = async () => {
       const acounts = await getAccountList(id.id);
       setTimeout(() => {
         setAccountsList(acounts);
+        setAccounts(false)
       }, 300);
     };
     fetchData();
-  }, [id, deleteAccount]);
+  }, [id]);
 
-
+  console.log(accountsList)
   return (
     <div className="border  border-green-800 w-3/4 max-w-xl  flex  flex-col gap-5 p-3 ">
       {accountsList.length === 0 ? (
-        <div className="flex justify-center">Buscando Cuentas... </div>
+        <div className="flex justify-center">{accounts ? 'Buscando cuentas...' : 'No se encontraron cuentas'}</div>
       ) : (
         accountsList.map((account: any, index: any) => (
           <div

@@ -55,17 +55,11 @@ export const clietnUpdate = async (id: string, client: UpdateCustumer) => {
         'Authorization': `Bearer ${token.jwt}`
       }
     });
-  
-    if(response.status === 400){
-      return response
-    }
+    const data = await response.json();
 
-    if (response.status === 200) {
-      return response;
-    } else {
-      const errorData = await response.json();
-      throw new Error(errorData.msg);
-    }
+    if (response?.status === 401) return { error: data.msg, status: response.status };
+    if(response?.status === 400) return { error: data.msg, status: response.status };
+    if (response?.status === 200) return { data, status: response.status };
   } catch (error) {
     console.error('Error fetching data:', error);
   }
