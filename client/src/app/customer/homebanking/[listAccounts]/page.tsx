@@ -49,7 +49,7 @@ const BankAccounts = ({ params }: any): React.ReactElement => {
                             {/* Pasar este div a un componente para hacer el delete de la cuenta */}
                             <div className="flex gap-5">
                                 <Link
-                                    href={`/`}
+                                    href={`/customer/homebanking/${params.listAccounts}/${account.number_account}`}
                                     className="font-bold p-1 tablet:p-2 rounded-md bg-[#329556] hover:bg-[#008868] desktop:w-[100px] text-center hover:text-white transition-all ease-in duration-200 capitalize eb-buttonCancel"
                                 >
                                     Consultar

@@ -99,12 +99,37 @@ export const getAccountListClient = async (id: String) => {
       }
     );
 
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
 
+    if (response.ok) {
       return data;
     } else {
-      return "error";
+      return data.msg;
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+export const getTransferListClient = async (number_account: String) => {
+  try {
+    const token = await getCustomerSession(sessionStorage.getItem("customerJwtSession"));
+    const response = await fetch(
+      `https://easybank.fly.dev/homebanking/transference/${number_account}/list`,
+      {
+        headers: {
+          Authorization: `Bearer ${token.jwt}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+    console.log(data);
+    
+    if (response.ok) {
+      return data;
+    } else {
+      return data.msg;
     }
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -125,12 +150,12 @@ export const deleteAccountClient = async (id_account: String) => {
       }
     );
 
-    if (response.ok) {
-      const data = await response.json();
+    const data = await response.json();
 
+    if (response.ok) {
       return data;
     } else {
-      return "error";
+      return data.msg;
     }
   } catch (error) {
     console.error("Error fetching data:", error);
