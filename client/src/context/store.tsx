@@ -43,8 +43,8 @@ export const GlobalContext = createContext<ContextProps>({
   setUsername: (): string => "",
   userInfo: userInfoValues,
   setUserInfo: ():UserAccount => userInfoValues,
-  isLoading: false,
-  setIsLoading: ():boolean => false,
+  isLoading: true,
+  setIsLoading: ():boolean => true,
   transference: transferSuccesfully,
   setTransference: (): AccountsTransferData => transferSuccesfully,
   exists: true,
@@ -62,7 +62,7 @@ export const GlobalContextProvider = ({ children }: ChildrenProp) => {
   const [username, setUsername] = useState<string>("");
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserAccount>(userInfoValues);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // ---- TRANSFER ---- //
   const [transference, setTransference] = useState<AccountsTransferData>(transferSuccesfully);

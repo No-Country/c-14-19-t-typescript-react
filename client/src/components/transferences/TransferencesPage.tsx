@@ -13,8 +13,8 @@ const TransferencesPage = (): React.ReactElement => {
 
   return (
     <div className="flex flex-col justify-center items-center h-full">
-      <h1 className="text-2xl text-center font-bold p-1 mb-10 tablet:text-4xl desktop:text-5xl overflow-hidden">
-        ¿Qué tipo de <span className="text-[#788b61]">transferencia</span> desea
+      <h1 className="text-2xl text-center font-bold p-1 mb-10 text-[#333333] tablet:text-4xl desktop:text-5xl overflow-hidden">
+        ¿Qué tipo de <span className="text-[#FF5722]">transferencia</span> desea
         realizar?
       </h1>
       <div className="flex justify-between items-center text-center p-4 gap-5 tablet:mt-5 tablet:w-[50%]">

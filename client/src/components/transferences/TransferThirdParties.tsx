@@ -121,9 +121,9 @@ const TransferThirdParties = (): React.ReactElement => {
   return (
     <div className="w-full h-full bg-slate-100">
       <div className="flex flex-col justify-center items-center h-full p-4">
-        <h1 className="text-lg font-bold text-center tablet:text-2xl desktop:text-4xl overflow-hidden">
+        <h1 className="text-lg font-bold text-[#333333] text-center tablet:text-2xl desktop:text-4xl overflow-hidden">
           Selecciona las cuentas y el monto a{" "}
-          <span className="text-[#788b61]">transferir</span>
+          <span className="text-[#FF5722]">transferir</span>
         </h1>
         <Formik
           initialValues={INITIAL_VALUES}

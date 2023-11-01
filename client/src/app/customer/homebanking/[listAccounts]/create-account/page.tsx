@@ -36,13 +36,13 @@ const page = ({ params }: any): React.ReactElement => {
       <div className="flex gap-5 justify-center">
         <Link
           href={`/customer/homebanking/${params.listAccounts}`}
-          className="font-bold p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[100px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize eb-buttonCancel"
+          className="font-bold p-1 tablet:p-2 rounded-md bg-[#00796B] desktop:w-[100px] text-center hover:bg-[#00563F] hover:text-white transition-all ease-in duration-200 capitalize"
         >
           Volver
         </Link>
         <button
           onClick={handleCreateAcont}
-          className="font-bold p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[100px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize eb-buttonCancel"
+          className="font-bold p-1 tablet:p-2 rounded-md bg-[#eb7344] desktop:w-[100px] text-center hover:bg-[#FF5722] hover:text-white transition-all ease-in duration-200 capitalize"
         >
           {loader ? "Crear" : "Creando..."}
         </button>

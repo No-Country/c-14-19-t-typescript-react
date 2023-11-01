@@ -23,10 +23,10 @@ const page = ({ params }: any): React.ReactElement => {
   }, [params.transferList]);
 
   return (
-    <div className="flex flex-col items-center pt-10 gap-16">
+    <div className="flex h-screen flex-col items-center pt-10 gap-16">
       <h2 className="text-2xl text-center overflow-y-hidden">
         Ultimos movimientos de la cuenta:{" "}
-        <span className=" text-green-500">{params.transferList}</span>{" "}
+        <span className=" text-[#FF5722]">{params.transferList}</span>{" "}
       </h2>
       <div className="w-11/12 max-w-xl  flex  flex-col gap-5 p-3 ">
         {transfersList.length === 0 ? (
@@ -37,27 +37,27 @@ const page = ({ params }: any): React.ReactElement => {
               key={index}
               className="flex justify-around items-center overflow-y-hidden border p-5 border-green-800"
             >
-              <p className=" text-[#41542a]">
+              <p className=" font-bold">
                 De:{" "}
-                <span>
+                <span className="text-[333333] font-normal">
                   {account.sender_account.user.name}{" "}
                   {account.sender_account.user.lastname}
                 </span>{" "}
-                <span className=" text-xs">
+                <span className=" text-xs text-[#FF5722]">
                   {account.sender_account.number_account}{" "}
                 </span>
               </p>
-              <p className=" text-[#41542a]">
+              <p className=" font-bold">
                 Para:{" "}
-                <span>
+                <span className="text-[333333] font-normal">
                   {account.receiver_account.user.name}{" "}
                   {account.receiver_account.user.lastname}{" "}
                 </span>
-                <span className=" text-xs">
+                <span className=" text-xs text-[#FF5722]">
                   {account.receiver_account.number_account}{" "}
                 </span>
               </p>
-              <p className=" text-[#41542a]">Monto: ${account.amount}</p>
+              <p className=" font-bold">Monto: <span className="text-[333333] font-normal">${account.amount}</span> </p>
             </div>
           ))
         )}
