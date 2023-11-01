@@ -33,9 +33,8 @@ const HHRRLayout = ({ children }: { children: React.ReactNode }) => {
         </Link>
         {isAuthorized && (
           <ul className="h-[90px] flex items-center gap-3 p-3 tablet:gap-5 tablet:p-5 overflow-hidden">
-            <NavbarLink route="/staff/customers" content="Ver Staff Members" />
+            <NavbarLink route="/hhrr/staff-members" content="Ver Staff Members" />
             <LogoutButton />
-            {/* <NavbarLink route="/hhrr/hhrrpanel" content="Staff panel"/> */}
           </ul>
         )}
       </nav>

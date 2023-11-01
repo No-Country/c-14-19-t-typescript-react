@@ -48,3 +48,16 @@ export interface Cuenta {
 export interface idAcount {
     id_user: string
 }
+export interface StaffMember {
+    id: string,
+    username: string,
+    department: string,
+    user: {
+      name: string,
+      lastname: string,
+      mail: string,
+      birthday: string,
+      dni: number,
+      cellphone: string
+    }
+};
