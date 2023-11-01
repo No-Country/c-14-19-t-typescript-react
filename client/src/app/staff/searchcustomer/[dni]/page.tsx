@@ -65,12 +65,12 @@ const Page = ({ params }: any): React.ReactElement => {
             </Link>
             <button
               onClick={deleteCustomer}
-              className="font-bold p-1 tablet:p-2 rounded-md bg-[#329556] hover:bg-[#008868] desktop:w-[300px] text-center hover:text-white transition-all ease-in duration-200 capitalize eb-button"
+              className="font-bold p-1 tablet:p-2 rounded-md bg-[#FF5722] hover:bg-red-500 text-white desktop:w-[300px] text-center hover:text-white transition-all ease-in duration-200 capitalize eb-button"
             >
               Eliminar Cliente
             </button>
           </div>
-          <h3 className="text-2xl tablet:text-3xl overflow-y-hidden">
+          <h3 className="text-2xl tablet:text-3xl overflow-y-hidden font-bold">
             Cuentas Bancarias
           </h3>
 

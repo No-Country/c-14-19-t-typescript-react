@@ -38,7 +38,7 @@ const StaffMembersPage = (): React.ReactElement => {
   return (
     <>
       {isLoading ? (
-        <div className="flex justify-center items-center h-[90vh]">
+        <div className="flex justify-center items-center h-screen">
           <Loader />
         </div>
       ) : (
@@ -50,11 +50,11 @@ const StaffMembersPage = (): React.ReactElement => {
               </p>
             </div>
           ) : (
-            <div className="flex flex-col justify-center items-center gap-10 p-5 tablet:p-10 bg-[#bccc9c]">
+            <div className="flex flex-col justify-center items-center gap-10 p-5 tablet:p-10 bg-[#e7e7d9]">
               {attentionStaff.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-[#e7e7d9] w-full tablet:w-[50%] desktop:w-[40%] p-5 rounded shadow-md"
+                  className="bg-[#e7e7d9] w-full tablet:w-[50%] desktop:w-[40%] p-5 rounded shadow-[#00796B] shadow-sm"
                 >
                   <p>
                     <span className="font-bold text-sm tablet:text-lg desktop:text-2xl">
@@ -92,7 +92,7 @@ const StaffMembersPage = (): React.ReactElement => {
                     <span className="font-bold text-sm tablet:text-lg desktop:text-2xl">
                       Departamento:
                     </span>{" "}
-                    <span className="tablet: text-lg desktop:text-2xl uppercase">
+                    <span className="tablet:text-lg desktop:text-2xl uppercase font-semibold text-[#FF5722]">
                       {item.department}
                     </span>
                   </p>

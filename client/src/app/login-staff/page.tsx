@@ -20,7 +20,7 @@ const Staff = () => {
     <div className="w-screen h-[90vh]">
       <div className="flex flex-col justify-center items-center h-full w-full">
         <h1 className="mt-5 text-xl font-semibold whitespace-nowrap text-center desktop:text-4xl overflow-y-hidden">
-          Login <span className="eb-principalColor">Staff Members</span>
+          Login <span className="text-[#FF5722]">Staff Members</span>
         </h1>
         <FormLoginStaff />
       </div>

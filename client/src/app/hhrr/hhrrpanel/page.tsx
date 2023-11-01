@@ -25,21 +25,20 @@ const HomeHHRPage = (): React.ReactElement => {
   return (
     <div className="flex flex-col justify-center items-center h-[94vh] tablet:h-[92vh]">
       {isAuthorized ? (
-        <div className="h-full w-full flex flex-col items-center border-4 bg-[#e7e7d9]">
-          <div className="h-2/5 tablet:h-2/4 tablet:text-4xl desktop:text-6xl text-3xl flex items-center mobile:text-center">
+        <div className="h-full w-full flex flex-col justify-center items-center border-4 bg-[#e7e7d9]">
+          <div className="h-2/5 tablet:h-2/4 tablet:text-4xl desktop:text-6xl text-3xl flex flex-col justify-center gap-20 items-center mobile:text-center">
             <h2 className="overflow-y-hidden">
-              Bienvenido de vuelta{" "}
-              <span className="text-[#007663]">{username}</span>
+              ¡Bienvenido de vuelta{" "}
+              <span className="text-[#FF5722]">{username}</span>!
             </h2>
-          </div>
-
-          <div className="flex flex-col tablet:flex-row tablet:gap-14 gap-7 font-light text-center">
-            <Link
-              className="border rounded-md desktop:text-4xl desktop:p-5 text-3xl p-2 eb-button"
-              href="/hhrr/register-staff"
-            >
-              Registar staff
-            </Link>
+            <div className="flex flex-col tablet:flex-row tablet:gap-14 gap-7 font-light text-center">
+              <Link
+                className="border rounded-md desktop:text-4xl desktop:p-5 text-3xl p-2 bg-[#306a46] hover:bg-[#788b61] text-white font-medium transition-all ease-in duration-150"
+                href="/hhrr/register-staff"
+              >
+                Registar staff
+              </Link>
+            </div>
           </div>
         </div>
       ) : (

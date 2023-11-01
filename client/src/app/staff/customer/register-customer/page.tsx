@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 const Register = (): React.ReactElement => {
   return (
-    <div className="bg-slate-100">
+    <div className="bg-[#e7e7d9]">
       <div className="flex flex-col justify-center items-center gap-10 h-[100vh] w-screen">
         <div className="w-[80%] tablet:w-full overflow-y-hidden">
           <h1 className="mt-5 text-xl font-semibold whitespace-nowrap tablet:text-3xl text-center desktop:text-4xl overflow-y-hidden">

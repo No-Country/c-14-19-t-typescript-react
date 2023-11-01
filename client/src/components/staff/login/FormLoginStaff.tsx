@@ -84,7 +84,7 @@ const FormLoginStaff = (): React.ReactElement => {
         <Form className="flex flex-col">
           <LabelsForm htmlFor="usuario" />
           <Field
-            className="placeholder:text-center outline-none  p-2 rounded text-sm mobile:w-[100%] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[100%] tablet:p-3 desktop:p-4 tablet:text-lg desktop:text-xl eb-input"
+            className="placeholder:text-center outline-none bg-[#f2f2f0] p-2 rounded text-sm mobile:w-[100%] focus:bg-[#E0E0E0] transition-all ease-in duration-200 tablet:w-[100%] tablet:p-3 desktop:p-4 tablet:text-lg desktop:text-xl"
             name="username"
             type="text"
           />
@@ -92,7 +92,7 @@ const FormLoginStaff = (): React.ReactElement => {
 
           <LabelsForm htmlFor="contraseña" />
           <Field
-            className="placeholder:text-center outline-none  p-2 rounded text-sm mobile:w-[100%] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[100%] tablet:p-3 desktop:p-4 tablet:text-lg desktop:text-xl eb-input"
+            className="placeholder:text-center outline-none bg-[#f2f2f0] p-2 rounded text-sm mobile:w-[100%] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[100%] tablet:p-3 desktop:p-4 tablet:text-lg desktop:text-xl"
             name="password"
             type="password"
           />

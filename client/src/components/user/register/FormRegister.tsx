@@ -148,7 +148,7 @@ const FormRegister = (): React.ReactElement => {
             <div className="flex flex-col gap-1">
               <LabelsForm htmlFor="nombre" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center bg-[#f2f2f0] outline-none p-2 rounded text-sm focus:bg-[#E0E0E0] transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="name"
                 type="text"
               />
@@ -156,7 +156,7 @@ const FormRegister = (): React.ReactElement => {
 
               <LabelsForm htmlFor="apellido" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center bg-[#f2f2f0] outline-none p-2 rounded text-sm focus:bg-[#E0E0E0] transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="lastname"
                 type="text"
               />
@@ -164,7 +164,7 @@ const FormRegister = (): React.ReactElement => {
 
               <LabelsForm htmlFor="email" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center bg-[#f2f2f0] outline-none p-2 rounded text-sm focus:bg-[#E0E0E0] transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="mail"
                 type="email"
               />
@@ -174,7 +174,7 @@ const FormRegister = (): React.ReactElement => {
             <div className="flex flex-col gap-1">
               <LabelsForm htmlFor="fecha de nacimiento" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center bg-[#f2f2f0] outline-none p-2 rounded text-sm focus:bg-[#E0E0E0] transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="birthday"
                 type="date"
               />
@@ -182,7 +182,7 @@ const FormRegister = (): React.ReactElement => {
 
               <LabelsForm htmlFor="celular" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center bg-[#f2f2f0] outline-none p-2 rounded text-sm focus:bg-[#E0E0E0] transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="cellphone"
                 type="text"
               />
@@ -190,7 +190,7 @@ const FormRegister = (): React.ReactElement => {
 
               <LabelsForm htmlFor="DNI" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center bg-[#f2f2f0] outline-none p-2 rounded text-sm focus:bg-[#E0E0E0] transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="dni"
                 type="text"
               />

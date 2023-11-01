@@ -53,7 +53,7 @@ const Page = (): React.ReactElement => {
   };
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center gap-5 bg-slate-100">
+    <div className="h-screen flex flex-col items-center justify-center gap-5 bg-[#e7e7d9]">
       <h2 className=" text-2xl font-bold tablet:text-4xl desktop:text-4xl overflow-y-hidden">
         Introduce en DNI del cliente
       </h2>
@@ -65,7 +65,7 @@ const Page = (): React.ReactElement => {
         <Form className="flex flex-col">
           <LabelsForm htmlFor="DNI" />
           <Field
-            className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+            className="placeholder:text-center outline-none bg-[#f2f2f0] p-2 rounded text-sm focus:bg-[#E0E0E0] transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
             name="dni"
             type="text"
           />

@@ -31,12 +31,12 @@ const StaffLayout = ({
   return (
     <>
       {isAuthorized && (
-        <nav className="flex items-center justify-between border">
+        <nav className="flex items-center justify-between border-[#bccc9c] h-[100px] overflow-hidden bg-[#00563F]">
           <Link
             href="/staff/staffpanel"
             className=" text-xl uppercase font-bold  tablet:text-2xl p-5"
           >
-            <Image src="/logo/easy2wb.png" width={110} height={100} alt="logo-easy"/>
+            <Image src="/logo/logoblanco.png" width={110} height={100} className="w-full h-full" alt="logo-easy"/>
           </Link>
           {isAuthorized && (
             <div className="p-4 flex items-center gap-5">

@@ -21,7 +21,6 @@ const page = ({ params }: any): React.ReactElement => {
             alert(data.msg)
         } else {
             setLoader(true)
-            alert('Cuenta Creada corretamente')
         }
         router.push(`/staff/searchcustomer/${params.dni}`);
     }

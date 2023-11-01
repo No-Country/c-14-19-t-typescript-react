@@ -168,9 +168,9 @@ const FormRegisterStaff = (): React.ReactElement => {
         validate={validateFields}
       >
         <Form className="flex flex-col justify-center p-5 tablet:p-0 h-full tablet:justify-start ">
-          <h1 className="mt-5 tablet:mt-10 text-xl font-semibold text-center desktop:text-4xl overflow-y-hidden  pb-5">
+          <h1 className="mt-5 tablet:mt-10 text-xl font-semibold text-center desktop:text-4xl overflow-y-hidden pb-5">
             Registrar nuevo
-            <span className="eb-principalColor"> Staff Member</span>
+            <span className="text-[#FF5722]"> Staff Member</span>
           </h1>
           <div className="h-full flex flex-col tablet:flex-row tablet:gap-10 tablet:justify-center desktop:gap-20">
             <div className="flex flex-col items-center h-full tablet:gap-0">

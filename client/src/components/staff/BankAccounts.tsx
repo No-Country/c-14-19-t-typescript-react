@@ -20,8 +20,7 @@ const BankAccounts = (id: any): React.ReactElement => {
     } else {
       const response = confirm("¿Seguro que quiere eliminar al cliente?");
       if (response) {
-        const res = await deleteAccountRequest(id);
-        alert(res.msg);
+        await deleteAccountRequest(id);
         setReload(true)
       }
     }
@@ -58,7 +57,7 @@ const BankAccounts = (id: any): React.ReactElement => {
               <p className=" text-green-500 font-bold">${account.money}</p>
               <button
                 onClick={() => deleteAccount(account.number_account, account.money, index)}
-                className={`font-bold p-1 tablet:p-2 rounded-md bg-[#329556] hover:bg-[#008868] desktop:w-[100px] text-center hover:text-white transition-all ease-in duration-200 capitalize eb-buttonCancel ${loadingButtonIndex === index ? "pointer-events-none" : ""
+                className={`text-white font-bold p-1 tablet:p-2 rounded-md bg-[#FF5722] hover:bg-red-500 desktop:w-[100px] text-center hover:text-white transition-all ease-in duration-200 capitalize ${loadingButtonIndex === index ? "pointer-events-none" : ""
                   }`}
               >
                 {loadingButtonIndex === index ? "Eliminando..." : "Eliminar"}

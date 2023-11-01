@@ -24,33 +24,33 @@ const PageStaffPanel = (): React.ReactElement => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center h-[94vh] tablet:h-[92vh]">
+    <div className="flex flex-col justify-center items-center h-[90vh] tablet:h-[92vh]">
       {isAuthorized ? (
         <div
-          className={`${nunito.className} h-full w-full flex flex-col items-center border-4  bg-green-50`}
+          className={`${nunito.className} h-full w-full flex flex-col justify-center items-center bg-[#e7e7d9]`}
         >
-          <div className="h-2/5 tablet:h-2/4 tablet:text-4xl desktop:text-6xl text-3xl flex items-center mobile:text-center">
-            <h2 className="overflow-y-hidden">
-              Bienvenido de vuelta{" "}
-              <span className="font-bold text-4xl desktop:text-6xl eb-principalColor">
+          <div className="h-[30%] tablet:h-[25%] tablet:text-4xl desktop:text-6xl text-3xl flex flex-col justify-center items-center gap-5 mobile:text-center">
+            <h2 className="overflow-y-hidden h-full">
+              ¡Bienvenido/a de vuelta{" "}
+              <span className="font-bold text-4xl desktop:text-6xl text-[#FF5722]">
                 {username}
               </span>
+              !
             </h2>
-          </div>
-
-          <div className="flex flex-col tablet:flex-row tablet:gap-14 gap-7 font-light text-center h-[25%]">
-            <Link
-              className="flex items-center shadow-md rounded-md desktop:text-2xl font-bold text-2xl p-[12px] bg-[#306a46] hover:bg-[#788b61] text-white transition-all ease-in duration-150 h-[40%] eb-button"
-              href="/staff/customer/register-customer"
-            >
-              Registar cliente
-            </Link>
-            <Link
-              className="flex items-center shadow-md rounded-md desktop:text-2xl font-bold text-2xl p-[12px] bg-[#306a46] hover:bg-[#788b61] text-white transition-all ease-in duration-150 h-[40%] eb-button"
-              href="/staff/searchcustomer"
-            >
-              Buscar cliente
-            </Link>
+            <div className="flex flex-col items-center justify-center tablet:flex-row tablet:gap-14 gap-7 font-light text-center h-full overflow-hidden">
+              <Link
+                className="flex justify-center items-center shadow-md rounded-md desktop:text-2xl font-bold text-2xl tablet:p-5 bg-[#306a46] hover:bg-[#788b61] text-white transition-all ease-in duration-150 p-3 w-[230px] overflow-hidden"
+                href="/staff/customer/register-customer"
+              >
+                Registar cliente
+              </Link>
+              <Link
+                className="flex justify-center items-center shadow-md rounded-md desktop:text-2xl font-bold text-2xl tablet:p-5 bg-[#306a46] hover:bg-[#788b61] text-white transition-all ease-in duration-150 p-3 w-[230px] overflow-hidden"
+                href="/staff/searchcustomer"
+              >
+                Buscar cliente
+              </Link>
+            </div>
           </div>
         </div>
       ) : (
