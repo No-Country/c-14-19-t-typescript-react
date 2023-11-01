@@ -24,12 +24,12 @@ const HHRRLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <nav className="flex items-center justify-between border h-[90px] overflow-hidden">
+      <nav className="flex items-center justify-between border-[#bccc9c] h-[90px] overflow-hidden bg-[#306a46]">
         <Link
           href="/hhrr/hhrrpanel"
           className="text-xl uppercase font-bold tablet:text-2xl p-5"
         >
-          <Image src="/logo/easy2.png" width={120} height={100} alt="logo-easy" />
+          <Image src="\logo\easy2wb.png" width={120} height={100} alt="logo-easy" />
         </Link>
         {isAuthorized && (
           <ul className="h-[90px] flex items-center gap-3 p-3 tablet:gap-5 tablet:p-5 overflow-hidden">

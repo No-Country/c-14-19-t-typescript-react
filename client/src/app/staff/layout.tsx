@@ -36,7 +36,7 @@ const StaffLayout = ({
             href="/staff/staffpanel"
             className=" text-xl uppercase font-bold  tablet:text-2xl p-5"
           >
-            <Image src="/logo/Easy2.png" width={110} height={100} alt="logo-easy"/>
+            <Image src="/logo/easy2wb.png" width={110} height={100} alt="logo-easy"/>
           </Link>
           {isAuthorized && (
             <div className="p-4 flex items-center gap-5">

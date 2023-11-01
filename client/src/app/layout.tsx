@@ -25,7 +25,7 @@ const RootLayout = ({
 }): React.ReactElement => {
   return (
     <html lang="es">
-      <body className={nunito.className}>
+      <body className={`bg-[#e7e7d9] ${nunito.className}`}>
         <GlobalContextProvider>{children}</GlobalContextProvider>
       </body>
     </html>
