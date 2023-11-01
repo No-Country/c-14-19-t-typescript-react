@@ -25,11 +25,11 @@ const HomeHHRPage = (): React.ReactElement => {
   return (
     <div className="flex flex-col justify-center items-center h-[94vh] tablet:h-[92vh]">
       {isAuthorized ? (
-        <div className="h-full w-full flex flex-col items-center border-4 bg-slate-100">
+        <div className="h-full w-full flex flex-col items-center border-4 bg-[#e7e7d9]">
           <div className="h-2/5 tablet:h-2/4 tablet:text-4xl desktop:text-6xl text-3xl flex items-center mobile:text-center">
             <h2 className="overflow-y-hidden">
               Bienvenido de vuelta{" "}
-              <span className="eb-principalColor">{username}</span>
+              <span className="text-[#007663]">{username}</span>
             </h2>
           </div>
 

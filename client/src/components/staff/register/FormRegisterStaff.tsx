@@ -176,7 +176,7 @@ const FormRegisterStaff = (): React.ReactElement => {
             <div className="flex flex-col items-center h-full tablet:gap-0">
               <LabelsForm htmlFor="nombre" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center outline-none bg-[#cfd7cd] p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="name"
                 type="text"
               />
@@ -184,7 +184,7 @@ const FormRegisterStaff = (): React.ReactElement => {
 
               <LabelsForm htmlFor="apellido" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center outline-none bg-[#cfd7cd] p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="lastname"
                 type="text"
               />
@@ -192,7 +192,7 @@ const FormRegisterStaff = (): React.ReactElement => {
 
               <LabelsForm htmlFor="contraseña" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center outline-none bg-[#cfd7cd] p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="password"
                 type="password"
               />
@@ -200,7 +200,7 @@ const FormRegisterStaff = (): React.ReactElement => {
 
               <LabelsForm htmlFor="fecha de nacimiento" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center outline-none bg-[#cfd7cd] p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="birthday"
                 type="date"
               />
@@ -208,7 +208,7 @@ const FormRegisterStaff = (): React.ReactElement => {
 
               <LabelsForm htmlFor="DNI" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center outline-none bg-[#cfd7cd] p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="dni"
                 type="text"
               />
@@ -218,7 +218,7 @@ const FormRegisterStaff = (): React.ReactElement => {
             <div className="flex flex-col items-center h-full tablet:gap-0">
               <LabelsForm htmlFor="email" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center outline-none bg-[#cfd7cd] p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="mail"
                 type="email"
               />
@@ -226,7 +226,7 @@ const FormRegisterStaff = (): React.ReactElement => {
 
               <LabelsForm htmlFor="celular" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center outline-none bg-[#cfd7cd] p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="cellphone"
                 type="text"
               />
@@ -234,7 +234,7 @@ const FormRegisterStaff = (): React.ReactElement => {
 
               <LabelsForm htmlFor="nombre de usuario" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center outline-none bg-[#cfd7cd] p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="username"
                 type="text"
               />
@@ -242,7 +242,7 @@ const FormRegisterStaff = (): React.ReactElement => {
 
               <LabelsForm htmlFor="departamento - (attention / hhrr)" />
               <Field
-                className="mb-4 placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="mb-4 placeholder:text-center outline-none bg-[#cfd7cd] p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="department"
                 as="select"
               >
