@@ -18,12 +18,12 @@ const HomeBanking = () => {
     const name: string | null = sessionStorage.getItem("customerUser");
     setUserName(name);
 
-    const getUser = async() => {
+    const getUser = async () => {
       const token = sessionStorage.getItem("customerJwtSession");
       const data = await getCustomerSession(token);
       //console.log(data.hbAccount.user.id);
       setUser(data.hbAccount.user);
-    }
+    };
     getUser();
   }, []);
 
@@ -48,7 +48,7 @@ const HomeBanking = () => {
             href="/customer/homebanking/transference-panel"
             className="overflow-y-hidden rounded-md desktop:text-4xl text-xl p-3 bg-[#306a46] hover:bg-[#788b61] text-white hover:text-black transition-all ease-in duration-200 h-[50%]"
           >
-            Tranferir
+            Transferir
           </Link>
           <Link
             href={`/customer/homebanking/${user.id}`}
@@ -70,6 +70,8 @@ const HomeBanking = () => {
           </Link>
         </div>
       </div>
+
+      
     </div>
   );
 };
