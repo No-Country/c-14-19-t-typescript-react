@@ -8,13 +8,17 @@ import React from "react";
 
 const page = ({ params }: any): React.ReactElement => {
     const router = useRouter();
-    
+
     const handleCreateAcont = async () => {
         const request: idAcount = {
             "id_user": params.id
         }
         const data = await createAccount(request);
-        alert(data.msg)
+        if (data.msg) {
+            alert(data.msg)
+        } else {
+            alert('Cuenta Creada corretamente')
+        }
         router.push(`/staff/searchcustomer/${params.dni}`);
     }
 
