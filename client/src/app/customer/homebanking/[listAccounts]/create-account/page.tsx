@@ -4,20 +4,24 @@ import { createAccountClient } from "@/utils/accountsRequest";
 import { getCustomerSession, getSession } from "@/utils/getJwtSession";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 const page = ({ params }: any): React.ReactElement => {
   const router = useRouter();
+  const [loader, setLoader] = useState<boolean>(true);
 
   const handleCreateAcont = async () => {
+    setLoader(false)
     const request: idAcount = {
       id_user: params.listAccounts,
     };
     const data = await createAccountClient(request);
 
     if (data.msg) {
+      setLoader(true)
       alert(data.msg);
     } else {
+      setLoader(true)
       alert("Cuenta Creada corretamente");
     }
 
@@ -40,7 +44,7 @@ const page = ({ params }: any): React.ReactElement => {
           onClick={handleCreateAcont}
           className="font-bold p-1 tablet:p-2 rounded-md bg-indigo-500 desktop:w-[100px] text-center hover:bg-indigo-600 hover:text-white transition-all ease-in duration-200 capitalize eb-buttonCancel"
         >
-          Crear
+          {loader ? "Crear" : "Creando..."}
         </button>
       </div>
     </div>

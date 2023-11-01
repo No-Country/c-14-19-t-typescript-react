@@ -4,14 +4,18 @@ import { deleteAccountClient, getAccountListClient } from "@/utils/accountsReque
 import { setTimeout } from "timers";
 import { account } from "@/components/staff/interfaces/staff.interface";
 import Link from "next/link";
+import Loader from "@/components/Loader";
 
 const BankAccounts = ({ params }: any): React.ReactElement => {
     const [accountsList, setAccountsList] = useState<Array<account>>([]);
     const [accounts, setAccounts] = useState<boolean>(false);
     const [reLoad, setReload] = useState<boolean>(false);
+    const [loadingButtonIndex, setLoadingButtonIndex] = useState<number | null>(null);
 
-    const deleteAccount = async (id: string, money: number) => {
+    const deleteAccount = async (id: string, money: number, index: number) => {
+        setLoadingButtonIndex(index);
         if (money > 0) {
+            setLoadingButtonIndex(null);
             alert("No se puede eliminar una cuenta con dinero.");
         } else {
             const response = confirm("¿Seguro que quiere eliminar al cliente?");
@@ -24,6 +28,9 @@ const BankAccounts = ({ params }: any): React.ReactElement => {
     };
 
     useEffect(() => {
+        setTimeout(() => {
+            setLoadingButtonIndex(null);
+        }, 1300);
         setReload(false)
         setAccounts(true)
         const fetchData = async () => {
@@ -58,11 +65,14 @@ const BankAccounts = ({ params }: any): React.ReactElement => {
                                 >
                                     Consultar
                                 </Link>
-                                <button onClick={() => deleteAccount(account.number_account, account.money)} className="font-bold p-1 tablet:p-2 rounded-md bg-[#329556] hover:bg-[#008868] desktop:w-[100px] text-center hover:text-white transition-all ease-in duration-200 capitalize eb-buttonCancel">
-                                    Eliminar
+                                <button
+                                    onClick={() => deleteAccount(account.number_account, account.money, index)}
+                                    className={`font-bold p-1 tablet:p-2 rounded-md bg-[#329556] hover:bg-[#008868] desktop:w-[100px] text-center hover:text-white transition-all ease-in duration-200 capitalize eb-buttonCancel ${loadingButtonIndex === index ? "pointer-events-none" : ""
+                                        }`}
+                                >
+                                    {loadingButtonIndex === index ? "Eliminando..." : "Eliminar"}
                                 </button>
                             </div>
-
                         </div>
                     ))
                 )}

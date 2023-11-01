@@ -78,7 +78,7 @@ const Page = ({ params }: any): React.ReactElement => {
 
           <Link
             href={`/staff/searchcustomer//${params.dni}/create-account/${userData.id}`}
-            className="font-bold p-1 tablet:p-1 rounded-md bg-[#329556] hover:bg-[#008868] desktop:w-[300px] text-center hover:text-white transition-all ease-in duration-200 capitalize eb-button"
+            className="overflow-y-hidden font-bold p-1 tablet:p-1 rounded-md bg-[#329556] hover:bg-[#008868] desktop:w-[300px] text-center hover:text-white transition-all ease-in duration-200 capitalize eb-button"
           >
             Crear Nueva
           </Link>
