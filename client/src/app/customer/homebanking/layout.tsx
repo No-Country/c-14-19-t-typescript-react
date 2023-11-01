@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 const HomebankingLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <nav className="flex items-center justify-between border w-full px-2">
+      <nav className="flex items-center justify-between border w-full px-2 overflow-y-hidden">
         {
           <Link
             href="/customer/homebanking"
@@ -47,8 +47,6 @@ const HomebankingLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </nav>
       {children}
-
-      <Footer />
     </>
   );
 };

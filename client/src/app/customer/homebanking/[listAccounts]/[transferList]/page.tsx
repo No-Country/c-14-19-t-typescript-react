@@ -8,12 +8,15 @@ import Link from "next/link";
 
 const page = ({ params }: any): React.ReactElement => {
   const [transfersList, setTransfersList] = useState<Array<any>>([]);
+  const [transfer, setTransfer] = useState<boolean>(false);
 
   useEffect(() => {
+    setTransfer(true)
     const fetchData = async () => {
       const tranfers = await getTransferListClient(params.transferList);
       setTimeout(() => {
         setTransfersList(tranfers);
+        setTransfer(false)
       }, 300);
     };
     fetchData();
@@ -27,7 +30,7 @@ const page = ({ params }: any): React.ReactElement => {
       </h2>
       <div className="w-11/12 max-w-xl  flex  flex-col gap-5 p-3 ">
         {transfersList.length === 0 ? (
-          <div className="flex justify-center">Buscando Transferencias... </div>
+          <div className="flex justify-center">{transfer ? 'Buscando transferencias...' : 'No se encontraron transferencias...'}</div>
         ) : (
           transfersList.map((account: any, index: any) => (
             <div

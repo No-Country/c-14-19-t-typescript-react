@@ -5,7 +5,7 @@ import React from "react";
 
 const Footer = (): React.ReactElement => {
   return (
-    <footer className="bg-[#0F2618] shadow">
+    <footer className="bg-[#0F2618] shadow overflow-y-hidden">
       <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
         <div className="sm:flex sm:items-center sm:justify-between desktop:flex desktop:items-center desktop:justify-between">
           <Link href="/">
