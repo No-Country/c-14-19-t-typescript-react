@@ -17,7 +17,7 @@ const page = ({ params }: any): React.ReactElement => {
   }, [params.transferList]);
 
   return (
-    <div className="flex h-screen flex-col items-center pt-10 gap-16">
+    <div className="flex h-full flex-col items-center pt-10 gap-16 mt-[15px] overflow-hidden">
       <h2 className="text-2xl text-center overflow-y-hidden">
         Ultimos movimientos de la cuenta:{" "}
         <span className=" text-[#FF5722]">{params.transferList}</span>{" "}
