@@ -15,6 +15,8 @@ import { getSession } from "@/utils/getJwtSession";
 import MessageAuthorization from "@/components/authorization/MessageAuthorization";
 import calculateUserAge from "@/utils/calculateUserAge";
 import { useGlobalContext } from "@/hooks/useContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/ReactToastify.css"
 import * as Yup from "yup";
 
 const INITIAL_VALUES = {
@@ -77,17 +79,28 @@ const FormRegisterStaff = (): React.ReactElement => {
       setIsAuthorized(false);
       setErrorMessage(newStaff.data.msg);
       setIsClicked(false);
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
     }
     if (newStaff?.status === 400) {
+      console.log(newStaff)
       setIsAuthorized(false);
       setErrorMessage(newStaff.data.msg);
       setIsClicked(false);
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
     }
     if (newStaff?.status === 201) {
       setIsAuthorized(true);
       setIsClicked(false);
       resetForm();
-      alert("Usuario registrado correctamente!"); //! ALERT TEMPORAL
+      toast.success('Usuario registrado exitosamente!', {
+        position: toast.POSITION.TOP_RIGHT,
+        theme: 'colored',
+        pauseOnFocusLoss: false,
+      })
     }
   };
 
@@ -95,7 +108,11 @@ const FormRegisterStaff = (): React.ReactElement => {
     username: Yup.string()
       .min(6, "El nombre de usuario debe ser mayor a 6 caracteres.")
       .max(25, "El nombre de usuario debe ser menor a 25 caracteres.")
-      .required("Campo requerido."),
+      .required("Campo requerido.")
+      .test('special-chars', 'No se permiten caracteres especiales', value => {
+        if (!/^[A-Za-z0-9]+$/.test(value)) return false;
+          return true;
+      }),
     password: Yup.string()
       .min(6, "La contraseña debe ser mayor a 6 caracteres.")
       .max(25, "La contraseña debe ser menor a 25 caracteres.")
@@ -103,7 +120,11 @@ const FormRegisterStaff = (): React.ReactElement => {
     name: Yup.string()
       .min(3, "El nombre debe ser mayor a 3 caracteres.")
       .max(25, "El nombre debe ser menor a 25 caracteres.")
-      .required("Campo requerido."),
+      .required("Campo requerido.")
+      .test('special-chars', 'No se permiten caracteres especiales', value => {
+        if (!/^[A-Za-z0-9]+$/.test(value)) return false;
+          return true;
+      }),
     mail: Yup.string().email("Email no válido").required("Campo requerido."),
     lastname: Yup.string()
       .min(3, "El apellido debe ser mayor a 3 caracteres.")
@@ -159,6 +180,7 @@ const FormRegisterStaff = (): React.ReactElement => {
 
   return (
     <>
+    <ToastContainer />
       <Formik
         initialValues={INITIAL_VALUES}
         onSubmit={(values, resetForm) => {

@@ -10,9 +10,11 @@ import {
 } from "../interfaces/users.interface";
 import { useGlobalContext } from "@/hooks/useContext";
 import { registerNewCustomer } from "@/utils/formsRequests";
-import MessageAuthorization from "@/components/authorization/MessageAuthorization";
 import { useRouter } from "next/navigation";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/ReactToastify.css";
 import * as Yup from "yup";
+import { errorAlert, successAlert } from "@/utils/utils";
 
 const INITIAL_VALUES = {
   username: "",
@@ -25,8 +27,7 @@ const FormRegisterCustomer = () => {
   const referenceCodeInput = useRef<HTMLInputElement>(null);
   const usernameInput = useRef<HTMLInputElement>(null);
 
-  const { errorMessage, isClicked, setErrorMessage, setIsClicked } =
-    useGlobalContext();
+  const { isClicked, setIsClicked } = useGlobalContext();
 
   const handleSubmit = async (
     values: CustomerRegister,
@@ -36,27 +37,29 @@ const FormRegisterCustomer = () => {
     const newCustomer = await registerNewCustomer(values);
 
     if (newCustomer?.status === 404 || newCustomer?.status === 400) {
-      setErrorMessage(newCustomer.error);
+      errorAlert(newCustomer.error);
       setIsClicked(false);
       if (newCustomer.error === "Usuario ya tiene una cuenta de homebanking") {
         setTimeout(() => {
-          setErrorMessage("");
           setFieldValue("username", "");
           usernameInput.current?.focus(); // Hacer focus al campo de usuario
-        }, 3000);
+        }, 3500);
       } else {
         setTimeout(() => {
-          setErrorMessage("");
           setFieldValue("reference_code", "");
           referenceCodeInput.current?.focus(); // Hacer focus al campo de codigo de referencia
-        }, 3000);
+        }, 3500);
       }
     }
 
     if (newCustomer?.status === 201) {
       setIsClicked(false);
-      alert("Usted va a ser redirigido para loguearse a su cuenta"); //! ALERT TEMPORAL
-      router.push("/customer/login");
+      successAlert(
+        "Usted va a ser redirigido para loguearse a su nueva cuenta!"
+      );
+      setTimeout(() => {
+        router.push("/customer/login");
+      }, 3500);
     }
   };
 
@@ -65,10 +68,14 @@ const FormRegisterCustomer = () => {
       .min(6, "El nombre de usuario debe contener entre 6 y 25 caracteres.")
       .max(25, "La contraseña debe contener entre 6 y 25 caracteres.")
       .required("Campo requerido.")
-      .test('special-chars', 'No se permiten caracteres especiales', value => {
-        if (!/^[A-Za-z0-9]+$/.test(value)) return false;
+      .test(
+        "special-chars",
+        "No se permiten caracteres especiales",
+        (value) => {
+          if (!/^[A-Za-z0-9]+$/.test(value)) return false;
           return true;
-      }),
+        }
+      ),
     password: Yup.string()
       .min(6, "La contraseña debe contener entre 6 y 25 caracteres.")
       .max(25, "La contraseña debe contener entre 6 y 25 caracteres.")
@@ -95,15 +102,16 @@ const FormRegisterCustomer = () => {
 
   return (
     <div className="flex flex-col h-full w-full justify-center items-center">
+      <ToastContainer />
       <Formik
         initialValues={INITIAL_VALUES}
         onSubmit={handleSubmit}
         validate={validateFields}
       >
-        <Form className="flex flex-col justify-center p-5 tablet:h-[80%] desktop:h-[90%]">
+        <Form className="flex flex-col justify-center p-5 h-full">
           <h1 className="text-3xl font-semibold mb-10 tablet:mb-0 desktop:whitespace-nowrap text-center desktop:text-4xl overflow-y-hidden">
             Registra tu cuenta de{" "}
-            <span className="text-indigo-500">Homebanking</span>
+            <span className="text-[#FF5722]">Homebanking</span>
           </h1>
           <div className="flex flex-col tablet:flex-row tablet:gap-10 tablet:justify-center desktop:gap-20">
             <div className="flex flex-col gap-1">
@@ -135,16 +143,11 @@ const FormRegisterCustomer = () => {
             </div>
           </div>
 
-          <div className="w-full flex flex-col justify-center items-center mt-10">
+          <div className="w-full flex flex-col justify-center items-center mt-10 overflow-hidden">
             <SubmitButton value={!isClicked ? "Registro" : "Registrando..."} />
           </div>
         </Form>
       </Formik>
-      {errorMessage && (
-        <div className="absolute top-[80%] desktop:top-[85%]">
-          <MessageAuthorization message={errorMessage} />
-        </div>
-      )}
     </div>
   );
 };

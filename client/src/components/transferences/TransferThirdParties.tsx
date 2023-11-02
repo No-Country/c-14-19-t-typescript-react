@@ -4,24 +4,40 @@ import { Formik, Form, Field, FormikHelpers } from "formik";
 import { useGlobalContext } from "@/hooks/useContext";
 import { getCustomerSession } from "@/utils/getJwtSession";
 import { useRouter } from "next/navigation";
-import { getCustomerAccounts, transferBetweenAccounts } from "@/utils/transferences";
-import { AccountsTransferData, TransferBetweenAccountsFields, UserAccounts, UserAccountsError } from "./interfaces/transferences.interface";
+import {
+  getCustomerAccounts,
+  transferBetweenAccounts,
+} from "@/utils/transferences";
+import {
+  AccountsTransferData,
+  TransferBetweenAccountsFields,
+  UserAccounts,
+  UserAccountsError,
+} from "./interfaces/transferences.interface";
 import { UserAccount } from "@/context/interfaces/store.interfaces";
 import LabelsForm from "../labels/LabelsForm";
 import SpanError from "../errors/SpanError";
 import SubmitButton from "../buttons/SubmitButton";
-import MessageAuthorization from "../authorization/MessageAuthorization";
+import { ToastContainer } from "react-toastify";
 import * as Yup from "yup";
+import { errorAlert } from "@/utils/utils";
 
 const INITIAL_VALUES = {
-    from: "",
-    to: "",
-    amount: "",
-  };
-  
+  from: "",
+  to: "",
+  amount: "",
+};
 
 const TransferThirdParties = (): React.ReactElement => {
-  const { userInfo, isClicked, errorMessage, setTransference, setErrorMessage, setIsClicked, setUserInfo } = useGlobalContext();
+  const {
+    userInfo,
+    isClicked,
+    errorMessage,
+    setTransference,
+    setErrorMessage,
+    setIsClicked,
+    setUserInfo,
+  } = useGlobalContext();
   const router = useRouter();
   const [accounts, setAccounts] = useState<UserAccounts[]>([]);
 
@@ -59,11 +75,13 @@ const TransferThirdParties = (): React.ReactElement => {
     from: Yup.string()
       .required("Campo requerido.")
       .oneOf(getSelectValues, "Seleccione una opción válida."),
-    to: Yup.string().required('Campo requerido.').test('special-chars-denied', 'Parámetros inválidos.', (value) => {
-        const pattern = /^\d+$/
-        if (pattern.test(value)) return true
-        else return false
-    }),
+    to: Yup.string()
+      .required("Campo requerido.")
+      .test("special-chars-denied", "Parámetros inválidos.", (value) => {
+        const pattern = /^\d+$/;
+        if (pattern.test(value)) return true;
+        else return false;
+      }),
     amount: Yup.string()
       .matches(/^[0-9]+$/, "Inserte un monto válido.")
       .test("minimum-amount", "Monto mínimo $1,000.", (value) => {
@@ -77,18 +95,21 @@ const TransferThirdParties = (): React.ReactElement => {
 
   const validateFields = async (values: TransferBetweenAccountsFields) => {
     try {
-        await validationSchema.validate(values, { abortEarly: false });
+      await validationSchema.validate(values, { abortEarly: false });
     } catch (error: any) {
-        const errors: UserAccountsError = {};
+      const errors: UserAccountsError = {};
 
-        error.inner.forEach((e: any) => {
-            errors[e.path] = e.message;
-        })
-        return errors;
+      error.inner.forEach((e: any) => {
+        errors[e.path] = e.message;
+      });
+      return errors;
     }
   };
 
-  const handleSubmit = async (values: TransferBetweenAccountsFields, { setFieldValue }: FormikHelpers<TransferBetweenAccountsFields>) => {
+  const handleSubmit = async (
+    values: TransferBetweenAccountsFields,
+    { setFieldValue }: FormikHelpers<TransferBetweenAccountsFields>
+  ) => {
     const { from, to, amount } = values;
     setIsClicked(true);
 
@@ -104,22 +125,22 @@ const TransferThirdParties = (): React.ReactElement => {
 
     if (makeTransfer?.status === 400 || makeTransfer?.status === 401) {
       setIsClicked(false);
-      setErrorMessage(makeTransfer.error);
+      errorAlert(makeTransfer.error);
       setTimeout(() => {
-        setErrorMessage("");
         setFieldValue("amount", "");
       }, 3000);
     }
 
     if (makeTransfer?.status === 201) {
-        setIsClicked(false);
-        setTransference(request)
-        router.push('/customer/homebanking/transference-panel/success-transfer')
+      setIsClicked(false);
+      setTransference(request);
+      router.push("/customer/homebanking/transference-panel/success-transfer");
     }
   };
 
   return (
     <div className="w-full h-full bg-slate-100">
+      <ToastContainer />
       <div className="flex flex-col justify-center items-center h-full p-4">
         <h1 className="text-lg font-bold text-[#333333] text-center tablet:text-2xl desktop:text-4xl overflow-hidden">
           Selecciona las cuentas y el monto a{" "}
@@ -182,9 +203,6 @@ const TransferThirdParties = (): React.ReactElement => {
             </div>
           </Form>
         </Formik>
-        <div className="mt-10">
-          {errorMessage && <MessageAuthorization message={errorMessage} />}
-        </div>
       </div>
     </div>
   );

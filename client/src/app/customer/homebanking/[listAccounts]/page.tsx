@@ -50,11 +50,11 @@ const BankAccounts = ({ params }: any): React.ReactElement => {
   }, [params.listAccounts, reLoad]);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-[90vh] mt-5 p-4 gap-[2rem]">
+    <div className="flex flex-col items-center justify-center w-full h-full mt-5 p-4 gap-[2rem]">
       <h2 className="text-2xl font-bold mt-4 tablet:mt-0 tablet:text-3xl overflow-y-hidden">
         Tus Cuentas
       </h2>
-      <div className=" shadow-stone-700 shadow-md w-[90%] tablet:w-[100%] desktop:w-[60%] items-center justify-center flex  flex-col gap-5 pb-5 pt-5">
+      <div className=" shadow-stone-700 shadow-md w-[90%] tablet:w-[100%] h-full desktop:w-[60%] items-center justify-center flex  flex-col gap-5 pb-5 pt-5">
         {accountsList.length === 0 ? (
           <div className="flex justify-center">
             {accounts ? "Buscando cuentas..." : "No se encontraron cuentas"}
@@ -63,7 +63,7 @@ const BankAccounts = ({ params }: any): React.ReactElement => {
           accountsList.map((account: any, index: any) => (
             <div
               key={index}
-              className="flex flex-col tablet:flex-row items-center max-w-[650px] tablet:w-[650px] tablet:justify-between justify-start mt-3 gap-3 tablet:gap-10  p-2 text-lg  overflow-y-hidden"
+              className="flex flex-col tablet:flex-row items-center max-w-[700px] desktop:w-[685px] w-full tablet:justify-between justify-start mt-3 gap-3 tablet:gap-10  p-2 text-lg  overflow-y-hidden"
             >
               <p className="overflow-y-hidden text-[#333333]">
                 {account.number_account}

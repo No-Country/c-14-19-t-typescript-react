@@ -19,7 +19,12 @@ export const createNewCustomer = async (newClient: UserTypesBackend, token: stri
       }
     );
 
-    return response;
+    const data = await response.json();
+    
+    if (response.status === 401) return { error: data.msg, status: response.status };
+    if (response.status === 400) return { error: data.msg, status: response.status };
+    if (response.status === 201) return { data, status: response.status };
+
   } catch (error) {
     console.error(error);
   }

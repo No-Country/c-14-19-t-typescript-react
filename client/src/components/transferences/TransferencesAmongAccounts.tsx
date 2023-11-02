@@ -19,8 +19,9 @@ import LabelsForm from "../labels/LabelsForm";
 import * as Yup from "yup";
 import SubmitButton from "../buttons/SubmitButton";
 import SpanError from "../errors/SpanError";
-import MessageAuthorization from "../authorization/MessageAuthorization";
 import Loader from "../Loader";
+import { ToastContainer } from "react-toastify";
+import { errorAlert } from "@/utils/utils";
 
 const INITIAL_VALUES = {
   from: "",
@@ -33,10 +34,8 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
   const {
     userInfo,
     isClicked,
-    errorMessage,
     isLoading,
     setIsLoading,
-    setErrorMessage,
     setIsClicked,
     setUserInfo,
     setTransference,
@@ -132,11 +131,10 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
 
     if (makeTransfer?.status === 400 || makeTransfer?.status === 401) {
       setIsClicked(false);
-      setErrorMessage(makeTransfer.error);
+      errorAlert(makeTransfer.error);
       setTimeout(() => {
-        setErrorMessage("");
         setFieldValue("amount", "");
-      }, 3000);
+      }, 3500);
     }
 
     if (makeTransfer?.status === 201) {
@@ -148,6 +146,7 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
 
   return (
     <div className="w-full h-full bg-[#e7e7d9]">
+      <ToastContainer />
       {!isLoading ? (
         <div className="flex flex-col justify-center items-center h-full p-4">
           <h1 className="text-lg font-bold text-center tablet:text-2xl desktop:text-4xl overflow-hidden">
@@ -218,9 +217,6 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
               </div>
             </Form>
           </Formik>
-          <div className="mt-10">
-            {errorMessage && <MessageAuthorization message={errorMessage} />}
-          </div>
         </div>
       ) : (
         <div className="flex justify-center items-center h-[90vh]">

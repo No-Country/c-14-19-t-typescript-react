@@ -6,9 +6,11 @@ import LabelsForm from "@/components/labels/LabelsForm";
 import { useGlobalContext } from "@/hooks/useContext";
 import { updatePersonalData } from "@/utils/formsRequests";
 import { getCustomerSession } from "@/utils/getJwtSession";
+import { errorAlert, successAlert } from "@/utils/utils";
 import { Field, Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useId } from "react";
+import React, { useEffect } from "react";
+import { ToastContainer } from "react-toastify";
 import * as Yup from "yup";
 
 export type UpdatePersonalInfo = Record<string, string>;
@@ -22,14 +24,7 @@ const INITIAL_VALUES = {
 
 const FormUpdatePersonalInfo = (): React.ReactElement => {
   const router = useRouter();
-  const {
-    errorMessage,
-    isClicked,
-    userInfo,
-    setUserInfo,
-    setIsClicked,
-    setErrorMessage,
-  } = useGlobalContext();
+  const { isClicked, userInfo, setUserInfo, setIsClicked } = useGlobalContext();
 
   useEffect(() => {
     const sessionToken = sessionStorage.getItem("customerJwtSession");
@@ -59,25 +54,21 @@ const FormUpdatePersonalInfo = (): React.ReactElement => {
     const request = await updatePersonalData(userID, body, token);
 
     if (request?.status === 401 || request?.status === 400) {
-      setErrorMessage(request.error);
+      errorAlert(request.error);
       setIsClicked(false);
-      setTimeout(() => {
-        setErrorMessage("");
-      }, 3000);
     }
 
     if (mail === "" && !cellphone) {
-      setErrorMessage("Debe completar al menos un campo");
+      errorAlert("Debe completar al menos un campo");
       setIsClicked(false);
-      setTimeout(() => {
-        setErrorMessage("");
-      }, 3000);
     }
 
     if (request?.status === 200) {
       setIsClicked(false);
-      alert("Datos actualizados correctamente"); //! ALERT TEMPORAL
-      router.push("/customer/homebanking");
+      successAlert("Datos actualizados correctamente!");
+      setTimeout(() => {
+        router.push("/customer/homebanking");
+      }, 3500);
     }
   };
 
@@ -127,6 +118,7 @@ const FormUpdatePersonalInfo = (): React.ReactElement => {
   };
   return (
     <div className="w-[80%] flex flex-col justify-center items-center">
+      <ToastContainer />
       <Formik
         initialValues={INITIAL_VALUES}
         onSubmit={handleSubmit}
@@ -135,7 +127,7 @@ const FormUpdatePersonalInfo = (): React.ReactElement => {
         <Form className="flex flex-col">
           <LabelsForm htmlFor="Email" />
           <Field
-            className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+            className="placeholder:text-center bg-[#BCC6B9] outline-none p-2 rounded text-sm focus:bg-[#C5CCB9] transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
             name="mail"
             type="email"
           />
@@ -145,7 +137,7 @@ const FormUpdatePersonalInfo = (): React.ReactElement => {
             <LabelsForm htmlFor="Telefono" />
           </div>
           <Field
-            className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+            className="placeholder:text-center bg-[#BCC6B9] outline-none p-2 rounded text-sm focus:bg-[#C5CCB9] transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
             name="cellphone"
             type="text"
           />
@@ -158,7 +150,6 @@ const FormUpdatePersonalInfo = (): React.ReactElement => {
           </div>
         </Form>
       </Formik>
-      {errorMessage && <MessageAuthorization message={errorMessage} />}
     </div>
   );
 };

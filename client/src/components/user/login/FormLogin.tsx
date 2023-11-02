@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { Formik, Field, Form } from "formik";
 import LabelsForm from "@/components/labels/LabelsForm";
@@ -9,8 +9,9 @@ import SpanError from "@/components/errors/SpanError";
 import { useRouter } from "next/navigation";
 import { loginCustomer } from "@/utils/formsRequests";
 import { useGlobalContext } from "@/hooks/useContext";
-import MessageAuthorization from "@/components/authorization/MessageAuthorization";
+import { ToastContainer } from "react-toastify";
 import * as Yup from "yup";
+import { errorAlert } from "@/utils/utils";
 
 const INITIAL_VALUES = {
   username: "",
@@ -34,10 +35,10 @@ const FormLogin = (): React.ReactElement => {
 
     if (login?.status === 404 || login?.status === 400) {
       setIsClicked(false);
-      setErrorMessage(login.error);
+      errorAlert(login.error);
       setTimeout(() => {
         setErrorMessage("");
-      }, 3000);
+      }, 3500);
     } else {
       setIsClicked(false);
       router.push("/customer/homebanking");
@@ -78,6 +79,7 @@ const FormLogin = (): React.ReactElement => {
 
   return (
     <div className="flex flex-col tablet:items-center">
+      <ToastContainer />
       <Formik
         initialValues={INITIAL_VALUES}
         onSubmit={(values) => {
@@ -114,7 +116,6 @@ const FormLogin = (): React.ReactElement => {
           </div>
         </Form>
       </Formik>
-      {errorMessage && <MessageAuthorization message={errorMessage} />}
     </div>
   );
 };

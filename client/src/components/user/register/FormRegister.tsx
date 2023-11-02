@@ -11,11 +11,11 @@ import calculateUserAge from "@/utils/calculateUserAge";
 import LabelsForm from "@/components/labels/LabelsForm";
 import SubmitButton from "@/components/buttons/SubmitButton";
 import { createNewCustomer } from "@/utils/formsRequests";
-import MessageAuthorization from "@/components/authorization/MessageAuthorization";
 import { getSession } from "@/utils/getJwtSession";
-import { getParsedDate } from "@/utils/utils";
+import { errorAlert, getParsedDate, successAlert } from "@/utils/utils";
 import { useGlobalContext } from "@/hooks/useContext";
-import * as Yup from "yup"
+import { ToastContainer } from "react-toastify";
+import * as Yup from "yup";
 
 const INITIAL_VALUES = {
   name: "",
@@ -25,17 +25,9 @@ const INITIAL_VALUES = {
   cellphone: "",
   dni: "",
 };
-const REGEXP = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const FormRegister = (): React.ReactElement => {
-  const {
-    isAuthorized,
-    isClicked,
-    errorMessage,
-    setIsAuthorized,
-    setIsClicked,
-    setErrorMessage,
-  } = useGlobalContext();
+  const { isClicked, setIsClicked } = useGlobalContext();
 
   const handleSubmit = async (
     values: UserRegisterTypes,
@@ -57,20 +49,14 @@ const FormRegister = (): React.ReactElement => {
     const response = await createNewCustomer(newCustomer, token.jwt);
 
     if (response?.status === 400) {
-      setIsAuthorized(false);
-      const error = await response.json();
-      setErrorMessage(error.msg);
-      console.log(error);
-      
+      errorAlert(response.error);
       setIsClicked(false);
       resetForm();
     }
 
     // En caso de 401, no autorizar y mandar mensaje de error
     if (response?.status === 401) {
-      setIsAuthorized(false);
-      const error = await response.json();
-      setErrorMessage(error.msg);
+      errorAlert(response.error);
       setIsClicked(false);
       resetForm();
     }
@@ -79,8 +65,7 @@ const FormRegister = (): React.ReactElement => {
     if (response?.status === 201) {
       setIsClicked(false);
       resetForm();
-      setIsAuthorized(true);
-      alert("Usuario registrado correctamente!"); //! Alert temporal
+      successAlert("Usuario registrado exitosamente!");
     }
   };
 
@@ -120,21 +105,22 @@ const FormRegister = (): React.ReactElement => {
       }),
   });
 
-  const validateFields = async (values: UserRegisterTypes) => {  
+  const validateFields = async (values: UserRegisterTypes) => {
     try {
-      await validationSchema.validate(values, { abortEarly: false })
+      await validationSchema.validate(values, { abortEarly: false });
     } catch (error: any) {
       const errors: ValidationErrors = {};
       error.inner.forEach((e: any) => {
-        errors[e.path] = e.message
+        errors[e.path] = e.message;
       });
 
-      return errors
-    }   
+      return errors;
+    }
   };
 
   return (
     <div className="flex flex-col h-full">
+      <ToastContainer />
       <Formik
         initialValues={INITIAL_VALUES}
         onSubmit={(values, resetForm) => {
@@ -203,7 +189,7 @@ const FormRegister = (): React.ReactElement => {
           </div>
         </Form>
       </Formik>
-      {isAuthorized ? "" : <MessageAuthorization message={errorMessage} />}
+      {/* {errorMessage && <MessageAuthorization message={errorMessage} />} */}
     </div>
   );
 };
