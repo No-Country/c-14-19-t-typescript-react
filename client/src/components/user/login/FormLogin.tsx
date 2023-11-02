@@ -17,30 +17,30 @@ const INITIAL_VALUES = {
   password: "",
 };
 
-
 const FormLogin = (): React.ReactElement => {
-    const router = useRouter();
-    const { isClicked, errorMessage, setIsClicked, setErrorMessage } = useGlobalContext();
+  const router = useRouter();
+  const { isClicked, errorMessage, setIsClicked, setErrorMessage } =
+    useGlobalContext();
 
-    const handleSubmit = async (values: LoginFields) => {
+  const handleSubmit = async (values: LoginFields) => {
     const { username, password } = values;
 
     const request: LoginFields = {
-        username,
-        password
-    }
+      username,
+      password,
+    };
 
     const login = await loginCustomer(request);
-    
+
     if (login?.status === 404 || login?.status === 400) {
       setIsClicked(false);
       setErrorMessage(login.error);
       setTimeout(() => {
-        setErrorMessage('');
+        setErrorMessage("");
       }, 3000);
     } else {
       setIsClicked(false);
-      router.push('/customer/homebanking')
+      router.push("/customer/homebanking");
     }
   };
 
@@ -72,7 +72,7 @@ const FormLogin = (): React.ReactElement => {
         errors[e.path] = e.message;
       });
 
-      return errors
+      return errors;
     }
   };
 
@@ -81,35 +81,40 @@ const FormLogin = (): React.ReactElement => {
       <Formik
         initialValues={INITIAL_VALUES}
         onSubmit={(values) => {
-          handleSubmit(values)
-          setIsClicked(true)
+          handleSubmit(values);
+          setIsClicked(true);
         }}
         validate={validateFields}
       >
         <Form className="flex flex-col p-5 mobile:w-[100%] tablet:w-[40%] desktop:w-[45%]">
           <LabelsForm htmlFor="usuario" />
           <Field
-            className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm mobile:w-[100%] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[100%] tablet:p-3 desktop:p-4 tablet:text-lg desktop:text-xl"
+            className="placeholder:text-center outline-none bg-[#cfd7cd] p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:p-3 desktop:w-full desktop:p-4 tablet:text-lg"
             name="username"
             type="text"
           />
-          <SpanError prop="username"/>
+          <SpanError prop="username" />
 
           <LabelsForm htmlFor="contraseña" />
           <Field
-            className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm mobile:w-[100%] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[100%] tablet:p-3 desktop:p-4 tablet:text-lg desktop:text-xl"
+            className="placeholder:text-center outline-none bg-[#cfd7cd] p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:p-3 desktop:w-full desktop:p-4"
             name="password"
             type="password"
           />
-          <SpanError prop="password"/>
+          <SpanError prop="password" />
 
-          <div className="flex flex-col tablet:flex-row tablet:items-end justify-center gap-[50px] w-full">
-            <SubmitButton value={isClicked ? 'Ingresando...' : 'Login'} />
-            <Link className="pb-1 text-center tablet:pb-2 text-blue-700 whitespace-nowrap" href={'/customer/auth-customer'}>¿Olvidaste tu contraseña?</Link>
+          <div className="flex flex-col items-center mt-10 tablet:flex-row tablet:items-end justify-center gap-[30px] tablet:gap-[50px] w-full">
+            <SubmitButton value={isClicked ? "Ingresando..." : "Login"} />
+            <Link
+              className="pb-1 text-center text-sm desktop:text-lg tablet:pb-2 text-blue-700 whitespace-nowrap"
+              href={"/customer/auth-customer"}
+            >
+              ¿Olvidaste tu contraseña?
+            </Link>
           </div>
         </Form>
       </Formik>
-      {errorMessage && <MessageAuthorization message={errorMessage}/>}
+      {errorMessage && <MessageAuthorization message={errorMessage} />}
     </div>
   );
 };

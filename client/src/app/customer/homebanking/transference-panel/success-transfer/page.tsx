@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 const SuccessTransfer = (): React.ReactElement => {
   return (
-    <div className="w-full h-screen flex justify-center">
+    <div className="w-full h-[90vh] flex justify-center">
       <TransferDetails />
     </div>
   );

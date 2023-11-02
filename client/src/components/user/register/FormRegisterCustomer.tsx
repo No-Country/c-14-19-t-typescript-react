@@ -64,7 +64,11 @@ const FormRegisterCustomer = () => {
     username: Yup.string()
       .min(6, "El nombre de usuario debe contener entre 6 y 25 caracteres.")
       .max(25, "La contraseña debe contener entre 6 y 25 caracteres.")
-      .required("Campo requerido."),
+      .required("Campo requerido.")
+      .test('special-chars', 'No se permiten caracteres especiales', value => {
+        if (!/^[A-Za-z0-9]+$/.test(value)) return false;
+          return true;
+      }),
     password: Yup.string()
       .min(6, "La contraseña debe contener entre 6 y 25 caracteres.")
       .max(25, "La contraseña debe contener entre 6 y 25 caracteres.")

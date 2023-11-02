@@ -20,6 +20,7 @@ import * as Yup from "yup";
 import SubmitButton from "../buttons/SubmitButton";
 import SpanError from "../errors/SpanError";
 import MessageAuthorization from "../authorization/MessageAuthorization";
+import Loader from "../Loader";
 
 const INITIAL_VALUES = {
   from: "",
@@ -33,17 +34,19 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
     userInfo,
     isClicked,
     errorMessage,
+    isLoading,
+    setIsLoading,
     setErrorMessage,
     setIsClicked,
     setUserInfo,
-    setTransference
+    setTransference,
   } = useGlobalContext();
   const [accounts, setAccounts] = useState<UserAccounts[]>([]);
 
   useEffect(() => {
     const getUser = async () => {
       const getSession = sessionStorage.getItem("customerJwtSession");
-      const user = await getCustomerSession(getSession);  
+      const user = await getCustomerSession(getSession);
 
       if (!getSession) router.push("/");
 
@@ -60,10 +63,10 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
       const token = userInfo.jwt;
 
       const accounts = await getCustomerAccounts(userID, token);
-      if (accounts !== undefined) setAccounts(accounts);
+      if (accounts !== undefined) setAccounts(accounts), setIsLoading(false);
     };
 
-    getUser();    
+    getUser();
   }, []);
 
   const getSelectValues = accounts.map(
@@ -137,87 +140,93 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
     }
 
     if (makeTransfer?.status === 201) {
-        setIsClicked(false);
-        setTransference(request)
-        router.push('/customer/homebanking/transference-panel/success-transfer')
+      setIsClicked(false);
+      setTransference(request);
+      router.push("/customer/homebanking/transference-panel/success-transfer");
     }
   };
 
   return (
-    <div className="w-full h-full bg-slate-100">
-      <div className="flex flex-col justify-center items-center h-full p-4">
-        <h1 className="text-lg font-bold text-center tablet:text-2xl desktop:text-4xl overflow-hidden">
-          Selecciona las cuentas y el monto a{" "}
-          <span className="text-[#788b61]">transferir</span>
-        </h1>
-        <Formik
-          initialValues={INITIAL_VALUES}
-          onSubmit={handleSubmit}
-          validate={validateFields}
-        >
-          <Form className="flex flex-col mt-6 w-full tablet:justify-center tablet:items-center tablet:w-[80%]">
-            <div className="w-[70%] tablet:mt-5 desktop:w-[50%]">
-              <LabelsForm htmlFor="desde" />
-            </div>
-            <Field
-              as="select"
-              name="from"
-              className="bg-[#d3dacccf] rounded p-2 outline-none text-sm tablet:w-[70%] tablet:text-base desktop:w-[50%] desktop:text-lg"
-            >
-              <option>Seleccione una cuenta</option>
-              {accounts.map((values) => (
-                <option key={values.number_account}>
-                  {values.number_account} (${values.money})
-                </option>
-              ))}
-            </Field>
-            <div className="w-[70%] desktop:w-[50%]">
-              <SpanError prop="from" />
-            </div>
+    <div className="w-full h-full bg-[#e7e7d9]">
+      {!isLoading ? (
+        <div className="flex flex-col justify-center items-center h-full p-4">
+          <h1 className="text-lg font-bold text-center tablet:text-2xl desktop:text-4xl overflow-hidden">
+            Selecciona las cuentas y el monto a{" "}
+            <span className="text-[#FF5722]">transferir</span>
+          </h1>
+          <Formik
+            initialValues={INITIAL_VALUES}
+            onSubmit={handleSubmit}
+            validate={validateFields}
+          >
+            <Form className="flex flex-col mt-6 w-full tablet:justify-center tablet:items-center tablet:w-[80%]">
+              <div className="w-[70%] tablet:mt-5 desktop:w-[50%]">
+                <LabelsForm htmlFor="desde" />
+              </div>
+              <Field
+                as="select"
+                name="from"
+                className="bg-[#d3dacccf] rounded p-2 outline-none text-sm tablet:w-[70%] tablet:text-base desktop:w-[50%] desktop:text-lg"
+              >
+                <option>Seleccione una cuenta</option>
+                {accounts.map((values) => (
+                  <option key={values.number_account}>
+                    {values.number_account} (${values.money})
+                  </option>
+                ))}
+              </Field>
+              <div className="w-[70%] desktop:w-[50%]">
+                <SpanError prop="from" />
+              </div>
 
-            <div className="w-[70%] tablet:mt-5 desktop:w-[50%]">
-              <LabelsForm htmlFor="para" />
-            </div>
-            <Field
-              as="select"
-              name="to"
-              className="bg-[#d3dacccf] rounded p-2 outline-none text-sm tablet:w-[70%] tablet:text-base desktop:w-[50%] desktop:text-lg"
-            >
-              <option>Seleccione una cuenta</option>
-              {accounts.map((values) => (
-                <option key={values.number_account}>
-                  {values.number_account} (${values.money})
-                </option>
-              ))}
-            </Field>
-            <div className="w-[70%] desktop:w-[50%]">
-              <SpanError prop="to" />
-            </div>
+              <div className="w-[70%] tablet:mt-5 desktop:w-[50%]">
+                <LabelsForm htmlFor="para" />
+              </div>
+              <Field
+                as="select"
+                name="to"
+                className="bg-[#d3dacccf] rounded p-2 outline-none text-sm tablet:w-[70%] tablet:text-base desktop:w-[50%] desktop:text-lg"
+              >
+                <option>Seleccione una cuenta</option>
+                {accounts.map((values) => (
+                  <option key={values.number_account}>
+                    {values.number_account} (${values.money})
+                  </option>
+                ))}
+              </Field>
+              <div className="w-[70%] desktop:w-[50%]">
+                <SpanError prop="to" />
+              </div>
 
-            <div className="w-[70%] tablet:mt-5 desktop:w-[50%]">
-              <LabelsForm htmlFor="monto" />
-            </div>
-            <Field
-              type="text"
-              name="amount"
-              className="bg-[#d3dacccf] rounded p-2 outline-none text-sm tablet:w-[70%] tablet:text-base desktop:w-[50%] desktop:text-lg"
-              placeholder="$"
-            />
-            <div className="w-[70%] desktop:w-[50%]">
-              <SpanError prop="amount" />
-            </div>
-
-            <div className="flex flex-col tablet:flex-row tablet:items-end justify-center gap-[50px] w-full mt-10">
-              <SubmitButton
-                value={isClicked ? "Enviando transferencia..." : "Transferir"}
+              <div className="w-[70%] tablet:mt-5 desktop:w-[50%]">
+                <LabelsForm htmlFor="monto" />
+              </div>
+              <Field
+                type="text"
+                name="amount"
+                className="bg-[#d3dacccf] rounded p-2 outline-none text-sm tablet:w-[70%] tablet:text-base desktop:w-[50%] desktop:text-lg"
+                placeholder="$"
               />
-            </div>
-          </Form>
-        </Formik>
-        <div className="mt-10">
-        {errorMessage && <MessageAuthorization message={errorMessage} />}
+              <div className="w-[70%] desktop:w-[50%]">
+                <SpanError prop="amount" />
+              </div>
+
+              <div className="flex flex-col tablet:flex-row tablet:items-end justify-center gap-[50px] w-full mt-10">
+                <SubmitButton
+                  value={isClicked ? "Enviando transferencia..." : "Transferir"}
+                />
+              </div>
+            </Form>
+          </Formik>
+          <div className="mt-10">
+            {errorMessage && <MessageAuthorization message={errorMessage} />}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex justify-center items-center h-[90vh]">
+          <Loader />
+        </div>
+      )}
     </div>
   );
 };

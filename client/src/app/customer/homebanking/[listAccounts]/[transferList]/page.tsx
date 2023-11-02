@@ -1,10 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { getTransferListClient } from "@/utils/accountsRequest";
-import { setTimeout } from "timers";
-import { deleteAccountRequest } from "@/utils/accountsRequest";
-import { account } from "@/components/staff/interfaces/staff.interface";
-import Link from "next/link";
 
 const page = ({ params }: any): React.ReactElement => {
   const [transfersList, setTransfersList] = useState<Array<any>>([]);
@@ -14,10 +10,8 @@ const page = ({ params }: any): React.ReactElement => {
     setTransfer(true)
     const fetchData = async () => {
       const tranfers = await getTransferListClient(params.transferList);
-      setTimeout(() => {
-        setTransfersList(tranfers);
-        setTransfer(false)
-      }, 300);
+      setTransfersList(tranfers);
+      setTransfer(false)
     };
     fetchData();
   }, [params.transferList]);
@@ -28,14 +22,14 @@ const page = ({ params }: any): React.ReactElement => {
         Ultimos movimientos de la cuenta:{" "}
         <span className=" text-[#FF5722]">{params.transferList}</span>{" "}
       </h2>
-      <div className="w-11/12 max-w-xl  flex  flex-col gap-5 p-3 ">
+      <div className="w-11/12 max-w-[42rem] flex flex-col gap-5 p-3 ">
         {transfersList.length === 0 ? (
-          <div className="flex justify-center">{transfer ? 'Buscando transferencias...' : 'No se encontraron transferencias...'}</div>
+          <div className={`flex justify-center tablet:text-xl ${transfer ? 'animate-pulse' : ''}`}>{transfer ? 'Buscando transferencias...' : 'No se encontraron transferencias...'}</div>
         ) : (
           transfersList.map((account: any, index: any) => (
             <div
               key={index}
-              className="flex justify-around items-center overflow-y-hidden border p-5 border-green-800"
+              className="flex flex-col justify-around items-end tablet:flex-row tablet:items-center tablet:gap-2 overflow-y-hidden border p-5 tablet:p-10 border-green-800"
             >
               <p className=" font-bold">
                 De:{" "}

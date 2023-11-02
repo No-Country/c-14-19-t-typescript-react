@@ -24,16 +24,17 @@ export const metadata: Metadata = {
 const HomebankingLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <nav className="flex items-center justify-between border w-full px-2 overflow-y-hidden bg-[#00563F]">
+      <nav className="flex items-center justify-between w-full px-4 overflow-y-hidden bg-[#00563F] max-h-[120px]">
         {
           <Link
             href="/customer/homebanking"
-            className="p-2 text-xl uppercase font-bold tablet:p-3 tablet:text-2xl"
+            className="text-xl uppercase font-bold tablet:p-2"
           >
             <Image
-              src="/logo/easy2.png"
+              src="/logo/logoblanco.png"
               width={120}
               height={100}
+              className="h-full w-full"
               alt="logo-easy"
             />
           </Link>

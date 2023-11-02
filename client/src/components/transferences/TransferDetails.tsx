@@ -44,7 +44,7 @@ const TransferDetails = (): React.ReactElement => {
           href="/customer/homebanking/transference-panel"
           className="w-[40%] text-center text-white bg-[#306a46] p-2 rounded hover:bg-[#788b61] hover:text-black transition-all ease-in duration-150 font-bold tablet:p-4 tablet:text-xl desktop:text-2xl desktop:p-5"
         >
-          Realizar nueva
+          Nueva operación
         </Link>
         <Link
           href="/customer/homebanking"
