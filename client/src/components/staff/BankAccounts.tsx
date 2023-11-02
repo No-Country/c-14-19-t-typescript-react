@@ -18,11 +18,12 @@ const BankAccounts = (id: any): React.ReactElement => {
       setLoadingButtonIndex(null);
       alert("No se puede eliminar una cuenta con dinero.");
     } else {
-      const response = confirm("¿Seguro que quiere eliminar al cliente?");
+      const response = confirm("¿Seguro que quiere eliminar la cuenta?");
       if (response) {
         await deleteAccountRequest(id);
         setReload(true)
       }
+      setLoadingButtonIndex(null);
     }
   };
 
