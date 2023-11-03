@@ -89,3 +89,16 @@ El sector homebanking le permite al cliente registrarse y poder acceder a divers
 <b>Roles: </b> QA Tester - UX
 
 <b>Linkedin: </b> [Visitar](https://www.linkedin.com/in/gabriela-beatriz-pardo-24a5b6190/)
+
+
+<h2 style="color:#bccc9c">Credenciales de prueba de la web</h2>
+
+<h4 style="color:#efc97e">Staff - Atención al cliente:</h4>
+<b> User: </b> luciahernandez
+<b> Pass: </b> 147258
+
+<h4 style="color:#efc97e">Cliente Homebanking:</h4>
+<b> User: </b> juliperez
+<b> Pass: </b> 147258
+
+Para acceder al panel de staff debe ingresarse /staff en la url del sitio.
