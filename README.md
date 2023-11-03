@@ -13,12 +13,15 @@
 Easybank es una web homebanking orientada a la accesibilidad. Nuestro objetivo es brindar una interfaz intuitiva, fácil de usar y amigable para todos los usuarios.
 
 Nuestro proyecto cuenta con dos grandes módulos, un sector administrativo para los usuarios staff que trabajan en el banco y un sector homebanking accesible para los clientes.
+
 El sector administritivo le permite a los trabajadores del banco realizar operaciones tales como:
 
 - Dar de alta nuevos trabajadores.
 - Dar de alta a nuevos clientes y gestionar sus datos personales.
 - Dar de alta y gestionar las cuentas bancarios de los clientes.
-  El sector homebanking le permite al cliente registrarse y poder acceder a diversas opciones como:
+
+El sector homebanking le permite al cliente registrarse y poder acceder a diversas opciones como:
+
 - Gestionar sus datos personales.
 - Gestionar sus cuentas bancarias
 - Realizar transferencias a otras cuentas y monitorear sus últimos movimientos.
