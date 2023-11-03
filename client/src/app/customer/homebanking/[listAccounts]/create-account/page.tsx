@@ -1,35 +1,39 @@
 "use client";
 import { idAcount } from "@/components/staff/interfaces/staff.interface";
 import { createAccountClient } from "@/utils/accountsRequest";
-import { getCustomerSession, getSession } from "@/utils/getJwtSession";
+import { errorAlert, successAlert } from "@/utils/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 const page = ({ params }: any): React.ReactElement => {
   const router = useRouter();
   const [loader, setLoader] = useState<boolean>(true);
 
   const handleCreateAcont = async () => {
-    setLoader(false)
+    setLoader(false);
     const request: idAcount = {
       id_user: params.listAccounts,
     };
     const data = await createAccountClient(request);
 
     if (data.msg) {
-      setLoader(true)
-      alert(data.msg);
+      setLoader(true);
+      errorAlert(data.msg);
     } else {
-      setLoader(true)
-      alert("Cuenta Creada corretamente");
+      setLoader(true);
+      successAlert("Cuenta creada correctamente, redirigiendo...");
     }
 
-    router.push(`/customer/homebanking/${params.listAccounts}`);
+    setTimeout(() => {
+      router.push(`/customer/homebanking/${params.listAccounts}`);
+    }, 3000);
   };
 
   return (
     <div className="h-screen flex items-center justify-center flex-col">
+      <ToastContainer />
       <h2 className="mb-20 text-4xl overflow-y-hidden">
         ¿Quieres crear una cuenta nueva?
       </h2>

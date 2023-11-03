@@ -8,6 +8,8 @@ import { setTimeout } from "timers";
 import { account } from "@/components/staff/interfaces/staff.interface";
 import Link from "next/link";
 import { useGlobalContext } from "@/hooks/useContext";
+import { errorAlert, successAlert } from "@/utils/utils";
+import { ToastContainer } from "react-toastify";
 
 const BankAccounts = ({ params }: any): React.ReactElement => {
   const [accountsList, setAccountsList] = useState<Array<account>>([]);
@@ -22,12 +24,12 @@ const BankAccounts = ({ params }: any): React.ReactElement => {
     setLoadingButtonIndex(index);
     if (money > 0) {
       setLoadingButtonIndex(null);
-      alert("No se puede eliminar una cuenta con dinero.");
+      errorAlert("No se puede eliminar una cuenta con dinero.");
     } else {
       const response = confirm("¿Seguro que quiere eliminar la cuenta?");
       if (response) {
         const res = await deleteAccountClient(id);
-        alert(res.msg);
+        successAlert(res.msg);
         setReload(true);
       }
       setLoadingButtonIndex(null);
@@ -52,10 +54,11 @@ const BankAccounts = ({ params }: any): React.ReactElement => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full mt-5 p-4 gap-[2rem]">
+      <ToastContainer />
       <h2 className="text-2xl font-bold mt-4 tablet:mt-0 tablet:text-3xl overflow-y-hidden">
         Tus Cuentas
       </h2>
-      <div className=" shadow-stone-700 shadow-md w-[90%] tablet:w-[100%] h-full desktop:w-[60%] items-center justify-center flex  flex-col gap-5 pb-5 pt-5">
+      <div className=" shadow-stone-700 shadow-md w-full tablet:w-[100%] h-full desktop:w-[60%] items-center justify-center flex  flex-col gap-5 pb-5 pt-5">
         {accountsList.length === 0 ? (
           <div className="flex justify-center">
             {accounts ? "Buscando cuentas..." : "No se encontraron cuentas"}
