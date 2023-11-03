@@ -31,15 +31,16 @@ const NavbarHome = (): React.ReactElement => {
 
   return (
     <nav
-      className={`flex ${nunito.className} items-center p-3 tablet:h-24 tablet:pr-5 desktop:max-h-32 justify-between no-scrollbar bg-transparent absolute w-full z-50 overflow-y-hidden`}
+      className={`flex ${nunito.className} items-center p-3 tablet:h-24 tablet:pr-5 desktop:h-[120px] max-h-[120px] justify-between no-scrollbar bg-transparent absolute w-full z-50 overflow-y-hidden`}
     >
-      <div className="p-1 tablet:text-2xl font-extrabold">
+      <div className="text-xl uppercase font-bold tablet:p-2 ">
         <Link href="/">
           <Image
-            src="/logo/easy2wb.png"
-            height={150}
-            width={150}
+            src="/logo/logoblanco.png"
+            height={120}
+            width={120}
             alt="logo-easy"
+            className="h-full w-full"
           />
         </Link>
       </div>
@@ -64,8 +65,8 @@ const NavbarHome = (): React.ReactElement => {
           )}
           {isAuthorized && (
             <div className="flex items-center gap-5">
-              <LogoutButton />
               <MyAccountButton/>
+              <LogoutButton />
             </div>
           )}
         </ul>

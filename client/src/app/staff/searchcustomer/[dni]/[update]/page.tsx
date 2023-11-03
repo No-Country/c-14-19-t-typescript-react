@@ -10,8 +10,10 @@ import {
 } from "@/components/user/interfaces/users.interface";
 import { useGlobalContext } from "@/hooks/useContext";
 import { clietnUpdate } from "@/utils/dniRequest";
+import { errorAlert, successAlert } from "@/utils/utils";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import { useRouter } from "next/navigation";
+import { ToastContainer } from "react-toastify";
 import * as Yup from "yup";
 
 const INITIAL_VALUES = {
@@ -24,7 +26,8 @@ const INITIAL_VALUES = {
 };
 
 const Page = ({ params }: any): React.ReactElement => {
-  const { isClicked, errorMessage, setErrorMessage, setIsClicked } = useGlobalContext();
+  const { isClicked, errorMessage, setErrorMessage, setIsClicked } =
+    useGlobalContext();
   const router = useRouter();
 
   const handleSubmit = async (
@@ -38,33 +41,30 @@ const Page = ({ params }: any): React.ReactElement => {
     // Actualizar el body para mandar la peticion
     if (mail) newCustomer = { mail };
     if (cellphone) newCustomer = { cellphone: parseInt(cellphone) };
-    if (mail && cellphone) newCustomer = { mail, cellphone: parseInt(cellphone) }
+    if (mail && cellphone)
+      newCustomer = { mail, cellphone: parseInt(cellphone) };
     if (!mail && !cellphone) newCustomer = { mail: "", cellphone: NaN };
 
     const res = await clietnUpdate(params.update, newCustomer);
-    
+
     if (res?.status === 401 || res?.status === 400) {
-      setErrorMessage(res.error);
+      errorAlert(res.error);
       setIsClicked(false);
-      setTimeout(() => {
-        setErrorMessage('');
-        resetForm()
-      }, 3000);
+      resetForm();
     }
 
-    if (mail === '' && !cellphone) {
-      setErrorMessage('Debe completar al menos un campo');
+    if (mail === "" && !cellphone) {
+      errorAlert("Debe completar al menos un campo");
       setIsClicked(false);
-      setTimeout(() => {
-        setErrorMessage('');
-        resetForm();
-      }, 3000);
+      resetForm();
     }
 
     if (res?.status === 200) {
-      alert('Datos actualizados') //! ALERT TEMPORAL
+      successAlert("Datos actualizados correctamente");
       setIsClicked(false);
-      router.push('/staff/staffpanel')
+      setTimeout(() => {
+        router.push("/staff/staffpanel");
+      }, 3000);
     }
   };
 
@@ -98,7 +98,8 @@ const Page = ({ params }: any): React.ReactElement => {
   };
 
   return (
-    <div className='w-full h-screen flex flex-col justify-center items-center bg-slate-100'>
+    <div className="w-full h-screen flex flex-col justify-center items-center">
+      <ToastContainer />
       <Formik
         initialValues={INITIAL_VALUES}
         onSubmit={(values, resetForm) => {
@@ -107,7 +108,7 @@ const Page = ({ params }: any): React.ReactElement => {
         }}
         validate={validateFields}
       >
-        <Form className='flex flex-col'>
+        <Form className="flex flex-col">
           <div className="flex items-center  justify-center text-4xl mb-8">
             <h2 className="overflow-y-hidden">Actualizar cliente</h2>
           </div>
@@ -115,7 +116,7 @@ const Page = ({ params }: any): React.ReactElement => {
             <div className="flex flex-col gap-1">
               <LabelsForm htmlFor="email" />
               <Field
-                className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center outline-none bg-[#cfd7cd] p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="mail"
                 type="email"
               />
@@ -124,7 +125,7 @@ const Page = ({ params }: any): React.ReactElement => {
             <div className="flex flex-col gap-1">
               <LabelsForm htmlFor="cellphone" />
               <Field
-                 className="placeholder:text-center outline-none bg-slate-200 p-2 rounded text-sm focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
+                className="placeholder:text-center outline-none bg-[#cfd7cd] p-2 rounded text-sm w-[220px] focus:bg-slate-300 transition-all ease-in duration-200 tablet:w-[320px] tablet:p-3 desktop:w-[420px] desktop:p-4"
                 name="cellphone"
                 type="text"
               />
@@ -132,12 +133,14 @@ const Page = ({ params }: any): React.ReactElement => {
             </div>
           </div>
 
-          <div className='flex justify-center mt-5'>
-            <SubmitButton value={isClicked ? 'Actualizando...' : 'Actualizar'}/>
+          <div className="flex justify-center mt-5">
+            <SubmitButton
+              value={isClicked ? "Actualizando..." : "Actualizar"}
+            />
           </div>
         </Form>
       </Formik>
-        {errorMessage && <MessageAuthorization message={errorMessage}/>}
+      {errorMessage && <MessageAuthorization message={errorMessage} />}
     </div>
   );
 };

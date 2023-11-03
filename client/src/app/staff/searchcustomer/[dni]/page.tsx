@@ -8,6 +8,8 @@ import Loader from "@/components/Loader";
 
 import BankAccounts from "@/components/staff/BankAccounts";
 import { useGlobalContext } from "@/hooks/useContext";
+import { successAlert } from "@/utils/utils";
+import { ToastContainer } from "react-toastify";
 
 const Page = ({ params }: any): React.ReactElement => {
   const router = useRouter();
@@ -19,7 +21,7 @@ const Page = ({ params }: any): React.ReactElement => {
     const response = confirm("¿Seguro que Quiere eliminar al cliente?");
     if (response) {
       clientDelete(userData?.id);
-      alert('La baja ha sido exitosa')
+      successAlert('La baja ha sido exitosa')
       router.push(`/staff/searchcustomer`);
     } else return;
   };
@@ -49,6 +51,7 @@ const Page = ({ params }: any): React.ReactElement => {
     <>
       {userData ? (
         <div className="h-screen border-green-600 border-2 flex flex-col items-center justify-center gap-12 tablet:p-5">
+          <ToastContainer/>
           <h2 className="text-2xl tablet:text-4xl overflow-y-hidden">
             <span className=" font-black">Cliente: </span>
             {`${userData.name[0].toUpperCase()}${userData.name.slice(1)}`}{" "}

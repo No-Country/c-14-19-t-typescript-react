@@ -21,6 +21,7 @@ import SubmitButton from "../buttons/SubmitButton";
 import { ToastContainer } from "react-toastify";
 import * as Yup from "yup";
 import { errorAlert } from "@/utils/utils";
+import Loader from "../Loader";
 
 const INITIAL_VALUES = {
   from: "",
@@ -32,9 +33,9 @@ const TransferThirdParties = (): React.ReactElement => {
   const {
     userInfo,
     isClicked,
-    errorMessage,
+    isLoading,
+    setIsLoading,
     setTransference,
-    setErrorMessage,
     setIsClicked,
     setUserInfo,
   } = useGlobalContext();
@@ -42,6 +43,7 @@ const TransferThirdParties = (): React.ReactElement => {
   const [accounts, setAccounts] = useState<UserAccounts[]>([]);
 
   useEffect(() => {
+    setIsLoading(true);
     const getUser = async () => {
       const getSession = sessionStorage.getItem("customerJwtSession");
       const user = await getCustomerSession(getSession);
@@ -61,7 +63,7 @@ const TransferThirdParties = (): React.ReactElement => {
       const token = userInfo.jwt;
 
       const accounts = await getCustomerAccounts(userID, token);
-      if (accounts !== undefined) setAccounts(accounts);
+      if (accounts !== undefined) setAccounts(accounts), setIsLoading(false);
     };
 
     getUser();
@@ -123,12 +125,10 @@ const TransferThirdParties = (): React.ReactElement => {
 
     const makeTransfer = await transferBetweenAccounts(request, userInfo.jwt);
 
-    if (makeTransfer?.status === 400 || makeTransfer?.status === 401) {
+    if (makeTransfer?.status === 400 || makeTransfer?.status === 401 || makeTransfer?.status === 404) {
       setIsClicked(false);
       errorAlert(makeTransfer.error);
-      setTimeout(() => {
-        setFieldValue("amount", "");
-      }, 3000);
+      setFieldValue("amount", "");
     }
 
     if (makeTransfer?.status === 201) {
@@ -139,71 +139,77 @@ const TransferThirdParties = (): React.ReactElement => {
   };
 
   return (
-    <div className="w-full h-full bg-slate-100">
+    <div className="w-full h-full">
       <ToastContainer />
-      <div className="flex flex-col justify-center items-center h-full p-4">
-        <h1 className="text-lg font-bold text-[#333333] text-center tablet:text-2xl desktop:text-4xl overflow-hidden">
-          Selecciona las cuentas y el monto a{" "}
-          <span className="text-[#FF5722]">transferir</span>
-        </h1>
-        <Formik
-          initialValues={INITIAL_VALUES}
-          onSubmit={handleSubmit}
-          validate={validateFields}
-        >
-          <Form className="flex flex-col mt-6 w-full tablet:justify-center tablet:items-center tablet:w-[80%]">
-            <div className="w-[70%] tablet:mt-5 desktop:w-[50%]">
-              <LabelsForm htmlFor="desde" />
-            </div>
-            <Field
-              as="select"
-              name="from"
-              className="bg-[#d3dacccf] rounded p-2 outline-none text-sm tablet:w-[70%] tablet:text-base desktop:w-[50%] desktop:text-lg"
-            >
-              <option>Seleccione una cuenta</option>
-              {accounts.map((values) => (
-                <option key={values.number_account}>
-                  {values.number_account} (${values.money})
-                </option>
-              ))}
-            </Field>
-            <div className="w-[70%] desktop:w-[50%]">
-              <SpanError prop="from" />
-            </div>
+      {!isLoading ? (
+        <div className="flex flex-col justify-center items-center h-full p-4">
+          <h1 className="text-lg font-bold text-[#333333] text-center tablet:text-2xl desktop:text-4xl overflow-hidden">
+            Selecciona las cuentas y el monto a{" "}
+            <span className="text-[#FF5722]">transferir</span>
+          </h1>
+          <Formik
+            initialValues={INITIAL_VALUES}
+            onSubmit={handleSubmit}
+            validate={validateFields}
+          >
+            <Form className="flex flex-col mt-6 w-full tablet:justify-center tablet:items-center tablet:w-[80%]">
+              <div className="w-[70%] tablet:mt-5 desktop:w-[50%]">
+                <LabelsForm htmlFor="desde" />
+              </div>
+              <Field
+                as="select"
+                name="from"
+                className="bg-[#d3dacccf] rounded p-2 outline-none text-sm tablet:w-[70%] tablet:text-base desktop:w-[50%] desktop:text-lg"
+              >
+                <option>Seleccione una cuenta</option>
+                {accounts.map((values) => (
+                  <option key={values.number_account}>
+                    {values.number_account} (${values.money})
+                  </option>
+                ))}
+              </Field>
+              <div className="w-[70%] desktop:w-[50%]">
+                <SpanError prop="from" />
+              </div>
 
-            <div className="w-[70%] tablet:mt-5 desktop:w-[50%]">
-              <LabelsForm htmlFor="para" />
-            </div>
-            <Field
-              type="text"
-              name="to"
-              className="bg-[#d3dacccf] rounded p-2 outline-none text-sm tablet:w-[70%] tablet:text-base desktop:w-[50%] desktop:text-lg"
-            />
-            <div className="w-[70%] desktop:w-[50%]">
-              <SpanError prop="to" />
-            </div>
-
-            <div className="w-[70%] tablet:mt-5 desktop:w-[50%]">
-              <LabelsForm htmlFor="monto" />
-            </div>
-            <Field
-              type="text"
-              name="amount"
-              className="bg-[#d3dacccf] rounded p-2 outline-none text-sm tablet:w-[70%] tablet:text-base desktop:w-[50%] desktop:text-lg"
-              placeholder="$"
-            />
-            <div className="w-[70%] desktop:w-[50%]">
-              <SpanError prop="amount" />
-            </div>
-
-            <div className="flex flex-col tablet:flex-row tablet:items-end justify-center gap-[50px] w-full mt-10">
-              <SubmitButton
-                value={isClicked ? "Enviando transferencia..." : "Transferir"}
+              <div className="w-[70%] tablet:mt-5 desktop:w-[50%]">
+                <LabelsForm htmlFor="para" />
+              </div>
+              <Field
+                type="text"
+                name="to"
+                className="bg-[#d3dacccf] rounded p-2 outline-none text-sm tablet:w-[70%] tablet:text-base desktop:w-[50%] desktop:text-lg"
               />
-            </div>
-          </Form>
-        </Formik>
-      </div>
+              <div className="w-[70%] desktop:w-[50%]">
+                <SpanError prop="to" />
+              </div>
+
+              <div className="w-[70%] tablet:mt-5 desktop:w-[50%]">
+                <LabelsForm htmlFor="monto" />
+              </div>
+              <Field
+                type="text"
+                name="amount"
+                className="bg-[#d3dacccf] rounded p-2 outline-none text-sm tablet:w-[70%] tablet:text-base desktop:w-[50%] desktop:text-lg"
+                placeholder="$"
+              />
+              <div className="w-[70%] desktop:w-[50%]">
+                <SpanError prop="amount" />
+              </div>
+
+              <div className="flex flex-col tablet:flex-row justify-center items-center gap-[50px] w-full mt-10 desktop:mt-5 max-w-[500px]">
+                <SubmitButton
+                  value={isClicked ? "Enviando transferencia..." : "Transferir"}
+                />
+              </div>
+            </Form>
+          </Formik>
+        </div>
+      ) : (
+        <div className="flex justify-center items-center h-[90vh]">
+          <Loader />
+        </div>
+      )}
     </div>
   );
 };

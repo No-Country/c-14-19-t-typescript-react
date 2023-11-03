@@ -40,31 +40,31 @@ const HomeBanking = () => {
     <div className="flex flex-col items-center">
       <div className="flex flex-col item-center justify-center gap-10 h-[93vh]">
         <h1 className="text-center text-[#333333]  text-2xl tablet:text-4xl overflow-y-hidden">
-          Bienvenido de vuelta{" "}
-          <span className="text-[#FF5722] font-bold">{userName}</span>
+          ¡Bienvenido/a de vuelta{" "}
+          <span className="text-[#FF5722] font-bold">{userName}</span>!
         </h1>
         <div className="flex flex-col justify-center text-center gap-8 px-5 max-w-[700px]">
           <Link
             href="/customer/homebanking/transference-panel"
-            className="overflow-y-hidden rounded-md desktop:text-4xl text-xl text-[#FFFFFF] p-3 bg-[#00563F] hover:bg-[#788b61]  hover:text-black transition-all ease-in duration-200 h-[50%]"
+            className="overflow-y-hidden rounded-md desktop:text-3xl text-xl text-[#FFFFFF] p-3 bg-[#00563F] hover:bg-[#788b61]  hover:text-black transition-all ease-in duration-200 h-[50%]"
           >
             Transferir
           </Link>
           <Link
             href={`/customer/homebanking/${user.id}`}
-            className="overflow-y-hidden rounded-md desktop:text-4xl  text-xl text-[#FFFFFF] p-3 bg-[#00563F] hover:bg-[#788b61]  hover:text-black transition-all ease-in duration-200 h-[50%]"
+            className="overflow-y-hidden rounded-md desktop:text-3xl  text-xl text-[#FFFFFF] p-3 bg-[#00563F] hover:bg-[#788b61]  hover:text-black transition-all ease-in duration-200 h-[50%]"
           >
             Gestion De Cuentas
           </Link>
           <Link
             href="/customer/homebanking/update-customer-info"
-            className="overflow-y-hidden rounded-md desktop:text-4xl text-xl text-[#FFFFFF] p-3 bg-[#00563F] hover:bg-[#788b61]  hover:text-black transition-all ease-in duration-200 h-[50%]"
+            className="overflow-y-hidden rounded-md desktop:text-3xl text-xl text-[#FFFFFF] p-3 bg-[#00563F] hover:bg-[#788b61]  hover:text-black transition-all ease-in duration-200 h-[50%]"
           >
             Actualizar Datos Personales
           </Link>
           <Link
             href="/customer/homebanking/update-password"
-            className="overflow-y-hidden rounded-md desktop:text-4xl  text-xl text-[#FFFFFF] p-3 bg-[#00563F] hover:bg-[#788b61] hover:text-black transition-all ease-in duration-200 h-[50%]"
+            className="overflow-y-hidden rounded-md desktop:text-3xl  text-xl text-[#FFFFFF] p-3 bg-[#00563F] hover:bg-[#788b61] hover:text-black transition-all ease-in duration-200 h-[50%]"
           >
             Cambiar Contraseña
           </Link>

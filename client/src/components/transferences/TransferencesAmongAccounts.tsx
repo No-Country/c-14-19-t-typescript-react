@@ -43,6 +43,7 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
   const [accounts, setAccounts] = useState<UserAccounts[]>([]);
 
   useEffect(() => {
+    setIsLoading(true)
     const getUser = async () => {
       const getSession = sessionStorage.getItem("customerJwtSession");
       const user = await getCustomerSession(getSession);
@@ -129,12 +130,10 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
 
     const makeTransfer = await transferBetweenAccounts(request, userInfo.jwt);
 
-    if (makeTransfer?.status === 400 || makeTransfer?.status === 401) {
+    if (makeTransfer?.status === 400 || makeTransfer?.status === 401 || makeTransfer?.status === 404) {
       setIsClicked(false);
       errorAlert(makeTransfer.error);
-      setTimeout(() => {
-        setFieldValue("amount", "");
-      }, 3500);
+      setFieldValue("amount", "");
     }
 
     if (makeTransfer?.status === 201) {
@@ -210,7 +209,7 @@ const TransferencesAmongAccounts = (): React.ReactElement => {
                 <SpanError prop="amount" />
               </div>
 
-              <div className="flex flex-col tablet:flex-row tablet:items-end justify-center gap-[50px] w-full mt-10">
+              <div className="flex flex-col tablet:flex-row justify-center items-center gap-[50px] w-full mt-10 desktop:mt-5">
                 <SubmitButton
                   value={isClicked ? "Enviando transferencia..." : "Transferir"}
                 />

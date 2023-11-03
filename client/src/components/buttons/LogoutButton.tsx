@@ -8,15 +8,19 @@ const LogoutButton = (): React.ReactElement => {
   const { isAuthorized } = useGlobalContext();
 
   const handleOnClick = () => {
-    sessionStorage.clear();
+    const userWay = confirm("¿Seguro que quiere cerrar la sesión?");
+    if (userWay) {
+      sessionStorage.clear();
 
-    const getJwtSessionStaff = sessionStorage.getItem("jwtSession");
-    const getJwtSessionCustomer = sessionStorage.getItem("customerJwtSession");
-    if (!getJwtSessionStaff || !getJwtSessionCustomer) {
-      router.push("/");
-      if (isAuthorized) window.location.reload();
+      const getJwtSessionStaff = sessionStorage.getItem("jwtSession");
+      const getJwtSessionCustomer = sessionStorage.getItem("customerJwtSession");
+      if (!getJwtSessionStaff || !getJwtSessionCustomer) {
+        router.push("/");
+        if (isAuthorized) window.location.reload();
+      }
     }
   };
+
   return (
     <button
       onClick={handleOnClick}

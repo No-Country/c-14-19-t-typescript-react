@@ -30,6 +30,7 @@ export const transferBetweenAccounts = async (body: AccountsTransferData, token:
         })
         const data = await response.json();
 
+        if (response.status === 404) return { error: data.msg, status: 404 };
         if (response.status === 401) return { error: data.msg, status: 401 };
         if (response.status === 400) return { error: data.msg, status: 400 };
         if (response.status === 201) return { success: data, status: 201 };

@@ -16,24 +16,24 @@ const TransferDetails = (): React.ReactElement => {
   return (
     <div className="flex flex-col justify-center items-center w-full h-full gap-16 tablet:w-[90%] desktop:w-[50%]">
       <h1 className="font-bold text-2xl text-center tablet:text-4xl desktop:text-5xl overflow-hidden">
-        Transferencia realizada con éxito
+        ¡Transferencia realizada con éxito!
       </h1>
       <ul className="flex flex-col gap-5 text-lg tablet:text-3xl desktop:text-4xl">
         <li className="overflow-hidden">
           Desde:{" "}
-          <span className="text-[#474343] text-xl font-bold tablet:text-2xl desktop:text-3xl">
+          <span className="text-[#FF5722] text-xl font-bold tablet:text-2xl desktop:text-3xl">
             {transference.sender_number_account}
           </span>
         </li>
         <li className="overflow-hidden">
           Para:{" "}
-          <span className="text-[#474343] text-xl font-bold tablet:text-2xl desktop:text-3xl">
+          <span className="text-[#FF5722] text-xl font-bold tablet:text-2xl desktop:text-3xl">
             {transference.receiver_number_account}
           </span>
         </li>
         <li className="overflow-hidden">
           Monto:{" "}
-          <span className="text-[#474343] text-xl font-bold tablet:text-2xl desktop:text-3xl">
+          <span className="text-[#30a93a] text-xl font-bold tablet:text-2xl desktop:text-3xl">
             ${transference.amount}
           </span>
         </li>
